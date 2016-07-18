@@ -1,0 +1,12 @@
+*.py~
+notes~
+*.aux~
+*.bbl~
+*.bbl
+*.bib~
+*.blg
+*.lof
+*.log
+*.lot
+*.tex~
+*.toc
