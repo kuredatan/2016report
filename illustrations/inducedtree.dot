@@ -1,0 +1,24 @@
+graph g {
+node [style=filled color=green]
+A -- B;
+B -- F;
+node [style=filled color=orange]
+A -- C;
+node [style=filled color=red]
+C -- G;
+node [style=filled color=violet]
+C -- H;
+node [style=filled color=cyan]
+A -- D;
+node [style=filled color=yellow]
+D -- I;
+node [style=filled color=violet]
+D -- J;
+node [style=filled color=cyan]
+D -- K;
+node [style=filled color=blue];
+D -- L;
+node [style=filled color=green]
+A -- E;
+E -- M;
+}

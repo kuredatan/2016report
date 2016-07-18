@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/dev/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: rapport.aux
+The style file: plain.bst
+Database file #1: rapport.bib.bib
+Warning--empty institution in Correction
+Warning--empty institution in PartitionIsNPhard
+Warning--empty year in PartitionIsNPhard
+Warning--empty school in Enaud
+Warning--empty journal in IntroROC
+Warning--empty school in TreeInclusion
+Warning--there's a number but no volume in McNemar
+Warning--empty journal in Pearson
+Warning--empty institution in FMproblems
+Warning--empty journal in BernouilliModelDrawbacks
+Warning--empty journal in SSS
+Warning--empty journal in PhyloD
+Warning--empty journal in MeanD
+Warning--empty journal in NaiveBayes
+Warning--empty year in NaiveBayes
+Warning--empty journal in BernouilliModel
+Warning--empty year in BernouilliModel
+Warning--empty journal in NPhard
+Warning--empty year in NPhard
+Warning--empty journal in WikiNGS
+Warning--empty year in WikiNGS
+You've used 34 entries,
+            2118 wiz_defined-function locations,
+            681 strings with 7656 characters,
+and the built_in function-call counts, 7884 in all, are:
+= -- 734
+> -- 388
+< -- 0
++ -- 160
+- -- 122
+* -- 430
+:= -- 1476
+add.period$ -- 97
+call.type$ -- 34
+change.case$ -- 163
+chr.to.int$ -- 0
+cite$ -- 55
+duplicate$ -- 328
+empty$ -- 586
+format.name$ -- 122
+if$ -- 1548
+int.to.chr$ -- 0
+int.to.str$ -- 34
+missing$ -- 28
+newline$ -- 168
+num.names$ -- 68
+pop$ -- 190
+preamble$ -- 1
+purify$ -- 129
+quote$ -- 0
+skip$ -- 239
+stack$ -- 0
+substring$ -- 174
+swap$ -- 21
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 134
+warning$ -- 21
+while$ -- 68
+width$ -- 36
+write$ -- 330
+(There were 21 warnings)

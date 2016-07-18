@@ -1,0 +1,238 @@
+@article{Tango1,
+        author = {J. Clemente and J. Jansson and G. Valiente},
+        title = {Flexible taxonomic assignment of ambiguous sequencing},
+        journal = {BMC Bioinformatics},
+        year = {2011},
+}
+
+@article{NeighborJoining,
+        author = {N. Saitou and M. Nei},
+        title = {The Neighbor-Joining Method: A New Method for Reconstructing Phylogenetic Trees},
+        journal = {Mol. Biol. Evol.},
+        year = {1987},
+}
+
+@phdthesis{Enaud,
+          author = {R. Enaud},
+	  title = {Impact de l'antibiothérapie sur le microbiote intestinal chez l'enfant atteint de mucovisidose},
+	  publisher = {Université de Bordeaux, CHU Pellegrin},
+	  year = {2016},
+}
+
+@article{SSS,
+        author = {S. Shalev-Shwartz and S. Ben-David},
+	title = {Understanding Machine Learning: From Theory to Algorithms},
+	publisher = {Cambridge University Press},
+	year = {2014},
+}
+
+@article{RobinsonFoulds,
+        author = {D. Robinson and L. Foulds},
+	title = {Comparison of phylogenetic trees},
+	journal = {Mathematical Biosciences},
+	volume = {53},
+	year = {1981},
+}
+
+@article{WikiNGS,
+        title = {Séquençage de l'ADN},
+	publisher = {Wikipédia},
+}
+
+@article{UMPGA,
+        author = {R. Sokal and C. Michener},
+	title = {A statistical method for evaluating systematic relationships},
+	year = {1958},
+	journal = {University of Kansas Science Bulletin},
+	volume = {38},
+}
+
+@article{Wilcoxon,
+        author = {F. Wilcoxon},
+	title = {Individual comparisons by ranking methods},
+	journal = {Biometrics Bulletin},
+	volume = {1},
+	number = {6},
+	year = {1945},
+}
+
+@article{Whitney,
+         author = {H. Mann and D. Whitney},
+         title = {On a Test of Whether one of Two Random Variables is Stochastically Larger than the Other},
+	 journal = {Annals of Mathematical Statistics},
+	 volume = {18},
+	 number = {1},
+	 year = {1947},
+}
+
+@article{McNemar,
+        author = {Q. McNemar},
+	title = {Note on the sampling error of the difference between correlated proportions or percentages},
+	journal = {Psychometrika},
+	number = {12},
+	year = {1947},
+}
+
+@article{PhyloD,
+        title = {Measuring phylogenetic biodiversity},
+	author = {M. Vellend and W. Cornwell and K. Magnuson-Ford and A. Mooers},
+	chapter = {14},
+	year = {2015},
+}
+
+@article{MeanD,
+        title = {Measuring phylogenetic biodiversity},
+	author = {M. Vellend and W. Cornwell and K. Magnuson-Ford and A. Mooers},
+	chapter = {14},
+	year = {2015},
+}
+
+@article{Pearson,
+        author = {K. Pearson},
+	title = {Notes on regression and inheritance in the case of two parents},
+	publisher = {Proceedings of the Royal Society of London},
+	year = {1895},
+	volume = {58},
+}
+
+@article{TreeDistance,
+        title = {Simple fast algorithms for the editing distance between trees and related problems},
+        author = {K. Zhang and D. Shasha},
+	year = {1989},
+	journal = {Society for Industrial and Applied Mathematics},
+	volume = {18},
+	number = {6},
+}
+
+@article{NPhard,
+        title = {NP-hardness},
+	publisher = {Wikipedia},
+}
+
+@phdthesis{TreeInclusion,
+           title = {Tree Matching Problems with Applications to Structured Text Databases},
+	   author = {P. Kilpeläinen},
+	   year = {1992},
+	   publisher = {University of Helsinki, Faculty of Science},
+}
+
+@techreport{PartitionIsNPhard,
+           title = {The hardness of K-Means clustering},
+	   author = {S. Dasgupta},
+	   publisher = {University of California, San Diego},
+}
+
+@misc{BayesianRating,
+     author = {P. Masurel},
+     title = {Bayesian Rating},
+     note = {fulmicoton.com},
+}
+
+@article{KMeans,
+        author = {J. MacQueen},
+	title = {Some Methods for classification and Analysis of Multivariate Observations},
+	year = {1967},
+	journal = {Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability},
+}
+
+@article{PCA,
+         title = {On Lines and Planes of Closest Fit to Systems of Points in Space},
+	 author = {K. Pearson},
+	 year = {1901},
+	 journal = {Philosophical Magazine},
+	 volume = {2},
+}
+
+@article{IntroROC,
+         title = {An introduction to ROC analysis},
+	 author = {T. Fawcett},
+	 publisher = {Institute for the Study of Learning and Expertise},
+	 year = {2005},
+}
+
+@article{NaiveBayes,
+        title = {Naive Bayes Classifier},
+	publisher = {Wikipédia},
+}
+
+@article{BernouilliModel,
+        title = {Naive Bayes Classifier},
+	publisher = {Wikipédia},
+}
+
+@article{BernouilliModelDrawbacks,
+        author = {J. Rennie and L. Shih and D. Karger},
+	year = {2003},
+	title = {Tackling the poor assumptions of Naive Bayes classifiers},
+}
+
+@techreport{FMproblems,
+           author = {D. Powers},
+	   title = {What the F-measure doesn't measure...},
+	   publisher = {Flinders University},
+	   year = {2014},
+}
+
+@book{F-measure,
+         author = {C. Van Rijsbergen},
+	 title = {Information Retrieval (2nd ed.)},
+	 publisher = {Butterworth},
+	 year = {1979},
+}
+
+@article{Youden,
+         author = {W. Youden},
+	 title = {Index for rating diagnostic tests},
+	 journal = {Cancer},
+	 volume = {3},
+	 year = {1950},
+}
+
+@article{Nikolski,
+         author = {H. Soueidan and M. Nikolski},
+	 title = {Machine learning for metagenomics: methods and tools},
+	 journal = {Metagenomics},
+	 year = {2016},
+}
+
+@article{Tango3,
+         author = {D. Alonso-Alemany and A. Barré and S. Beretta and P. Bonizzoni and M. Nikolski and G. Valiente},
+         title = {Further steps in TANGO: Improved Taxonomic Assignment in Metagenomics},
+	 journal = {Bioinformatics Advance Access},
+	 year = {2013},
+}
+
+@article{Consensus,
+        author = {E. Adams},
+        title = {Consensus techniques and the comparison of taxonomic trees},
+	journal = {Syst. Tool.},
+	volume = {21},
+	year = {1972},
+}
+
+@article{Alignment,
+        author = {T. Jiang and L. Wang and K. Zhang},
+	title = {Alignment of trees - an alternative to tree edit},
+	journal = {Theoretical Computer Science},
+	year = {1994},
+}
+
+@techreport{Correction,
+           author = {D. Barnard and G. Clarke and N. Duncan},
+	   title = {Tree-to-tree Correction for Document Trees},
+	   publisher = {Queen's University},
+	   year = {1995},
+}
+
+@article{Tarjan,
+        author = {D. Harel and R. Tarjan},
+	title = {Fast Algorithms for finding nearest common ancestors},
+	journal = {Society for Industrial and Applied Mathematics},
+	year = {1984},
+}
+
+@misc{Scripting,
+      author = {M. Cooper},
+      title = {Advanced Bash-Scripting (online)},
+      year = {2014},
+}

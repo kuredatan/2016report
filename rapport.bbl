@@ -1,0 +1,178 @@
+\begin{thebibliography}{10}
+
+\bibitem{Consensus}
+E.~Adams.
+\newblock Consensus techniques and the comparison of taxonomic trees.
+\newblock {\em Syst. Tool.}, 21, 1972.
+
+\bibitem{Tango3}
+D.~Alonso-Alemany, A.~Barré, S.~Beretta, P.~Bonizzoni, M.~Nikolski, and
+  G.~Valiente.
+\newblock Further steps in tango: Improved taxonomic assignment in
+  metagenomics.
+\newblock {\em Bioinformatics Advance Access}, 2013.
+
+\bibitem{Correction}
+D.~Barnard, G.~Clarke, and N.~Duncan.
+\newblock Tree-to-tree correction for document trees.
+\newblock Technical report, 1995.
+
+\bibitem{Tango1}
+J.~Clemente, J.~Jansson, and G.~Valiente.
+\newblock Flexible taxonomic assignment of ambiguous sequencing.
+\newblock {\em BMC Bioinformatics}, 2011.
+
+\bibitem{Scripting}
+M.~Cooper.
+\newblock Advanced bash-scripting (online), 2014.
+
+\bibitem{PartitionIsNPhard}
+S.~Dasgupta.
+\newblock The hardness of k-means clustering.
+\newblock Technical report.
+
+\bibitem{Enaud}
+R.~Enaud.
+\newblock {\em Impact de l'antibiothérapie sur le microbiote intestinal chez
+  l'enfant atteint de mucovisidose}.
+\newblock PhD thesis, 2016.
+
+\bibitem{IntroROC}
+T.~Fawcett.
+\newblock An introduction to roc analysis.
+\newblock 2005.
+
+\bibitem{Tarjan}
+D.~Harel and R.~Tarjan.
+\newblock Fast algorithms for finding nearest common ancestors.
+\newblock {\em Society for Industrial and Applied Mathematics}, 1984.
+
+\bibitem{Alignment}
+T.~Jiang, L.~Wang, and K.~Zhang.
+\newblock Alignment of trees - an alternative to tree edit.
+\newblock {\em Theoretical Computer Science}, 1994.
+
+\bibitem{TreeInclusion}
+P.~Kilpeläinen.
+\newblock {\em Tree Matching Problems with Applications to Structured Text
+  Databases}.
+\newblock PhD thesis, 1992.
+
+\bibitem{KMeans}
+J.~MacQueen.
+\newblock Some methods for classification and analysis of multivariate
+  observations.
+\newblock {\em Proceedings of 5th Berkeley Symposium on Mathematical Statistics
+  and Probability}, 1967.
+
+\bibitem{Whitney}
+H.~Mann and D.~Whitney.
+\newblock On a test of whether one of two random variables is stochastically
+  larger than the other.
+\newblock {\em Annals of Mathematical Statistics}, 18(1), 1947.
+
+\bibitem{BayesianRating}
+P.~Masurel.
+\newblock Bayesian rating.
+\newblock fulmicoton.com.
+
+\bibitem{McNemar}
+Q.~McNemar.
+\newblock Note on the sampling error of the difference between correlated
+  proportions or percentages.
+\newblock {\em Psychometrika}, (12), 1947.
+
+\bibitem{Pearson}
+K.~Pearson.
+\newblock Notes on regression and inheritance in the case of two parents.
+\newblock 58, 1895.
+
+\bibitem{PCA}
+K.~Pearson.
+\newblock On lines and planes of closest fit to systems of points in space.
+\newblock {\em Philosophical Magazine}, 2, 1901.
+
+\bibitem{FMproblems}
+D.~Powers.
+\newblock What the f-measure doesn't measure...
+\newblock Technical report, 2014.
+
+\bibitem{BernouilliModelDrawbacks}
+J.~Rennie, L.~Shih, and D.~Karger.
+\newblock Tackling the poor assumptions of naive bayes classifiers.
+\newblock 2003.
+
+\bibitem{F-measure}
+C.~Van Rijsbergen.
+\newblock {\em Information Retrieval (2nd ed.)}.
+\newblock Butterworth, 1979.
+
+\bibitem{RobinsonFoulds}
+D.~Robinson and L.~Foulds.
+\newblock Comparison of phylogenetic trees.
+\newblock {\em Mathematical Biosciences}, 53, 1981.
+
+\bibitem{NeighborJoining}
+N.~Saitou and M.~Nei.
+\newblock The neighbor-joining method: A new method for reconstructing
+  phylogenetic trees.
+\newblock {\em Mol. Biol. Evol.}, 1987.
+
+\bibitem{SSS}
+S.~Shalev-Shwartz and S.~Ben-David.
+\newblock Understanding machine learning: From theory to algorithms.
+\newblock 2014.
+
+\bibitem{UMPGA}
+R.~Sokal and C.~Michener.
+\newblock A statistical method for evaluating systematic relationships.
+\newblock {\em University of Kansas Science Bulletin}, 38, 1958.
+
+\bibitem{Nikolski}
+H.~Soueidan and M.~Nikolski.
+\newblock Machine learning for metagenomics: methods and tools.
+\newblock {\em Metagenomics}, 2016.
+
+\bibitem{PhyloD}
+M.~Vellend, W.~Cornwell, K.~Magnuson-Ford, and A.~Mooers.
+\newblock Measuring phylogenetic biodiversity.
+\newblock 2015.
+
+\bibitem{MeanD}
+M.~Vellend, W.~Cornwell, K.~Magnuson-Ford, and A.~Mooers.
+\newblock Measuring phylogenetic biodiversity.
+\newblock 2015.
+
+\bibitem{NaiveBayes}
+Wikipedia.
+\newblock Naive bayes classifier.
+
+\bibitem{BernouilliModel}
+Wikipedia.
+\newblock Naive bayes classifier.
+
+\bibitem{NPhard}
+Wikipedia.
+\newblock Np-hardness.
+
+\bibitem{WikiNGS}
+Wikipedia.
+\newblock Séquençage de l'adn.
+
+\bibitem{Wilcoxon}
+F.~Wilcoxon.
+\newblock Individual comparisons by ranking methods.
+\newblock {\em Biometrics Bulletin}, 1(6), 1945.
+
+\bibitem{Youden}
+W.~Youden.
+\newblock Index for rating diagnostic tests.
+\newblock {\em Cancer}, 3, 1950.
+
+\bibitem{TreeDistance}
+K.~Zhang and D.~Shasha.
+\newblock Simple fast algorithms for the editing distance between trees and
+  related problems.
+\newblock {\em Society for Industrial and Applied Mathematics}, 18(6), 1989.
+
+\end{thebibliography}

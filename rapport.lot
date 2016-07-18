@@ -1,0 +1,16 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Results from \textsc {TaxoTree} for the comparison at Day 0, (*) with Day = 0, (**) with (Clostridium bolteae,S),(Pediococcus acidilactici,S)}}{16}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Results from \textsc {TaxoTree} for the comparison at Day 0, Day 45, Day 90}}{18}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Results from \textsc {TaxoTree} for the comparison at Day 90, (*) for Day 0, (**) for Day 90}}{19}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Complexity for each method}}{32}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {D.1}{\ignorespaces Worst case time complexity of different operations on MDL, (*) The \emph {deepcopy} operation is linear, but the constant is great, (**) Returns first element and the list of other elements, (***) Maps function over the elements of MDL, then returns them as a list}}{51}
