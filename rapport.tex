@@ -8,7 +8,7 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \title{Compared analysis of taxonomic trees}
-\author{C. REDA\\supervised by M. NIKOLSKI and M. RAFFINOT\\CBIB, Bordeaux}
+\author{C. REDA \\ \\ supervised by M. NIKOLSKI and M. RAFFINOT\\CBIB, Bordeaux}
 \date{August, 21 2016}
 \begin{document}
 
@@ -38,6 +38,8 @@ Interest in metagenomics has recently plummeted in bioinformatics, as a conseque
 
 \chapter{Scientific context}
 
+First, we will explain what metagenomics is, how taxonomic trees intervene in this scientific field, and what are the most burning issues today in metagenomics. Then we will introduce the test database.
+
 \section{Definition and goals of metagenomics}
 Metagenomics is the study of the genetic material of samples directly taken from a natural environment. It can be parts of DNA, proteins or RNA.\\
 
@@ -51,12 +53,12 @@ Once the sequencing is done, one obtains reads -annoted bits of DNA sequences in
 
 e.g. this read associated to the \emph{16S} gene of species \emph{Hydrothermal vent clone VC2.1 Arc13}:\\
 \begin{center}
-AGGCCACTGCTATCGGGCTCCGACTAAGCCATGCGAGTCTAGGGGCTCCTTCG\\
-GGAGCACCGGCGGACGGCTCAGTAACACGTGGACAACCTACCCTCGGGTGGGGGA\\
-TAACCTCGGGAAACTGAGGCTAATACCCCATAGGCCTCGGATACTGGAAGGT...\\
+AGGCCACTGCTATCGGGCTCCGACTAAGC\-CATGCGA\-GTC\-TAG\\
+GGGCTCCTTCGGGAGCACCGGCGGACGGCTCAGTAACACGTGGACAA\\
+CCTACCCTCGGGTGGGGGATAACCTCGGGAAACTGAGGCTAATACCC...\\
 \end{center}
 
-These reads are then usually matched with the reference sequences found in databases such as \textsc{NCBI}, \textsc{GreenGenes} or \textsc{RDP}: for one read, one looks for the best alignment with one of the reference sequences, somehow the alignment that preserves most the order of the bases (see figure $1$). After this step, as a general rule, to one read corresponds one or more sequences, that is, one or more species.\\
+These reads are then usually matched with the reference sequences found in databases such as \textsc{NCBI}, \textsc{GreenGenes} or \textsc{RDP}: for one read, one looks for the best alignment with one of the reference sequences, somehow the alignment that preserves most the order of the bases (see figure $1.1$). After this step, in the case of human bacteria (unfortunately it is not a general rule), to one read corresponds one or more sequences, that is, one or more species.\\
 
 \begin{figure}[H]
 \centering
@@ -70,7 +72,7 @@ The main objective of metagenomics is to then extract the maximum of relevant in
 
 There exists no unique common phylogeny. A handful of phylogenetic trees are used in bioinformatics, coming from different databases such as, for instance, \textsc{NCBI}, \textsc{GreenGenes} or \textsc{RDP}.\\
 
-A taxonomic tree (see figure $2$) is of bounded height, which value can vary according to the database associated. In GreenGenes's phylogenetic trees, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $3$):
+A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary according to the database associated. In \textsc{GreenGenes}'s phylogenetic tree, that is the one used for the tests, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $3$):
 \begin{itemize}
 \item 'D' (\textsc{Domain}) or 'R' (\textsc{Reign}): this rank is basically divided into three nodes: '\emph{Bacteria}', '\emph{Archae}' and '\emph{Eucarya}'.
 \item 'P' (\textsc{Phylum}): '\emph{Animalia}', '\emph{Plantae}', '\emph{Fungi}', ...
@@ -81,14 +83,13 @@ A taxonomic tree (see figure $2$) is of bounded height, which value can vary acc
 \item 'S' (\textsc{Species}): '\emph{Vulpes}', ... (corresponds to a single species)
 \end{itemize} 
 
-\begin{figure}[H]
-\includegraphics[scale=0.5]{illustrations/Taxonomic_Rank.png}
-\caption{The taxonomy of the fox, from \emph{Taxonomic Rank} article in \textsc{Wikipedia}}
-\end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale=0.5]{illustrations/arbretaxo.png}
-\caption{Partial taxonomic tree from \textsc{GreenGenes}}
+\begin{center}
+\subfigure\includegraphics[scale=0.35]{illustrations/arbretaxo.png}
+\subfigure\includegraphics[scale=0.35]{illustrations/Taxonomic_Rank.png}
+\caption{A partial taxonomic tree from \textsc{GreenGenes} and the taxonomy of the fox, from \emph{Taxonomic Rank} article in \textsc{Wikipedia}}
+\end{center}
 \end{figure}
 
 It is worth noticing that the nearest nodes to the root have got the lowest degree, and that a taxonomic tree has a great proportion of leaves (S-ranked nodes) compared to the number of nodes. \textsc{GreenGenes}'s taxonomic trees for the domains '\emph{Bacteria}' and '\emph{Archae}' approximately owns $9,065$ nodes, and among them $5,565$ leaves.\\
@@ -97,19 +98,19 @@ Most of the time, since many species could have matched one read, reads are assi
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{illustrations/Lowest_common_ancestor.png}
+\includegraphics[scale=0.35]{illustrations/Lowest_common_ancestor.png}
 \caption{The dark green node is the LCA of \emph{x} and \emph{y}, from \emph{Lowest Common Ancestor} article in \textsc{Wikipedia}}
 \end{figure}
 
 One can seldomly associate one read to a single species, because of errors in the sequencing. The deeper in the tree the read is assigned, the best it is. Nevertheless, some algorithms to improve the accuracy of assignment of reads have been designed \cite{Tango1} \cite{Tango3}. Please note eventually that a node can match several reads from a same sample, and thus several reads can be assigned to this node in a single sample.
 
-\section{Topical questions in metagenomics}
+\section{Topics in metagenomics}
 
 There are already algorithms that enhance the assignment of a read to a node of the taxonomic tree \cite{Tango1}, and measures on phylogenies that quantify the relevancy of the tree according to a certain distance matrix between reads, or according to a certain other taxonomic tree \cite{RobinsonFoulds} \cite{Alignment}. But one lacks of efficient tools \cite{Enaud} when it comes to compare several trees/forests by quantifiying their similarities and also their differences, and above all to draw biological conclusions on the presence or the absence of certain nodes, provided some metadata.\\
 
 For instance, given a group of patients afflicted with cystic fibrosis, one can extract samples from their guts and may want to evaluate the influence of the age or the treatment over the population of \emph{E. Coli} bacteria in their patient's guts. Statistics methods, using e.g. \textsc{Wilcoxon} \cite{Wilcoxon} \cite{Whitney} or \textsc{Mc Nemar}'s \cite{McNemar} tests, are nowadays used to answer these questions, but their interpretation needs a manual overlap of the analysed data. To guide the diagnosis or the evaluation of the efficiency of a treatment, practitionners are in need of a semi-automatic processing of the data.
 
-\subsection{The test database}
+\section{The test database}
 
 The test database used to design the algorithms is a study which took place at the Children's Hospital of Bordeaux, from November, 2015 to May, 2016 \cite{Enaud}. All patients were afflicted with cystic fibrosis, and some of them needed a heavy antibacterial treatment by intraveinous injection (denoted ATB-IV) to cure their chronic bacterial infections. The aim of the study was to underline the influence of antibacterials on the microbial population of the patient's gut.\\
 
@@ -129,8 +130,8 @@ Each time patients saw the doctor, they gave them samples of their stools and a 
 
 The research aimed at answering two quite similar problems, that mainly target at \emph{clustering} patients, that separates them into groups which maximize the resemblance between two patients of a same group or \emph{cluster}, and minimize it for a pair of patients from different \emph{clusters}. For all these problems, a common numerotation of the samples, the nodes in the taxonomic tree, and the metadata had been chosen. Furthermore, we use for input a reference taxonomic tree denoted \textsc{T} (from GreenGenes's in our test database), and a \emph{data/information matrix} denoted \textsc{infoM}, such as \textsc{infoM}[$i$][$j$] is the value of metadatum $j$ in sample $i$ (being $0$ or $1$ for boolean values). 
 
-\section{Problem of most different pairs (1)}
-Problem 1 is:\\
+\section{Problem of most different pairs (MDP)}
+\textsc{MDP} is:\\
 
 \textsc{Supplementary input:} 
                 \begin{itemize}
@@ -156,10 +157,12 @@ Problem 1 is:\\
 \caption{A screenshot of the info matrix from the test database}
 \end{figure}
 
-\section{Problems of clustering (2)}
+\section{Problems of clustering (CL)}
 
-\subsection{Problem of compatibility (A)}
-Problem 2A is:\\
+The following two problems deal with the clustering of the groups of samples by their respective microbial populations, and the comparison of such a clustering with the values of metadata for these groups, in order to find a potential correspondance between bacteria and metadata. 
+
+\subsection{Problem of compatibility (CL.C)}
+\textsc{CL.C} is:\\
 
 \textsc{Supplementary input:} \begin{itemize}
                 \item The set of lists of nodes \textsc{nodesS} (called \emph{matchingNodes}) such as \textsc{nodesS}[$i$] is the list of nodes matched in at least one of the reads in sample $i$
@@ -173,8 +176,8 @@ Problem 2A is:\\
                  \item Decide if the clustering of samples according to the microbial population restricted to \textsc{N} is compatible with the clustering of samples according to their values of metadata in \textsc{M}.
                  \end{itemize}
 
-\subsection{Problem of best clustering (B)}
-Problem 2B is:\\
+\subsection{Problem of best clustering (CL.BCL)}
+\textsc{CL.BCL} is:\\
 
 \textsc{Supplementary input:} 
                 \begin{itemize}
@@ -192,12 +195,13 @@ Problem 2B is:\\
 
 \chapter*{Methods}
 
-Three different approaches have been designed, each of them answering one of these problems. 
+Three different approaches have been designed, each of them answering one of these problems. In chronological order:
 \begin{itemize}
 \item Firstly, a method using statistical approach, with customized measures on microbial populations, determines a distance between the samples to solve problem $1$. However, this method needs robust measures to be relevant, and the biological phenomena are not so easy to describe with only a few characteristics.
 \item A second approach uses the \emph{supervised learning} paradigm, and tries to identify nodes (of the taxonomic tree)/bacteria that discriminate the samples the way the values of metadata do, that is, finds the nodes which seem to have a relationship with the considered metadata. Nevertheless, strong \emph{a priori} hypotheses on microbial populations have to be made, which could bias the results.
 \item Eventually, another method uses \emph{non-supervised learning}. It clusters the samples with two distances only depending on node populations, and compares the resulting clusters with the groups of metadata values.
 \end{itemize}
+The first and third methods use a special implementation of taxonomic trees (see annex \textsc{C}).
 
 \chapter{Statistical-like approach}
 
@@ -286,10 +290,10 @@ $s(G_{1},G_{2}) = TR(1,2) + PR(1,2) - | MD(G_{1}) - MD(G_{2}) |$\\
 
 Then this similarity coefficient is normalized:\\
 \begin{center}
-$\uline{s}(G_{1},G_{2}) = \frac{s(G_{1},G_{2}) - E(s)}{\sigma(s)}$\\
+$\overline{s}(G_{1},G_{2}) = \frac{s(G_{1},G_{2}) - E(s)}{\sigma(s)}$\\
 \end{center}
 
-Then the program asks for a metadatum to cluster the set of samples in groups $(G_{i})_{i}$, each group corresponding to one single known value of the metadatum. After computing $\uline{s}$ for every pair of $(G_{i})_{i}$, it returns the list of pairs of groups $(G_{i},G_{j})_{i \neq j}$ such as $\uline{s}(G_{i},G_{j}) \le FQ$, where $FQ$ is the value of the first quartile. 
+Then the program asks for a metadatum to cluster the set of samples in groups $(G_{i})_{i}$, each group corresponding to one single known value of the metadatum. After computing $\overline{s}$ for every pair of $(G_{i})_{i}$, it returns the list of pairs of groups $(G_{i},G_{j})_{i \neq j}$ such as $\overline{s}(G_{i},G_{j}) \le FQ$, where $FQ$ is the value of the first quartile. 
 
 \section{Implementation}
 
@@ -299,14 +303,14 @@ The implementation of TaxoTree in \textsc{Python 2.9.7} offers a few other featu
 \item After selection of a group of bacteria and of a group of samples/metadata, gives an array with the percentage of assignments to this family of bacteria depending on the samples/metadata
 \item Computes the Pearson correlation coefficient $r$ between a number of assignments to a group of bacteria and a group of metadatas, or between the numbers of assignments to two groups of bacteria \\
 
-\textsc{Pearson sample product-moment correlation coefficient:} \cite{Pearson} for vectors $x$ and $y$ of values of size $n$, if $\uline{x}$ is the mean of the $(x_{i})_{i}$, and $\uline{y}$ the mean of the $(y_{i})_{i}$, then $r = \frac{\sum{_{i = 1}^{n}}{(x_{i} - \uline{x}) \times (y_{i} - \uline{y})}}{\sqrt{\sum{_{i = 1}^{n}}{(x_{i} - \uline{x})^{2}}} \times \sqrt{\sum{_{i = 1}^{n}}{(y_{i} - \uline{y})^{2}}}}$. $r$ is comprised between $1$ and $-1$:
+\textsc{Pearson sample product-moment correlation coefficient:} \cite{Pearson} for vectors $x$ and $y$ of values of size $n$, if $\overline{x}$ is the mean of the $(x_{i})_{i}$, and $\overline{y}$ the mean of the $(y_{i})_{i}$, then $r = \frac{\sum{_{i = 1}^{n}}{(x_{i} - \overline{x}) \times (y_{i} - \overline{y})}}{\sqrt{\sum{_{i = 1}^{n}}{(x_{i} - \overline{x})^{2}}} \times \sqrt{\sum{_{i = 1}^{n}}{(y_{i} - \overline{y})^{2}}}}$. $r$ is comprised between $1$ and $-1$:
 \begin{itemize} 
 \item $r = 1$ meaning there is a perfect uphill linear relationship between $x$ and $y$
 \item $r = -1$ meaning there is a perfect downhill linear relationship between $x$ and $y$
 \item $r = 0$ meaning there is no linear relationship at all
 \end{itemize}
 
-\item Draws graphs and pies
+\item Draws graphs and pie charts
 \item Computes a distance coefficient $sim(k,l)$ between two patients $P_{k}$ and $P_{l}$: after selecting a subset $M' = \{ m_{i_{1}}, m_{i_{2}}, ... m_{i_{m}}\}$ of the set of metadata, if $n_{j,k}$ known value in $P_{k}$ for $m_{i_{j}}$, then $dist(k,l) = \sum{_{j = 1}^{m}}{|n_{j,k} - n_{j,l}|}$. The corresponding similarity coefficient is $sim(k,l) = \frac{1}{dist(k,l)}$, $sim(k,l) = +\infty$ iff $dist(k,l) = 0$.
 \end{enumerate}
 
@@ -324,10 +328,10 @@ The results have been compared to those obtained by statistical methods on the t
 \item \textsc{Comparison of microbial populations at Day 0:} 
        \textsc{Output of the statistical analyses (chapter 5.2.2):} Microbial populations between groups of samples without antibacterials (samples selected with parameters $Day = 0$, $ATB-IV = 0$) and with antibacterials (samples selected with parameters $Day = 0$, $ATB-IV = 1$) are said to be very alike according to the statistical results of the study. \emph{Clostridium bolteae} and \emph{Pediococcus acidilactici} were overrepresented in $ATB-IV = 1$ groups.\\
 
-According to the table and pies, the results seem to confirm the output of TaxoTree.
+According to the table and pie charts, the results seem to confirm the output of TaxoTree.
 
      \begin{table}
-       \caption{Results from \textsc{TaxoTree} for the comparison at Day 0, (*) with Day = 0, (**) with (Clostridium bolteae,S),(Pediococcus acidilactici,S)}
+       \caption{Results from \textsc{TaxoTree} for the comparison at Day 0, (*) with Day = 0, (**) with (Clostridium bolteae,S),(Pediococcus acidilactici,S), where S is one of the taxonomic ranks}
        \begin{tabular}{|l|c|r|}
          \hline
          \textsc{Score} & \textsc{Result} & \textsc{Parameters}\\
@@ -437,17 +441,27 @@ Although the microbial diversity is said to evolve the same way in both $ATB-IV 
 
 \end{itemize}
 
-\subsection{Drawbacks}
+\subsection{Overview and discussion}
 
-Although being the most naive score, \textsc{Total Ratio} measure appears not to be really relevant here. This can be explained by the fact it does not take into account the proportions of assignments to nodes. As long as the two groups of samples owns a same node, it is considered as a common node, even though group $1$ might have many more reads assigned to this node than group $2$. On the opposite, \textsc{Pattern Ratio} seems justified by biology and gives consistent results.\\
+\subsubsection{About the method}
+
+The main issue with this program is thus to find relevant measures to characterize the samples. Since there is still many unknown things today about the biological mechanisms, we cannot be sure to get the best interpretation for these results. The algorithms below try to get rid of the \emph{a priori} hypotheses we could have over the biological mechanisms, that may have influence on the resulting scores.\\
+
+This method is particularly naive, and tends to be close to the previous statistical analyses.\\
+
+\subsubsection{About the numerical results}
+
+Although being the most intuitive score, \textsc{Total Ratio} measure appears not to be really relevant here. This can be explained by the fact it does not take into account the proportions of assignments to nodes. As long as the two groups of samples owns a same node, it is considered as a common node, even though group $1$ might have many more reads assigned to this node than group $2$. On the opposite, \textsc{Pattern Ratio} seems justified by biology and gives consistent results.\\
 
 Some of these results contradict the statistical results. We would need to test it on other databases to know who is right.\\
 
-The main issue with this program is thus to find relevant measures to characterize the samples. Since there is still many unknown things today about the biological mechanisms, we cannot be sure to get the best interpretation for these results. The algorithms below try to get rid of the \emph{a priori} hypotheses we could have over the biological mechanisms, that may have influence on the resulting scores.
-
 \chapter{Supervised learning}
 
+The section just below will explain some important concepts, that will help to understand the second method, described in the following sections. 
+
 \section{Machine Learning and supervised learning: the Naive Bayes classifier}
+
+This section aims at explaining what \emph{Machine Learning} and \emph{supervised Learning} are, and at describing the \emph{Naive Bayes} classifier, and the \textsc{Youden's J coefficient} that will quantify the relevance of the classification.
 
 \subsection{Machine Learning}
 
@@ -573,7 +587,7 @@ $k - \sum{_{i = 1}^{k}}{J_{f_{class}}(C_{i})}$ is minimum and non-negative.
 
 \section{Implementation}
 
-This has been implemented in \textsc{Python 2.9.7}. The program allows two operations, which answer to either problem A or B:\\
+This has been implemented in \textsc{Python 2.9.7}. The program allows two operations, which answer to either \textsc{CL.C} or \textsc{CL.BCL}:\\
 
 \begin{itemize}
 \item The user chooses the sets \textsc{M} and \textsc{N} like above, and the program returns the \textsc{Youden’s J coefficient} associated to the resulting classification, giving a hint about a possible correspondance between \textsc{M} and \textsc{N}.
@@ -594,7 +608,9 @@ The overall worst case time complexity for a classifiation is roughly in O($n_{s
 
 %todo
 
-\subsection{Drawbacks}
+\subsection{Overview and discussion}
+
+\subsubsection{About the method}
 
 Although the algorithm classifies samples not by focusing on specific characteristics of node population, but by directly comparing the microbial populations (which is theoretically better than the previous program), we still have to do \emph{a priori} hypotheses on the set of samples.\\
 
@@ -627,9 +643,17 @@ Note that the maximum value of $C_{n}$ is $|S_{start}|$. Having $C_{n} = |S_{sta
 
 For instance, if node $n$ matches in $5$ samples out of $17$, having $C_{n} = 0$ would give $p_{n} = \frac{5}{17} \simeq 0.29$, while having $C_{n} = |S_{start}|$ gives $p_{n} = \frac{17 + 5}{2 \times 17} \simeq 0.65 $. If node $n$ does not match in any of the $17$ samples, then for $C_{n} = \frac{|S_{start}|}{2}$, $p_{n} = \frac{|S_{start}|}{4 \times |S_{start}|} = \frac{1}{4} = 0.25$.\\
 
+\subsubsection{About the numerical results}
+
+%todo
+
 \chapter{Non-supervised learning}
 
+The following sections will introduce some useful concepts and notations, that will help to understand the third method described at the end of this chapter.
+
 \section{Machine Learning and non-supervised learning: the K-Means algorithm}
+
+This section explains what \emph{non-supervised learning} is in \emph{Machine Learning}, and present one of the most common tool in this category, which is the \emph{K-Means algorithm}.
 
 \subsection{Non-Supervised Learning}
 
@@ -716,9 +740,15 @@ The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times 
 
 %todo
 
-\subsection{Drawbacks}
+\subsection{Overview and discussion}
+
+\subsubsection{About the method}
 
 However, the main issue with this method is that, unlike the first \emph{Machine Learning} approach, it does not give the nodes that really discriminate the samples. We can only get access to the list of common bacteria for samples in a same cluster. One solution would be to post-process the clusters with a \textsc{PCA} (\emph{Principal Component Analysis}) method \cite{PCA}, or to test this pipeline with another clustering algorithm (different from \emph{K-Means}).
+
+\subsubsection{About the numerical results}
+
+%todo
 
 \newpage
 
@@ -777,6 +807,8 @@ Here are gathered details about the physical limits of our computer for testing,
 \end{itemize}
 
 \chapter{Complexity}
+
+This chapter give details about the complexity of each method, per function and for the whole pipeline.
 
 \section{Worst case complexity for the first approach (TaxoTree)}
 
@@ -913,6 +945,13 @@ There are of course many algorithms to construct a taxonomic tree, often startin
 Provided a list of paths \emph{paths} from the root to every leaf of the phylogenetic tree, we thus need an efficient algorithm to construct the tree, which must grant easy (i.e. as cheap as possible) access to the list of assignments to node, to the children and also to the phylogeny of the node (the so-called "lineage"). It should also provide labelling of the nodes by an integer identifier. Since we could not find an article having dealt with this subject (trace analysis do use trees, but since we are interested in a very special sort of tree (taxonomic trees), it would be a bit off topic here), we had to design a customized algorithm.\\
 
 Let $n_{taxo-nodes}$ be the number of the nodes in the taxonomic tree (in our test database, $n_{taxo-nodes} = 9,000$), $n_{samples}$ the number of samples ($n_{samples} = 47$), and $n_{paths}$ the number of paths from the root to every leaf (as it is a tree, this number is as well the number of leaves in the tree, that is $n_{paths} \simeq 8,000$). Let also $l_{path}$ be the maximum length between the root and a leaf (that is the number of ranks: in our test database, $l_{paths} = 8$), and $n_{metadata}$ the number of metadata ($n_{metadata} = 21$).
+
+We present three methods in chronological order of design:
+\begin{itemize}
+\item The first one is a top-down construction, where we go through every path from \emph{root} to a leaf, and construct the missing nodes.
+\item Unlike the method above, the second one is a bottom-up construction, where for each taxonomic rank (from S to R, that is from the most accurate to the most broad rank), we gather siblings (that is nodes with a same father) and construct the corresponding trees until having the tree rooted at \emph{root}.
+\item The third one is an improvement of the second method. The first two methods are quite time-consuming, and this one succeeds in being the fastest of the three. Preprocess is applied to the nodes to precompute the groups of siblings and the father node associated, using hash tables.
+\end{itemize}
 
 \section{A naive top-down construction}
 
@@ -1130,7 +1169,7 @@ When one considers only one metadatum, classes are sets of samples having the sa
 
 To implement a easy access and modification of the classes, I have chosen to implement a class of multidimensional lists, because matrices in Python do not allow other objects than integers.
 
-\section{Implementation}
+\section{Implementation and complexity}
 
 A Multi-Dimensional List (MDL) contains the attributes \emph{mdList}, which is the real multi-dimensional list, and \emph{shape}, which the list of maximum values for each dimension.\\
 
