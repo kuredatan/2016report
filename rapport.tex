@@ -38,22 +38,26 @@ Interest in metagenomics has recently plummeted in bioinformatics, as a conseque
 
 \chapter{Scientific context}
 
-First, we will explain what metagenomics is, how taxonomic trees intervene in this scientific field, and what are the most burning issues today in metagenomics. Then we will introduce the test database.
+Firstly we will explain what metagenomics is, how taxonomic trees intervene in this scientific field, and what are the most burning issues today in metagenomics. Then we will introduce the test database.
 
 \section{Definition and goals of metagenomics}
 Metagenomics is the study of the genetic material of samples directly taken from a natural environment. It can be parts of DNA, proteins or RNA.\\
 
-We only focus here on bacteria's DNAs. Indeed bacteria used to be cultivated in laboratories before having their DNA sequenced and annoted. However a great number of bacteria cannot be raised in an artificial environment, such as some bacteria in animal guts or living in fragile marine ecosystems. Along with the decreasing price of DNA sequencing, this explains the development and the growing interest in metagenomics today.\\
+We only focus here on bacteria's DNAs. Indeed bacteria used to be cultivated in laboratories before having their DNA sequenced and annoted. However a great number of bacteria cannot be raised in an artificial environment, such as some bacteria in animal guts or living in fragile marine ecosystems. Thus metagenomics helps to study more and new species of bacteria. Along with the decreasing price of DNA sequencing, this explains the development and the growing interest in metagenomics today.\\
 
-After removing samples of genetic data from the environment, one extracts the DNA from the sample and sequences it, that is find the structure of the DNA: the order of the base pairs constructed with cytosine (C), adenine (A), guanine (G), and thymine (T), that encodes the necessary information for the living of organisms. Note that there exists other bases such as N or X, and this fact increases greatly the complexity of sequencing.\\
+The whole pipeline to turn raw genetic material into reliable data comprises these following steps:
+\begin{itemize}
+\item After removing samples of genetic data from the environment, one extracts the DNA from the sample by a chemical reaction
+\item Then one sequences the resulting DNA, that is to say one searches the structure of the DNA, i.e. the order of (set of) the base pairs constructed with cytosine ($\{C\}$), adenine ($\{A\}$), guanine ($\{G\}$), and thymine ($\{T\}$), that encodes the necessary information for the living of organisms. Note that there exists other bases such as $N = \{A,C,T,G\}$ or $X$, and this fact increases greatly the complexity of sequencing. There are two ways of sequencing: the first method is the slowest, but give good quality lecture of the DNA, and is mainly used to generate reference genomes. The second one (\textsc{NGS}, that stands for \textsc{Next-Generation Sequencing} \cite{WikiNGS}) is faster, and can give errors. This last method targets only parts of the DNA, of length 32 to 1,000 base pairs, unlike the first one that would sequence the whole DNA.
+\end{itemize}
 
-For bacteria, only some parts of the DNA change from a species to another (these parts are called \emph{hyper variable regions} or \emph{HVR}), while some remain the same for all bacteria. The sequencing therefore focuses on the \emph{HVR} to seek the nature of the bacteria to which the read belongs. It is particularly hard to correctly determine the bounds of these \emph{HVR}, and it is one of the causes of error in sequencing.\\
+For bacteria, only some parts of the DNA change from a bacterium to another (these parts are called \emph{hyper variable regions} or \emph{HVR}), while some remain the same for all bacteria. The sequencing therefore focuses on the \emph{HVR} to seek the nature of the bacteria to which the read belongs. It is particularly hard to correctly determine the bounds of these \emph{HVR}, and it is one of the causes of error in sequencing.\\
 
-Once the sequencing is done, one obtains reads -annoted bits of DNA sequences in \textsc{NGS}, which stands for \textsc{Next-Generation Sequencing} \cite{WikiNGS}:\\
+Once the sequencing by \textsc{NGS} is done, one obtains \emph{reads} -annoted bits of DNA sequences of length 32 to 1,000 base pairs:\\
 
-e.g. this read associated to the \emph{16S} gene of species \emph{Hydrothermal vent clone VC2.1 Arc13}:\\
+e.g. this (partial) read is associated to the \emph{16S} gene of species \emph{Hydrothermal vent clone VC2.1 Arc13}; the \emph{16S} gene is strongly related to the species of the bacterium:\\
 \begin{center}
-AGGCCACTGCTATCGGGCTCCGACTAAGC\-CATGCGA\-GTC\-TAG\\
+AGGCCACTGCTATCGGGCTCCGACTAAGCCATGCGAGTCTAG\\
 GGGCTCCTTCGGGAGCACCGGCGGACGGCTCAGTAACACGTGGACAA\\
 CCTACCCTCGGGTGGGGGATAACCTCGGGAAACTGAGGCTAATACCC...\\
 \end{center}
