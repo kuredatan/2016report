@@ -724,7 +724,7 @@ We use the very same definition of classes of metadata as in the second method.
 
 \begin{itemize}
 \item Firstly the set of samples is clustered into $k$ clusters using $d_{matched}$ distance. 
-\item For every cluster, the most remote elements are deleted from the cluster. In our implementation, the points which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances) are the ones discarded.
+\item For every cluster, the most remote elements are deleted from the cluster, in order to keep only relevant elements. In our implementation, the points which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances) are the ones discarded.
 \item Then the union of the remaining elements in all clusters is clustered again into $k$ clusters using $d_{consensus}$ distance.
 \end{itemize}
 
