@@ -999,7 +999,7 @@ The method is to consider one by one every path from \emph{paths} and to create 
 \end{algorithmic}
 \end{algorithm}
 
-Worst case time complexity: O($l_{path}.n_{paths}.n_{metadata}.n_{samples}$). It takes approximately 2 hours on our computer to construct the tree associated to the parsed \emph{paths} list.
+\uline{Worst case time complexity}: O($l_{path}.n_{paths}.n_{metadata}.n_{samples}$). It takes approximately 2 hours on our computer to construct the tree associated to the parsed \emph{paths} list of length $5,565$ (the total number of nodes was $9,065$).
 
 \section{A naive bottom-up construction}
 
@@ -1040,7 +1040,7 @@ The previous method can be used for any type of tree. However, taxonomic trees a
 \end{algorithmic}
 \end{algorithm}
 
-Worst case time complexity: O($n_{taxo-nodes}.(n_{samples}.n_{metadata} + n_{paths}.l_{path} + n_{paths}^{2})$). Please note that the number of leaves bounds the width/maximum degree of the taxonomic tree. The number of ranks can be bounded by a constant integer (for instance, $10$). It thus takes approximately $10$ hours (!) on our computer to construct the taxonomic tree.\\
+\uline{Worst case time complexity}: O($n_{taxo-nodes}.(n_{samples}.n_{metadata} + n_{paths}.l_{path} + n_{paths}^{2})$). Please note that the number of leaves bounds the width/maximum degree of the taxonomic tree. The number of ranks can be bounded by a constant integer (for instance, $10$). For $5,565$ leaves and $9,065$ (internal and leaf) nodes, constructing the taxonomic tree took approximately $10$ hours (!) on our computer.\\
 
 \section{A less naive bottom-up construction}
 
@@ -1110,7 +1110,7 @@ The previous bottom-up algorithm has got a really bad time complexity, for it mu
 \end{algorithmic}
 \end{algorithm}
 
-Worst case time complexity:\\
+\uline{Worst case time complexity}:\\
 O($n_{taxo-nodes}log(n_{taxo-nodes}) + (n_{paths}.l_{path} + n_{samples}.n_{metadata}).n_{taxo-nodes} + n_{taxo-nodes}^{2}$)\\
 = O($(n_{paths}.l_{path} + n_{samples}.n_{metadata}).n_{taxo-nodes} + n_{taxo-nodes}^{2}$).\\
 
@@ -1163,7 +1163,7 @@ Else we get $n$'s children identifiers through \emph{hashFatherList}, we get chi
 \end{algorithmic}
 \end{algorithm}
 
-Worst case time complexity: O($n_{paths}^{2}$). The number of leaves $n_{leaves} = n_{paths}$ bounds the number of same-ranked nodes, that is the width of the tree. It takes less than $30$ seconds on our computer to return the result (preprocessing included).\\
+\uline{Worst case time complexity}: O($n_{paths}^{2}$). The number of leaves $n_{leaves} = n_{paths}$ bounds the number of same-ranked nodes, that is the width of the tree. It takes less than $30$ seconds on our computer to return the result (preprocessing included) for $5,565$ leaves and $9,065$ nodes, and less than $0.2$ seconds for $600$ nodes and $402$ leaves, which seems consistent with the theoretical complexity found. \\
 
 \chapter{Multi-dimensional lists}
 
