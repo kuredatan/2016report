@@ -562,7 +562,7 @@ It uses respectively the \emph{recall}/\emph{sensitivity}\cite{F-measure} (the p
 \textsc{TaxoClassifier} tries to answer problems (\textsc{A}) and (\textsc{B}). It uses a \emph{Naive Bayes Classifier}, which attempts to classify the samples/patients in one of the groups of values of metadata depending on their microbial populations.\\
 
 \begin{enumerate}
-\item The user is firstly asked to give the metadata \textsc{M} which will partition the set of samples, and the node population \textsc{N} to consider in the classification. This sets the number of classes, according to the different values for each metadatum of \textsc{M}.
+\item The user is first asked to give the metadata \textsc{M} which will partition the set of samples, and the node population \textsc{N} to consider in the classification. This sets the number of classes, according to the different values for each metadatum of \textsc{M}.
 
 \begin{figure}[H]
 \centering
@@ -621,11 +621,11 @@ Due to some technical issues, tests could not executed.\\
 
 Although the algorithm classifies samples not by focusing on specific characteristics of node population, but by directly comparing the microbial populations (which is theoretically better than the previous program), we still have to do \emph{a priori} hypotheses on the set of samples.\\
 
-Firstly, we suppose the equiprobability of being in a random class, that is, equiprobability of having a certain value for the selected metadatum. However, not only does it strongly depend on the values of other metadata, but it would even be sometimes completely wrong according to the metadatum considered. In our database for instance, $ATB-IV = 1$ or $ATB-Os = 1$ imply $ATB-IV-Os = 1$: $ATB-IV = 1$ means that patient has been treated with antibacterials by intraveinous injections (\emph{IV}), $ATB-Os = 1$ means that patient has been treated with antibacterials \emph{per os}, and $ATB-IV-Os = 1$ means that patient has been treated with antibacterials either \emph{per os} or \emph{IV}. Unfortunately, since we do not know the exact relationship between the different metadata (e.g. does the treatment really affect the quality of life of the patient?), we cannot fix this issue.\\
+First, we suppose the equiprobability of being in a random class, that is, equiprobability of having a certain value for the selected metadatum. However, not only does it strongly depend on the values of other metadata, but it would even be sometimes completely wrong according to the metadatum considered. In our database for instance, $ATB-IV = 1$ or $ATB-Os = 1$ imply $ATB-IV-Os = 1$: $ATB-IV = 1$ means that patient has been treated with antibacterials by intraveinous injections (\emph{IV}), $ATB-Os = 1$ means that patient has been treated with antibacterials \emph{per os}, and $ATB-IV-Os = 1$ means that patient has been treated with antibacterials either \emph{per os} or \emph{IV}. Unfortunately, since we do not know the exact relationship between the different metadata (e.g. does the treatment really affect the quality of life of the patient?), we cannot fix this issue.\\
 
 Same goes for the hypothesis of independance between the probabilities of having a certain node, that is at core of the Bayes conditional model. Biologically speaking, we can wonder if having a certain species of bacteria may prevent another species to develop itself in the gut.\\
 
-Secondly, the size and the content of the starting set for the classification given by the \emph{Naive Bayes Classifier} is of paramount importance. Prior probabilities of having a certain node are computed from this starting set by default (because assuming equiprobability would lead to contradictions, since we know antibacterials for instance do affect the microbial population). If the starting set is badly chosen, some nodes might not have matched any read in the starting group of samples, and thus the probability of having such a node is theoretically zero. Then the Bernouilli model would always return zero for a probability of being in a certain class, if this node is selected.\\
+Second, the size and the content of the starting set for the classification given by the \emph{Naive Bayes Classifier} is of paramount importance. Prior probabilities of having a certain node are computed from this starting set by default (because assuming equiprobability would lead to contradictions, since we know antibacterials for instance do affect the microbial population). If the starting set is badly chosen, some nodes might not have matched any read in the starting group of samples, and thus the probability of having such a node is theoretically zero. Then the Bernouilli model would always return zero for a probability of being in a certain class, if this node is selected.\\
 
 We thus let the user choose themselves the size of the starting set, provided the total size of the set of samples to classify.\\
 
@@ -724,7 +724,7 @@ Same goes for $d_{matched}$.
 We use the very same definition of classes of metadata as in the second method.
 
 \begin{itemize}
-\item Firstly the set of samples is clustered into $k$ clusters using $d_{matched}$ distance. 
+\item First the set of samples is clustered into $k$ clusters using $d_{matched}$ distance. 
 \item For every cluster, the most remote elements are deleted from the cluster, in order to keep only relevant elements. In our implementation, the points which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances) are the ones discarded.
 \item Then the union of the remaining elements in all clusters is clustered again into $k$ clusters using $d_{consensus}$ distance.
 \end{itemize}
