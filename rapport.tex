@@ -615,7 +615,7 @@ To deal with multiple metadata classes (see the example above), multi-dimensiona
 
 The overall worst case time complexity for a classifiation is roughly in O($n_{samples}^{2} \times n_{taxo-nodes}^{2} \times n_{values}$) (see annex for more details).\\
 
-(Still in progress) code can be found at:\\ \emph{github.com/kuredatan/taxoclassifier}.
+(Still in progress) code can be found at:\\ \begin{center}\emph{github.com/kuredatan/taxoclassifier}.\end{center}
 
 \section{Results}
 
@@ -713,7 +713,7 @@ When $q = 1$, we consider a tree having leaves that are matched in at least one 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{illustrations/distance2.png}
+\includegraphics[scale=0.45]{illustrations/distance2.png}
 \caption{Let us consider the cyan/blue and orange/red trees (blue and red nodes being the ones matched, the yellow one being matched by the orange tree and not by the blue tree, the two violet nodes are matched in both trees). When $q = 0$, $d_{consensus}(t_{1},t_{2})$ applied to these trees $t_{1}$ and $t_{2}$ is equal to $(2 + 4) - 0 \times (1 + 0) - 2 = 4$. When $q = 1$, $d_{consensus}(t_{1},t_{2})$ is equal to $(2 + 4) - 1 \times (1 + 0) - 2 = 3$}
 \end{figure}
 
@@ -745,7 +745,7 @@ The whole pipeline has been implemented in \textsc{Python 2.9.7}, and allows to 
 
 The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times n_{paths} \times n_{taxo-nodes} + n_{taxo-nodes}^{2}) \times n_{samples}^{2}$) (see annex for details).\\
 
-(Still in progress) code can be seen at: \\\emph{github.com/kuredatan/taxocluster}.
+(Still in progress) code can be seen at: \\\begin{center}\emph{github.com/kuredatan/taxocluster}.\end{center}
 
 \section{Results}
 
@@ -1204,11 +1204,11 @@ See \emph{MultiDimList} module for code source. Let $n_{dim}$ be the number of d
 \caption{Worst case time complexity of different operations on MDL, (*) The \emph{deepcopy} operation is linear, but the constant is great, (**) Returns first element and the list of other elements, (***) Maps function over the elements of MDL, then returns them as a list}
 \begin{tabular}{|l|c|r|}
 \hline
-\textsc{Operation} & \textsc{Complexity} & \textsc{Remarks}
+\textsc{Operation} & \textsc{Complexity} & \textsc{Remarks}\\
 \hline
 Creation & O($n_{dim} \times \sum{_{i = 1}^{n_{dim}}}{dim_{i}^{2}}$)\\
 \hline
-Get length & O($n_{dim}$) & Length of MDL = product of its dimensions\\
+Get length & O($n_{dim}$) & Product of its dimensions\\
 \hline
 Copy & O($n_{dim} \times \sum{_{i = 1}^{n_{dim}}}{dim_{i}^{2}}$) \\
 \hline
@@ -1225,7 +1225,7 @@ Map a function (***) & O($n_{dim}^{3}$)\\
 \end{tabular}
 \end{table}
 
-\chapter{Synthesis (in French)}
+\chapter{Summary (in French)}
 
 \begin{itemize}
 \item \textsc{Le contexte général}\\
@@ -1234,7 +1234,7 @@ Les arbres taxonomiques (ou \emph{phylogénétiques}) représentent les liens de
 
 \item \textsc{Le problème étudié}\\
 
-Il existe d'ores et déjà des algorithmes qui permettent de préciser l'assignation d'une partie de l'information génétique dans un échantillon à un organisme particulier, des algorithmes de construction d'arbres taxonomiques à partir de données génétiques (algorithme de \textsc{Neighbor Joining}, ...), ou des mesures sur les arbres qui permettent de quantifier leur pertinence phylogénétique (où l'algorithme de \textsc{Zhang-Shasha} peut être utilisé, ...). Cependant, il manque des outils pour analyser les données métagénomiques, et trouver des correspondances entre les espèces retrouvées dans les échantillons, et les informations non-taxonomiques (par exemple la température d'un milieu en biologie, ou l'âge d'un patient en médecine).\\
+Il existe d'ores et déjà des algorithmes qui permettent de préciser l'assigna\-tion d'une partie de l'information génétique dans un échantillon à un organisme particulier, des algorithmes de construction d'arbres taxonomiques à partir de données génétiques (algorithme de \textsc{Neighbor Joining}, ...), ou des mesures sur les arbres qui permettent de quantifier leur pertinence phylogénétique (où l'algorithme de \textsc{Zhang-Shasha} peut être utilisé, ...). Cependant, il manque des outils pour analyser les données métagénomiques, et trouver des correspondances entre les espèces retrouvées dans les échantillons, et les informations non-taxonomiques (par exemple la température d'un milieu en biologie, ou l'âge d'un patient en médecine).\\
 
 Le but de ce stage est d'améliorer l'analyse des données métagénomiques dans le domaine médical, en essayant de clusteriser les patients en fonction à la fois de leurs populations bactériennes, et des données cliniques. Ainsi, le stage s'aide d'une base de données construite par l'étude des \textsc{ADN} bactériens issus d'intestins de patients atteints de mucovisidose. Il peut être intéressant de savoir par exemple quelle est l'influence d'un traitement sur la qualité de vie du patient, et quelles bactéries dominent selon si le traitement est administré oralement ou en intraveineuse. Ces questions sont traitées pour le moment par recoupement d'analyses statistiques, en utilisant le test de \textsc{Wilcoxon} ou de \textsc{McNemar}. \emph{In fine}, l'objectif est de pouvoir clusteriser les patients de manière semi-automatique pour pouvoir par exemple améliorer le traitement ou donner un diagnostic.
 
@@ -1247,6 +1247,8 @@ Trois approches ont été proposées, toutes répondant à des problèmes légè
 \item La deuxième approche tente de comparer les arbres taxonomiques des patients avant assignation des noeuds. Elle utilise un algorithme d'\emph{apprentissage supervisé}, qui essaie de trouver quels sont les espèces de bactéries qui discriminent le mieux les échantillons en fonction des données cliniques. Mais de fortes hypothèses mathématiques sont nécessaires pour le fonctionnement de cette méthode.
 \item La troisième approche, utilisant de l'\emph{apprentissage non supervisé}, clusterise les échantillons dans des classes de données cliniques, avec deux distances qui ne dépendent que des populations bactériennes des échantillons. Ces clusters sont ensuite évalués en fonction des valeurs réelles des données cliniques de chaque patient. Cette méthode évite d'avoir à fournir \emph{a priori} des hypothèses sur la présence d'une espèce dans une population, ou sur les données cliniques.
 \end{enumerate}
+
+\newpage
  
 \item \textsc{Les arguments en faveur de sa validité}\\
 
