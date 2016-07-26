@@ -1,4 +1,8 @@
 \documentclass{report}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage{xpatch}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{float}
@@ -12,9 +16,17 @@
 \title{Compared analysis of taxonomic trees}
 \author{C. REDA \\ \\ supervised by M. NIKOLSKI and M. RAFFINOT\\CBIB, Bordeaux}
 \date{August, 21 2016}
+
+\fancypagestyle{mystyle}{%
+  \fancyhf{}%
+  \fancyfoot[LE,RO]{\thepage~of \pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
 \begin{document}
 
 \maketitle
+\pagenumbering{gobble}
 
 \chapter*{Abstract}
 \nocite{*}
@@ -38,6 +50,12 @@ Interest in metagenomics has recently plummeted in bioinformatics, as a conseque
  
 \pagenumbering{arabic}
 
+\xpatchcmd{\chapter}{%
+  \thispagestyle{plain}%
+}{%
+  \pagestyle{mystyle}
+}{}{}
+
 \chapter{Scientific context}
 
 First we explain what metagenomics is, how taxonomic trees intervene in this scientific field, and what are the most burning issues today in metagenomics. Then we introduce the test database.
@@ -50,12 +68,12 @@ We only focus here on bacteria's DNAs. Indeed, bacteria used to be cultivated in
 The whole pipeline to turn raw genetic material into reliable data comprises these following steps:
 \begin{itemize}
 \item After removing samples of genetic data from the environment, one extracts the DNA from the sample by a chemical reaction.
-\item Then one sequences the resulting DNA, that is obtains strings of characters that correspond to the primary structure (one-dimensioned) of the DNA, i.e. the order of (set of) the base pairs constructed with cytosine ($\{C\}$), adenine ($\{A\}$), guanine ($\{G\}$), and thymine ($\{T\}$). Note that there exist other set of bases such as $N = \{A,C,T,G\}$ or $X$, and this can increase greatly the complexity of sequencing. There are two main ways to sequence DNA: the first method, called \emph{Sanger sequencing}, is the slowest, but gives good quality sequences. The second one \textsc{NGS} (that stands for \textsc{Next-Generation Sequencing} \cite{WikiNGS}) is faster, however resulting sequences can contain errors. \textsc{NGS} produces only parts of the DNA, of length 32 to 1,000 base pairs. As a general rule, these two methods are mixed to make a good tradeoff between quality and price of the sequencing.
+\item Then one sequences the resulting DNA, that is obtains strings of characters that correspond to the primary structure (one-dimensioned) of the DNA, i.e. the order of (set of) the base pairs constructed with cytosine ($\{C\}$), adenine ($\{A\}$), guanine ($\{G\}$), and thymine ($\{T\}$). Note that there exist other set of bases such as $N = \{A,C,T,G\}$ or $X$, and this can increase greatly the complexity of sequencing. There are two main ways to sequence DNA: the first method, called \emph{Sanger sequencing}, is the slowest, but gives good quality sequences. The second one NGS (that stands for \textsc{Next-Generation Sequencing} \cite{WikiNGS}) is faster, however resulting sequences can contain errors. NGS produces only parts of the DNA, of length 32 to 1,000 base pairs. As a general rule, these two methods are mixed to make a good tradeoff between quality and price of the sequencing.
 \end{itemize}
 
 To distinguish one bacteria from another, sequencing is performed on genes, called \emph{16S}, that are present in all bacteria. These genes contain highly conserved regions (they are the same in all bacteria) and highly variable regions \emph{HVR}. The sequencing therefore focuses on the \emph{HVR} to determine to which bacteria a given sequence belongs. It is particularly hard to correctly determine the bounds of these \emph{HVR}, and it is one of the causes of errors in sequencing.\\
 
-After sequencing by \textsc{NGS}, one obtains \emph{reads} -bits of DNA sequences of length 32 to 1,000 base pairs: e.g. this (partial) read is associated with the \emph{16S} gene of species \emph{Hydrothermal vent clone VC2.1 Arc13}:\\
+After sequencing by NGS, one obtains \emph{reads} -bits of DNA sequences of length 32 to 1,000 base pairs: e.g. this (partial) read is associated with the \emph{16S} gene of species \emph{Hydrothermal vent clone VC2.1 Arc13}:\\
 
 \begin{center}
 {\tt AGGCCACTGCTATCGGGCTCCGACTAAGCCATGCGAGTCTAG\\
@@ -63,7 +81,7 @@ GGGCTCCTTCGGGAGCACCGGCGGACGGCTCAGTAACACGTGGACAA\\
 CCTACCCTCGGGTGGGGGATAACCTCGGGAAACTGAGGCTAATACCC...}\\
 \end{center}
 
-Once the sequencing is done, reads are obtained, and then they are usually matched with the reference sequences found in databases such as \textsc{NCBI}, \textsc{GreenGenes} or \textsc{RDP}: for each read, one looks for the best alignment with one of the reference sequences, that is the alignment that preserves most the order of the bases (see figure $1.1$). After this step, in the case of human bacteria (unfortunately it is not a general rule), to one read corresponds one or more sequences, that is, one or more species.\\
+Once the sequencing is done, reads are obtained, and then they are usually matched with the reference sequences found in databases such as NCBI, \textsc{GreenGenes} or RDP: for each read, one looks for the best alignment with one of the reference sequences, that is the alignment that preserves most the order of the bases (see figure $1.1$). After this step, in the case of human bacteria (unfortunately it is not a general rule), to one read corresponds one or more sequences, that is, one or more species.\\
 
 \begin{figure}[H]
 \centering
@@ -75,9 +93,9 @@ The main objective of metagenomics is to determine to which species belong the s
 
 \section{Assignment/identification of reads to a certain species of bacteria}
 
-There exists no unique common phylogeny. A handful of phylogenetic trees are used in bioinformatics, coming from different databases such as, for instance, \textsc{NCBI}, \textsc{GreenGenes} or \textsc{RDP}.\\
+There exists no unique common phylogeny. A handful of phylogenetic trees are used in bioinformatics, coming from different databases such as, for instance, NCBI, \textsc{GreenGenes} or RDP.\\
 
-A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary according to the database. In \textsc{GreenGenes}'s phylogenetic tree, that is the one used for our tests, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $3$):
+A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary according to the database. In \textsc{GreenGenes}'s phylogenetic tree, that is the one used for our tests, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $1.2$):
 \begin{itemize}
 \item 'D' (\textsc{Domain}) or 'R' (\textsc{Reign}): this rank is basically divided into three nodes: '\emph{Bacteria}', '\emph{Archae}' and '\emph{Eucarya}'.
 \item 'P' (\textsc{Phylum}): '\emph{Animalia}', '\emph{Plantae}', '\emph{Fungi}', ...
@@ -88,7 +106,7 @@ A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary a
 \item 'S' (\textsc{Species}): '\emph{Vulpes}', ... (corresponds to a single species)
 \end{itemize} 
 
-Note that it exists also another group called \textsc{OTU}, which stands for \textsc{Operational Taxonomic Unit}. An \textsc{OTU} is a set of leaves and internal nodes of the taxonomic tree that are thought to be really close. The \textsc{OTU} are disjoint.\\
+Note that it exists also another group called OTU, which stands for \textsc{Operational Taxonomic Unit}. An OTU is a set of leaves and internal nodes of the taxonomic tree that are thought to be really close. The OTU are disjoint.\\
 
 \begin{figure}[H]
 \begin{center}
@@ -100,7 +118,7 @@ Note that it exists also another group called \textsc{OTU}, which stands for \te
 
 It is worth noticing that the nearest nodes to the root have the lowest degree, and that a taxonomic tree has a great proportion of leaves (S-ranked nodes) compared to the number of internal nodes. \textsc{GreenGenes}'s taxonomic trees for the domains '\emph{Bacteria}' and '\emph{Archae}' used in \textsc{TaxoTree} (see in the next chapters) approximately owns $9,065$ nodes, and among them $5,565$ leaves.\\
 
-Most of the time, in spite of the fact that one read can match many species -that is leaves of the taxonomic tree, a given read is assigned to only one node of the taxonomic tree. Generally speaking, a read is assigned to the \emph{Least Common Ancestor} (\textsc{LCA}) \cite{Tarjan} of the set of matched sequences/species/S-ranked nodes. The \textsc{LCA} of a set of leaves S is the last common node in the paths from the root to each leaf of S.
+Most of the time, in spite of the fact that one read can match many species -that is leaves of the taxonomic tree, a given read is assigned to only one node of the taxonomic tree. Generally speaking, a read is assigned to the \emph{Least Common Ancestor} (LCA) \cite{Tarjan} of the set of matched sequences/species/S-ranked nodes. The LCA of a set of leaves L is the last common node in the paths from the root to each leaf of L (see figure $1.3$).
 
 \begin{figure}[H]
 \centering
@@ -114,13 +132,13 @@ One can seldomly associate one read to a single species, because of errors in th
 
 There are already algorithms that enhance the assignment of a read to a node of the taxonomic tree \cite{Tango1}, and measures on phylogenies that quantify the relevancy of the tree according to a certain distance matrix between reads, or according to a certain other taxonomic tree \cite{RobinsonFoulds} \cite{Alignment}. But there is a lack of efficient tools \cite{Enaud} when it comes to compare several trees/forests by quantifiying their similarities and also their differences, and above all to draw biological conclusions on the presence or the absence of certain nodes, provided some information that cannot be given by the taxonomic tree. This sort of information is called in this report \emph{metadata}, that is, information that cast light on the natural environment in which samples were taken.\\
 
-For instance, given a group of patients afflicted with cystic fibrosis, one can extract samples from their guts and may want to evaluate the influence of the age or the treatment over the population of \emph{E. Coli} bacteria in their patient's guts. Statistical methods, using e.g. \textsc{Wilcoxon} \cite{Wilcoxon} \cite{Whitney} or \textsc{Mc Nemar}'s \cite{McNemar} tests, are nowadays used to answer these questions, but their interpretation needs a manual overlap of the analysed data. To guide the diagnosis or the evaluation of the efficiency of a treatment, practitionners are in need of a semi-automatic processing of the data.
+For instance, given a group of patients afflicted with cystic fibrosis, one can extract samples from their guts and may want to evaluate the influence of the age or the treatment over the population of \emph{E. Coli} bacteria in their patient's guts. Statistical methods, using e.g. \textsc{Wilcoxon} \cite{Wilcoxon} \cite{Whitney} or \textsc{Mc Nemar}'s \cite{McNemar} tests, are nowadays used to solve these questions, but their interpretation needs a manual overlap of the analysed data. To guide the diagnosis or the evaluation of the efficiency of a treatment, practitionners are in need of a semi-automatic processing of the data.
 
 \section{The test database}
 
-The test database used to design our algorithms is a study which took place at the Children's Hospital of Bordeaux, from November, 2015 to May, 2016 \cite{Enaud}. All patients were afflicted with cystic fibrosis, and some of them needed a heavy antibacterial treatment by intraveinous injection (denoted ATB-IV) to cure their chronic bacterial infections. The aim of the study was to underline the influence of antibacterials on the microbial population of the patient's gut.\\
+The test database used to design our algorithms is a study which took place at the Children's Hospital of Bordeaux, from November, $2015$ to May, $2016$ \cite{Enaud}. All patients were afflicted with cystic fibrosis, and some of them needed a heavy antibacterial treatment by intraveinous injection (denoted ATB-IV) to cure their chronic bacterial infections. The aim of the study was to underline the influence of antibacterials on the microbial population of the patient's gut.\\
 
-Patients were divided into witnesses (\textsc{W}) and treated patients (\textsc{T}). Those in the \textsc{W} group saw the paediatrician twice, on Day $0$ and Day $90$, whereas those in the \textsc{T} group saw him thrice, on Day $0$, Day $45$ and Day $90$, and were treated from Day $0$ to Day $45$. There are in total $47$ samples, with $21$ patients.\\
+Patients were divided into witnesses ($W$) and treated patients ($T$). Those in the $W$ group saw the paediatrician twice, on Day $0$ and Day $90$, whereas those in the $T$ group saw him thrice, on Day $0$, Day $45$ and Day $90$, and were treated from Day $0$ to Day $45$. There are in total $47$ samples, with $21$ patients.\\
 
 Each time patients saw the doctor, they gave them samples of their stool and a filled survey over their quality of life. Samples were then sequenced. Later on, results were filtered and normalized this way:
 
@@ -134,7 +152,7 @@ Each time patients saw the doctor, they gave them samples of their stool and a f
 
 \chapter{Subject of the internship}
 
-Our research aimed at answering two quite similar problems, that mainly target at \emph{clustering} patients, that is separating them into groups which maximize the resemblance between two patients of a same group or \emph{cluster}, and minimize it for a pair of patients from different \emph{clusters}. For all these problems, a common numbering of samples, nodes in the taxonomic tree, and non-taxonomic information (\emph{metadata}) have been chosen. Furthermore, we use for input a reference taxonomic tree denoted \textsc{T} (from GreenGenes's in our test database), and a \emph{data/information matrix} denoted \textsc{infoM} (see Figure $2.2$), such as \textsc{infoM}[$i$][$j$] is the value of metadatum $j$ in sample $i$ (being $0$ or $1$ for boolean values). 
+Our research aimed at solving two quite similar problems, that mainly target at \emph{clustering} patients, that is separating them into groups which maximize the resemblance between two patients of a same group or \emph{cluster}, and minimize it for a pair of patients from different \emph{clusters}. For all these problems, a common numbering of samples, nodes in the taxonomic tree, and non-taxonomic information (\emph{metadata}) have been chosen. Furthermore, we use for input a reference taxonomic tree denoted \textsc{T} (from GreenGenes's in our test database), and a \emph{data/information matrix} denoted \textsc{infoM} (see Figure $2.2$), such as \textsc{infoM}[$i$][$j$] is the value of metadatum $j$ in sample $i$ (being $0$ or $1$ for boolean values). 
 
 \section{Problem of most different pairs (MDPairs)}
 \textsc{MDPairs} is:\\
@@ -142,13 +160,13 @@ Our research aimed at answering two quite similar problems, that mainly target a
 \textsc{Supplementary input:} 
                 \begin{itemize}
                 \item A matrix \textsc{occM} (called \emph{occurrence matrix}) such as \textsc{occM}[$i$][$j$] (see Figure $2.1$) is the number of assignments to node $j$ in sample $i$.
-                \item A set of groups of samples \textsc{S}.
+                \item A set of groups of samples $S$.
                 \end{itemize}
 
 \bigskip
 
 \textsc{Output:} \begin{itemize}
-                 \item The list of the pairs in \textsc{S} that are the most different.
+                 \item The list of the pairs in $S$ that are the most different.
                  \end{itemize}
 
 \begin{figure}[H]
@@ -172,14 +190,14 @@ The following two problems deal with the clustering of the groups of samples by 
 
 \textsc{Supplementary input:} \begin{itemize}
                 \item The set of lists of nodes \textsc{nodesS} (called \emph{matchingNodes}) such as \textsc{nodesS}[$i$] is the list of nodes matched in at least one of the reads in sample $i$.
-                \item A subset \textsc{N} of the set of nodes in the taxonomic tree.
-                \item A set of metadata \textsc{M}.
+                \item A subset $N$ of the set of nodes in the taxonomic tree.
+                \item A set of metadata $M$.
                 \end{itemize}
 
 \bigskip
 
 \textsc{Output:} \begin{itemize}
-                 \item Decide if the clustering of samples according to the microbial population restricted to \textsc{N} is compatible with the clustering of samples according to their values of metadata in \textsc{M}.
+                 \item Decide if the clustering of samples according to the microbial population restricted to $N$ is compatible with the clustering of samples according to their values of metadata in $M$.
                  \end{itemize}
 
 \subsection{Problem of best clustering (CL.BCLust)}
@@ -188,24 +206,24 @@ The following two problems deal with the clustering of the groups of samples by 
 \textsc{Supplementary input:} 
                 \begin{itemize}
                 \item The set of lists of nodes \textsc{nodesS} (called \emph{matchingNodes}) such as \textsc{nodesS}[$i$] is the list of nodes matched in at least one of the reads in sample $i$.
-                \item A set of metadata \textsc{M}.
+                \item A set of metadata $M$.
                 \end{itemize}
 
 \bigskip
 
 \textsc{Output:} \begin{itemize}
-                 \item Find the best subset \textsc{N} of the set of nodes in \textsc{T} for a compatible classification of samples according to values of metadata in \textsc{M}.
+                 \item Find the best subset $N$ of the set of nodes in \textsc{T} for a compatible classification of samples according to values of metadata in $M$.
                  \end{itemize}
 
 \newpage
 
 \chapter*{Methods}
 
-Three different approaches have been designed, each of them answering one of these problems. In chronological order:
+Three different approaches have been designed, each of them solving one or more of these problems. In chronological order:
 \begin{itemize}
-\item First, a method, \textsc{TaxoTree}, that uses a statistical approach with customized measures of microbial populations, determines a distance between the samples to solve problem $1$. However, in order to be relevant, this method requires robust measures, and the biological phenomena are not so easy to describe with only a few characteristics.
-\item Second, an approach, called \textsc{TaxoClassifier}, that uses the \emph{supervised learning} paradigm, and tries to identify nodes (of the taxonomic tree)/bacteria that discriminate the samples according to the values of metadata, that is, finds the nodes which seem to have a relationship with the considered metadata. Strong \emph{a priori} hypotheses on microbial populations have to be made, which could bias the results.
-\item Third a method, entitled \textsc{TaxoCluster}, that uses \emph{non-supervised learning}. It clusters the samples using two distances only depending on node populations, and compares the resulting clusters with the groups of metadata values.
+\item First, a method, \textsc{TaxoTree}, that uses a statistical approach with customized measures of microbial populations, determines a distance between the samples to solve problem \textsc{MDPairs}. However, in order to be relevant, this method requires robust measures, and the biological phenomena are not so easy to describe with only a few characteristics.
+\item Second, an approach, called \textsc{TaxoClassifier}, that uses the \emph{supervised learning} paradigm, and tries to identify nodes (of the taxonomic tree)/bacteria that discriminate the samples according to the values of metadata, that is, finds the nodes which seem to have a relationship with the considered metadata. Strong \emph{a priori} hypotheses on microbial populations have to be made, which could bias the results, but this approach can solve problems \textsc{CLust}.
+\item Third a method, entitled \textsc{TaxoCluster}, that uses \emph{non-supervised learning}. It clusters the samples using two distances only depending on node populations, and compares the resulting clusters with the groups of metadata values. It can solve problem \textsc{CL.Comp}.
 \end{itemize}
 
 For \textsc{TaxoTree} and \textsc{TaxoCluster}, we have put in pace a novel implementation of taxonomic trees (see \textsc{Appendix C}).
@@ -216,7 +234,7 @@ For \textsc{TaxoTree} and \textsc{TaxoCluster}, we have put in pace a novel impl
 
 There are a few useful definitions to know:
 \begin{enumerate}
-\item \textsc{A tree induced by a group of samples G} is the tree (or the forest) containing only nodes that have been assigned at least once in one of the samples in \textsc{G}.
+\item \textsc{A tree induced by a group of samples $G$} is the tree (or the forest) containing only nodes that have been assigned at least once in one of the samples in $G$ (see figure $3.1$).
 
 \begin{figure}[H]
 \centering
@@ -224,19 +242,19 @@ There are a few useful definitions to know:
 \caption{Subtrees induced by three groups of samples (each corresponding to a single colour). Incuced subtrees can of course overlap.}
 \end{figure}
 
-\item \textsc{A pattern in the tree A} is a connected subgraph of \textsc{A}. For instance, the blue tree from the example above.
+\item \textsc{A pattern in the tree $A$} is a connected subgraph of $A$. For instance, the blue tree from the example above.
 \end{enumerate}
 
 \newpage
 
 \section{Description of the method}
 
-This approach tries to answer \textsc{MDPairs}, and computes a certain number of scores for a group of samples, independantly of the values of metadata. Each score corresponds to a partial definition of identity between two groups of samples. The union of those scores aims at quantifying the most accurately the difference between two sets of samples.
+This approach tries to solve \textsc{MDPairs}, and computes a certain number of scores for a group of samples, independantly of the values of metadata. Each score corresponds to a partial definition of identity between two groups of samples. The union of those scores aims at quantifying the most accurately the difference between two sets of samples.
 
 \subsection{Total Ratio}
 
 \begin{itemize}
-\item \textsc{Total Ratio:} provided two groups $G_{1}$ and $G_{2}$ of samples, if $n$ is the number of assignments to common nodes in both groups (i.e. the sum of assignments in common nodes in each group), and $n_{1}$ et $n_{2}$, the number of assignments in these two groups in non-common nodes respectively, then Total Ratio is $TR(1,2) = \frac{n}{n_{1} + n_{2} + n}$. If $n_{1} = n_{2} = n = 0$, it means that no read from the samples of $G_{1}$ and $G_{2}$ has matched a node in \textsc{T}. We choose to have in this case $TR = +\infty$.
+\item \textsc{Total Ratio:} provided two groups $G_{1}$ and $G_{2}$ of samples, if $n$ is the number of assignments to common nodes in both groups (i.e. the sum of assignments in common nodes in each group), and $n_{1}$ et $n_{2}$, the number of assignments in these two groups in non-common nodes respectively, then Total Ratio is $TR(1,2) = \frac{n}{n_{1} + n_{2} + n}$ (see figure $3.2$). If $n_{1} = n_{2} = n = 0$, it means that no read from the samples of $G_{1}$ and $G_{2}$ has matched a node in \textsc{T}. We choose to have in this case $TR = +\infty$.
 
 \begin{figure}[H]
 \centering
@@ -252,7 +270,7 @@ This approach tries to answer \textsc{MDPairs}, and computes a certain number of
 \subsection{Pattern Ratio}
 
 \begin{itemize} 
-\item \textsc{Pattern Ratio:} if $n$ is the number of assignments in common patterns of length > 1 in the trees induced by the groups $G_{1}$ and $G_{2}$ of samples selected, and $N$ the number of assignments in specific patterns, then Pattern Ratio is the quantity: $PR(1,2) = \frac{n}{M}$. If $M = 0$, it means that the two trees induced by $G_{1}$ and $G_{2}$ are the same, so having $PR = +\infty$ is consistent.
+\item \textsc{Pattern Ratio:} if $n$ is the number of assignments in common patterns of length > 1 in the trees induced by the groups $G_{1}$ and $G_{2}$ of samples selected, and $N$ the number of assignments in specific patterns, then Pattern Ratio is the quantity: $PR(1,2) = \frac{n}{M}$ (see figure $3.3$). If $M = 0$, it means that the two trees induced by $G_{1}$ and $G_{2}$ are the same, so having $PR = +\infty$ is consistent.
 
 \begin{figure}[H]
 \centering
@@ -269,7 +287,7 @@ This approach tries to answer \textsc{MDPairs}, and computes a certain number of
 \subsection{Microbial Diversity}
 
 \begin{itemize}
-\item \textsc{Microbial Diversity:} provided a group of samples $G$, if $n_{nodes}$ is the number of nodes in the tree induced by $G$, and $n_{tree}$ the number of nodes in the whole taxonomic tree, then Microbial Diversity is: $MD(G) = \frac{n_{nodes}}{n_{tree}}$. It is the definition of diversity used in \cite{Enaud}, that must be distinguished from \textsc{Phylogenetic Diversity} \cite{PhyloD} and \textsc{Mean Diversity} \cite{MeanD} coefficients.
+\item \textsc{Microbial Diversity:} provided a group of samples $G$, if $n_{nodes}$ is the number of nodes in the tree induced by $G$, and $n_{tree}$ the number of nodes in the whole taxonomic tree, then Microbial Diversity is: $MD(G) = \frac{n_{nodes}}{n_{tree}}$ (see figure $3.4$). It is the definition of diversity used in \cite{Enaud}, that must be distinguished from \textsc{Phylogenetic Diversity} \cite{PhyloD} and \textsc{Mean Diversity} \cite{MeanD} coefficients.
 
 \begin{figure}[H]
 \centering
@@ -304,7 +322,7 @@ Then, if $m_{M}$ is the number of classes induced by the values of a given metad
 
 \section{Implementation}
 
-The implementation of TaxoTree in \textsc{Python 2.9.7} offers a few other features:
+Our implementation of TaxoTree in \textsc{Python 2.9.7} offers a few other features:
 
 \begin{enumerate}
 \item After selection of a group of bacteria and of a group of samples/metadata, gives an array with the percentage of assignments to this family of bacteria depending on the samples/metadata.
@@ -321,9 +339,9 @@ The implementation of TaxoTree in \textsc{Python 2.9.7} offers a few other featu
 \item Computes a distance coefficient $sim(k,l)$ between two patients $P_{k}$ and $P_{l}$: after selecting a subset $M' = \{ m_{i_{1}}, m_{i_{2}}, ... m_{i_{m}}\}$ of the set of metadata, if $n_{j,k}$ known value in $P_{k}$ for $m_{i_{j}}$, then $dist(k,l) = \sum{_{j = 1}^{m}}{|n_{j,k} - n_{j,l}|}$. The corresponding similarity coefficient is $sim(k,l) = \frac{1}{dist(k,l)}$, $sim(k,l) = +\infty$ iff $dist(k,l) = 0$.
 \end{enumerate}
 
-Code is available at: \emph{https://github.com/cbib/taxotree}.\\
+Code is available at: \emph{github.com/cbib/taxotree}.\\
 
-The overall worst case time complexity of the computation of distance matrix is O($n_{taxo-nodes}^{2} \times n_{samples}^{3}$) (see annex for more details). On our computer (see annex for hardware characteristics), it took $10$ minutes to compute it.
+The overall worst case time complexity of the computation of distance matrix is O($n_{taxo-nodes}^{2} \times n_{samples}^{3}$) (see annex for more details). On our computer (see \textsc{Appendix A} for hardware characteristics), it took $10$ minutes to compute it.
 
 \section{Results}
 
@@ -335,9 +353,9 @@ The results have been compared to those obtained by statistical methods on the t
 \item \textsc{Comparison of microbial populations at Day 0:} 
        \textsc{Output of the statistical analyses (chapter 5.2.2):} Microbial populations between groups of samples without antibacterials (samples selected with parameters $Day = 0$, $ATB-IV = 0$) and with antibacterials (samples selected with parameters $Day = 0$, $ATB-IV = 1$) are said to be very alike according to the statistical results of the study. \emph{Clostridium bolteae} and \emph{Pediococcus acidilactici} were overrepresented in $ATB-IV = 1$ groups.\\
 
-According to the table and pie charts, the results seem to confirm the output of TaxoTree.
+According to the table and pie charts (see figure $3.5$), the results seem to confirm the output of TaxoTree.
 
-     \begin{table}
+     \begin{table}[H]
        \caption{Results from \textsc{TaxoTree} for the comparison at Day 0, (*) with Day = 0, (**) with (Clostridium bolteae,S),(Pediococcus acidilactici,S), where S is one of the taxonomic ranks}
        \begin{tabular}{|l|c|r|}
          \hline
@@ -357,24 +375,19 @@ According to the table and pie charts, the results seem to confirm the output of
          \hline
        \end{tabular}
      \end{table}
+
+\begin{figure}
+\begin{center}
+\subfigure\includegraphics[scale=0.3]{illustrations/diversityDay0ATB0.png}
+\subfigure\includegraphics[scale=0.3]{illustrations/diversityDay0ATB1.png}
+\caption{Microbial Diversity Day=0, ATB-IV=0 (top) and ATB-IV=1 (bottom)}
+\end{center}
+\end{figure}
        
-           \begin{figure}[H]
-             \centering
-             \includegraphics[scale=0.4]{illustrations/diversityDay0ATB0.png}
-             \caption{Microbial Diversity Day=0, ATB-IV=0}
-           \end{figure}
-
-           \begin{figure}[H]
-             \centering
-             \includegraphics[scale=0.4]{illustrations/diversityDay0ATB1.png}
-             \caption{Microbial Diversity Day=0, ATB-IV=1}
-           \end{figure}
-         \end{itemize}
-
 \item \textsc{Evolution of microbial populations:}
        \textsc{Output of the statistical analyses (chapter 5.2.3):} Microbial populations are said to change between Day $0$, Day $45$ and Day $90$ for all patients, with/without $ATB-IV$. Nevertheless microbial diversity seemed not to be sensibly different between Day $0$, Day $45$ and Day $90$ in patients being treated with antibacterials.\\
 
-The result of Total Ratio does not match the statistical results. However, Pattern Ratio does show the variations of the microbial populations between Day $0$, Day $45$ and Day $90$. Indeed, when Pattern Ratio is largely superior to $1$, it means the samples have similar node population and have got some similar clusters of nodes. It could mean that patients' guts recover their initial $Day-0$ microbial population at Day $90$, which would explain the high coefficient of similarity between Day $0$ and Day $90$ samples, while the $Day-45$ samples have got a different node population than initially due to the treatment and a unknown cause for untreated patients (the paper underlines this problem for $ATB-IV = 0$ patients). Microbial diversity seems not to really change between Day $0$, Day $45$ and Day $90$ for $ATB-IV = 1$ patients.
+The result of Total Ratio does not match the statistical results. However, Pattern Ratio shows the variations of the microbial populations between Day $0$, Day $45$ and Day $90$. Indeed, when Pattern Ratio is largely superior to $1$, it means the samples have similar node population and have got some similar clusters of nodes. It could mean that patients' guts recover their initial $Day-0$ microbial population at Day $90$, which would explain the high coefficient of similarity between Day $0$ and Day $90$ samples, while the $Day-45$ samples have got a different node population than initially due to the treatment and a unknown cause for untreated patients (the paper underlines this problem for $ATB-IV = 0$ patients). Microbial diversity seems not to really change between Day $0$, Day $45$ and Day $90$ for $ATB-IV = 1$ patients (see figure $3.6$).
 
      \begin{table}
        \caption{Results from \textsc{TaxoTree} for the comparison at Day 0, Day 45, Day 90}
@@ -403,18 +416,13 @@ The result of Total Ratio does not match the statistical results. However, Patte
        \end{tabular}
      \end{table}
 
-           \begin{figure}[H]
-             \centering
-             \includegraphics[scale=0.4]{illustrations/diversityDay451.png}
-             \caption{Microbial Diversity Day=45, ATB-IV=1}
-           \end{figure}
-
-           \begin{figure}[H]
-             \centering
-             \includegraphics[scale=0.4]{illustrations/diversityDay901.png}
-             \caption{Microbial Diversity Day=90, ATB-IV=1}
-           \end{figure}
-         \end{itemize}
+\begin{figure}
+\begin{center}
+\subfigure\includegraphics[scale=0.3]{illustrations/diversityDay451.png}
+\subfigure\includegraphics[scale=0.3]{illustrations/diversityDay901.png}
+\caption{Microbial Diversity Day=0, ATB-IV=0 (top) and ATB-IV=1 (bottom)}
+\end{center}
+\end{figure}
 
 \item \textsc{Comparison of the groups of samples at Day 90:}
        \textsc{Output of the statistical analyses (chapter 5.2.4):} $ATB-IV = 1$ and $ATB-IV = 0$ group still bear a significant difference.
@@ -444,7 +452,7 @@ The result of Total Ratio does not match the statistical results. However, Patte
        \end{tabular}
      \end{table}
 
-Although the microbial diversity is said to evolve in the same way in both $ATB-IV = 1$ and $ATB-IV = 0$ groups, here the gap between the two diversity coefficient is deeper at Day 90 than at Day 0. We cannot tell if it is a natural variation, or an effect of the antibacterials. The difference between the samples increases according to the variation of \textsc{Pattern Ratio} coefficient, meaning microbial populations have evolved (under antibacterials?) between the two groups. Here, \textsc{Total Ratio} does not give any information.
+Although the microbial diversity is said to evolve in the same way in both $ATB-IV = 1$ and $ATB-IV = 0$ groups, here the gap between the two diversity coefficients is deeper at Day 90 than at Day 0. We cannot tell if it is a natural variation, or an effect of the antibacterials. The difference between the samples increases according to the variation of \textsc{Pattern Ratio} coefficient, meaning microbial populations have evolved (under antibacterials?) between the two groups. Here, \textsc{Total Ratio} does not give any information.
 
 \end{itemize}
 
@@ -452,7 +460,7 @@ Although the microbial diversity is said to evolve in the same way in both $ATB-
 
 \subsubsection{About the method}
 
-The main issue with this method is thus to find relevant measures to characterize the samples. Since there are still many unknown elements today about the biological mechanisms, we cannot be sure to have the best interpretation of these results. The algorithms below try to get rid of the \emph{a priori} hypotheses we could have over the biological mechanisms, that may have influence on the resulting scores.\\
+The main difficulty when using this method is thus to find relevant measures to characterize the samples. Since there are still many unknown elements today about the biological mechanisms, we cannot be sure to have the best interpretation of these results. The algorithms below try to get rid of the \emph{a priori} hypotheses we could have over the biological mechanisms, that may have influence on the resulting scores.\\
 
 This method is particularly naive, and tends to be close to the previous statistical analyses.\\
 
@@ -529,12 +537,12 @@ $P(F_{i} = x_{i} | C_{j}) = p_{i}^{x_{i}}(1 - p_{i})^{x_{i}}$
 
 The measure used to quantify the relevance of the classification here is \textsc{Youden's J coefficient} \cite{Youden}. Note that many other measures exist, such as \emph{F-measure} \cite{F-measure}, \emph{study of ROC space graph} \cite{IntroROC}, ... Since \emph{F-measure} raises certain issues \cite{FMproblems}, and knowing that \textsc{Youden's J coefficient} is often used for medical diagnosis, we have considered the latter to be more helpful.\\
 
-Some basics in statistics are required here. For a certain class \textsc{C}, we denote:
+Some basics in statistics are required here. For a certain class $C$, we denote (see figure $4.1$):
 \begin{itemize}
-\item \textsc{TP(C)} the True Positive data, that is the data that belongs to \textsc{C} and is assigned by the algorithm to \textsc{C}.
-\item \textsc{TN(C)} the True Negative data, not assigned to \textsc{C} and not belonging to \textsc{C}.
-\item \textsc{FN(C)} the False Negative data, not assigned to \textsc{C} and belonging to \textsc{C}.
-\item \textsc{FP(C)} the False Positive data, assigned to \textsc{C} and not belonging to \textsc{C}.
+\item $TP(C)$ the True Positive data, that is the data that belongs to $C$ and is assigned by the algorithm to \textsc{C}.
+\item $TN(C)$ the True Negative data, not assigned to $C$ and not belonging to $C$.
+\item $FN(C)$ the False Negative data, not assigned to $C$ and belonging to $C$.
+\item $FP(C)$ the False Positive data, assigned to $C$ and not belonging to $C$.
 \end{itemize}
 
 \begin{figure}[H]
@@ -543,42 +551,42 @@ Some basics in statistics are required here. For a certain class \textsc{C}, we 
 \caption{\textsc{Confusion matrix} describing the four classes from gepsoft.com}
 \end{figure}
 
-Then the \textsc{Youden's J coefficient} for this class \textsc{C} is:\\
+Then the \textsc{Youden's J coefficient} for this class $C$ is:\\
 
 \begin{center}
 $J(C) = \frac{TP(C)}{TP(C) + FN(C)} + \frac{TN(C)}{TN(C) + FP(C)} - 1$.\\
 \end{center}
 
-It uses respectively the \emph{recall}/\emph{sensitivity}\cite{F-measure} (the proportion of objects assigned to the right class among those assigned to \textsc{C}) and the \emph{precision}/\emph{specificity}\cite{F-measure} (the proportion of objects that do not belong to \textsc{C} among those not assigned to this class).\\
+It uses respectively the \emph{recall}/\emph{sensitivity}\cite{F-measure} (the proportion of objects assigned to the right class among those assigned to $C$) and the \emph{precision}/\emph{specificity}\cite{F-measure} (the proportion of objects that do not belong to $C$ among those not assigned to this class).\\
 
 \begin{itemize}
-\item When $J(C) = 1$, it means that the classification is perfect (no \textsc{FN} and no \textsc{FP}).
+\item When $J(C) = 1$, it means that the classification is perfect (no $FN$ and no $FP$).
 \item When $J(C) = 0$, it means that the test does not do any better than a random classifier.
-\item When $J(C) = -1$, it means that the test went all wrong (no \textsc{TP} and no \textsc{TN}).
+\item When $J(C) = -1$, it means that the test went all wrong (no $TP$ and no $TN$).
 \end{itemize}
 
 \section{Description of the method}
 
-\textsc{TaxoClassifier} tries to answer problems (\textsc{A}) and (\textsc{B}). It uses a \emph{Naive Bayes Classifier}, which attempts to classify the samples/patients in one of the groups of values of metadata depending on their microbial populations.\\
+\textsc{TaxoClassifier} tries to solve problems \textsc{CL.Comp} and \textsc{CL.BClust}. It uses a \emph{Naive Bayes Classifier}, which attempts to classify the samples/patients in one of the groups of values of metadata depending on their microbial populations.\\
 
 \begin{enumerate}
-\item The user is first asked to give the metadata \textsc{M} which will partition the set of samples, and the node population \textsc{N} to consider in the classification. This sets the number of classes, according to the different values for each metadatum of \textsc{M}.
+\item First the user is asked to give the metadata $M$ which will partition the set of samples, and the node population $N$ to consider in the classification. This sets the number of classes, according to the different values for each metadatum of $M$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{illustrations/classessimples.png}
-\caption{Let \textsc{M1} be a metadatum having values 0 (red), or 1 (green), or 2 (blue). Then there are three classes associated with \textsc{M1}.}
+\caption{Let $M_1$ be a metadatum having values 0 (red), or 1 (green), or 2 (blue). Then there are three classes associated with $M_1$.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{illustrations/classescomplexes.png}
-\caption{Let M2 be a metadatum having values 0 (yellow), or 1 (cyan). Then there are two classes associated with M2, that may intersect classes of M1. Thus there are four classes associated with M1 and M2 (classes do not take into account unknown values)}
+\caption{Let $M_2$ be a metadatum having values 0 (yellow), or 1 (cyan). Then there are two classes associated with $M_2$, that may intersect classes of $M_1$. Thus there are four classes associated with $M_1$ and $M_2$ (classes do not take into account unknown values)}
 \end{figure}
 
-\item Then a random strict subset \textsc{R} of the initial set of samples is chosen to be the \emph{training set}. The size of this subset is chosen by the user. From this training set, the algorithm computes an estimated probability of having a certain node for each node in \textsc{N} (corresponding to the $p_{i}$ described in the previous chapter), and also for each sample $s$ and for each node $n$, if $n$ appears in $s$ (this information is stored as a boolean value 0 or 1: with the previous notations, if $F_{i}$ is associated with node $n$, whether $F_{i} = 1 = x_{i}$ in sample $s$).
+\item Then a random strict subset $R$ of the initial set of samples is chosen to be the \emph{training set}. The size of this subset is chosen by the user. From this training set, the algorithm computes an estimated probability of having a certain node for each node in $N$ (corresponding to the $p_{i}$ described in the previous chapter), and also for each sample $s$ and for each node $n$, if $n$ appears in $s$ (this information is stored as a boolean value 0 or 1: with the previous notations, if $F_{i}$ is associated with node $n$, whether $F_{i} = 1 = x_{i}$ in sample $s$).
 
-\item Hence for every sample in \textsc{R}, under the hypothesis of equiprobability of being in a certain class, the algorithm computes the probability of being in class \textsc{C} knowing the actual presence of the nodes in \textsc{N} for this sample, for each class \textsc{C}. 
+\item Hence for every sample in $R$, under the hypothesis of equiprobability of being in a certain class, the algorithm computes the probability of being in class $C$ knowing the actual presence of the nodes in $N$ for this sample, for each class $C$. 
 
 \item The algorithm eventually assigns the sample to the class which maximizes this probability.
 
@@ -594,26 +602,26 @@ $k - \sum{_{i = 1}^{k}}{J_{f_{class}}(C_{i})}$ is minimum and non-negative.
 
 \section{Implementation}
 
-This has been implemented in \textsc{Python 2.9.7}. The program allows two operations, which answer to either \textsc{CL.C} or \textsc{CL.BCL}:\\
+This method has also been implemented in \textsc{Python 2.9.7}. The program allows two operations, each of them solving either \textsc{CL.C} or \textsc{CL.BCL}:\\
 
 \begin{itemize}
-\item The user chooses the sets \textsc{M} and \textsc{N} like above, and the program returns the \textsc{Youden’s J coefficient} associated with the resulting classification, giving a hint about a possible correspondance between \textsc{M} and \textsc{N}.
-\item The user chooses two integers $s$ and $n$, the set \textsc{M}. Then the program randomly picks $s$ times $n$ distinct nodes in the taxonomic tree, and returns the set \textsc{N} of nodes of size $n$ which ensures the best classification (among the $s$ tries) for M. It may give a hint of a possible correspondance between \textsc{M} and the resulting set \textsc{N}.
+\item The user chooses the sets $M$ and $N$ like above, and the program returns the \textsc{Youden’s J coefficient} associated with the resulting classification, giving a hint about a possible correspondance between $M$ and $N$.
+\item The user chooses two integers $s$ and $n$, the set $M$. Then the program randomly picks $s$ times $n$ distinct nodes in the taxonomic tree, and returns the set $N$ of nodes of size $n$ which ensures the best classification (among the $s$ tries) for M. It may give a hint of a possible correspondance between $M$ and the resulting set $N$.
 \end{itemize}
 
-The two main issues with the \textsc{K-Means} algorithm is to choose $k$ and the initialization of the clusters. Fortunately, our method solves these problems since $k$ is the number of metadata classes associated with the user-selected metadata, and each cluster is initialized with a sample having the correct values of metadata associated with this cluster.\\
+The two main difficulties with the \textsc{K-Means} algorithm is choosing $k$ and initializing of the clusters. Fortunately, our method solves these problems since $k$ is the number of metadata classes associated with the user-selected metadata, and each cluster is initialized with a sample having the correct values of metadata associated with this cluster.\\
 
 To deal with multiple metadata classes (see the example above), multi-dimensional lists have been implemented (see annex).\\
 
 The overall worst case time complexity for a classifiation is roughly in O($n_{samples}^{2} \times n_{taxo-nodes}^{2} \times n_{values}$) (see annex for more details).\\
 
-(Still in progress) code can be found at:\\ \emph{https://github.com/kuredatan/taxoclassifier}.
+(Still in progress) code can be found at:\\ \emph{github.com/kuredatan/taxoclassifier}.
 
 \section{Results}
 
 \subsection{Tests}
 
-Due to some technical issues, tests could not executed.\\
+Due to time limitations, tests were not yet completed.\\
 
 \subsection{Overview and discussion}
 
@@ -621,7 +629,7 @@ Due to some technical issues, tests could not executed.\\
 
 Although the algorithm classifies samples not by focusing on specific characteristics of node population, but by directly comparing the microbial populations (which is theoretically better than the previous program), we still have to do \emph{a priori} hypotheses on the set of samples.\\
 
-First, we suppose the equiprobability of being in a random class, that is, equiprobability of having a certain value for the selected metadatum. However, not only does it strongly depend on the values of other metadata, but it would even be sometimes completely wrong according to the metadatum considered. In our database for instance, $ATB-IV = 1$ or $ATB-Os = 1$ imply $ATB-IV-Os = 1$: $ATB-IV = 1$ means that patient has been treated with antibacterials by intraveinous injections (\emph{IV}), $ATB-Os = 1$ means that patient has been treated with antibacterials \emph{per os}, and $ATB-IV-Os = 1$ means that patient has been treated with antibacterials either \emph{per os} or \emph{IV}. Unfortunately, since we do not know the exact relationship between the different metadata (e.g. does the treatment really affect the quality of life of the patient?), we cannot fix this issue.\\
+First, we suppose the equiprobability of being in a random class, that is, equiprobability of having a certain value for the selected metadatum. However, not only does it strongly depend on the values of other metadata, but it would even be sometimes completely wrong according to the metadatum considered. In our database for instance, $ATB-IV = 0$ or $ATB-Os = 0$ imply $ATB-IV-Os = 0$: $ATB-IV = 0$ means that the patient has not been treated with antibacterials by intraveinous injections (\emph{IV}), $ATB-Os = 0$ means that the patient has not been treated with antibacterials \emph{per os}, and $ATB-IV-Os = 0$ means that the patient has not been treated with antibacterials \emph{per os}, neither \emph{IV}. Unfortunately, since we do not know the exact relationship between the different metadata (e.g. does the treatment really affect the quality of life of the patient?), we cannot fix this issue.\\
 
 Same goes for the hypothesis of independance between the probabilities of having a certain node, that is at core of the Bayes conditional model. Biologically speaking, we can wonder if having a certain species of bacteria may prevent another species to develop itself in the gut.\\
 
@@ -666,24 +674,24 @@ Another broad category in \emph{Machine Learning} is \emph{non-supervised learni
 
 \subsection{Clustering}
 
-Given a certain distance, \emph{clustering} is the task of gathering objects into disjoint clusters, such as the resulting clusters maximize the proximity (in terms of the chosen distance) between elements of a same cluster, and maximize the distance between objects of different clusters.
+Given a certain distance, \emph{clustering} is the task of gathering objects into disjoint clusters, such that the resulting sets maximize the proximity (in terms of the chosen distance) between elements of a same cluster, and maximize the distance between objects of different clusters.
 
 \subsection{K-Means Algorithm} 
 
-Although the problem of partitionning $n$ elements into $k$ clusters \cite{PartitionIsNPhard} is \textsc{NP-hard}\cite{NPhard} (see the note in bibliography for a definition of \textsc{NP-hardness}), the \emph{K-Means algorithm} \cite{KMeans} is a rather efficient clustering algorithm. After choosing an integer $k$ that is the estimated number of clusters, the user initializes each cluster with one of the elements of the set. Then, for each non-clustered object, the algorithm computes the distance from this object to the mean of every cluster (in our implementation, it is the sample that minimizes the sum of all distances to the other samples in the same cluster), and assigns the object to the closest cluster. Then it updates the mean of this cluster, and iterates the last two steps until convergence of the solution. For more detailed explanation, see \cite{KMeans}.
+Although the problem of partitionning $n$ elements into $k$ clusters \cite{PartitionIsNPhard} is \textsc{NP-complete}\cite{NPhard} (see the note in bibliography for a definition of \textsc{NP-hardness} and \textsc{NP-completeness}), the \emph{K-Means algorithm} \cite{KMeans} is a rather efficient clustering algorithm. After choosing an integer $k$ that is the estimated number of clusters, the user initializes each cluster with one of the elements of the set. Then, for each non-clustered object, the algorithm computes the distance from this object to the mean of every cluster (in our implementation, it is the sample that minimizes the sum of all distances to the other samples in the same cluster), and assigns the object to the closest cluster. Then it updates the mean of this cluster, and iterates the last two steps until convergence of the solution. For more detailed explanation, see \cite{KMeans}.
 
 \section{Definitions}
 
-Before starting to describe the \textsc{TaxoCluster} method, here are some helpful notations (adapted from \cite{Tango1}):\\
+Before starting to describe our \textsc{TaxoCluster} method, here are some helpful notations (adapted from \cite{Tango1}):\\
 
 \subsection{Notations}
 
-Knowing \textsc{T} is the whole taxonomic tree, for a certain read $i$, let $M_{i}$ be the set of matched leaves for this read, and $T_{i}$ the subtree of \textsc{T} rooted at the \textsc{LCA} (see above for the definition of \textsc{LCA}) of the nodes in $M_{i}$. Let $L_{i}$ be the set of leaves of $T_{i}$, and $N_{i}$ be such as $L_{i} = M_{i} \sqcup N_{i}$.
+Knowing that $T$ is the whole taxonomic tree, for a certain read $i$, let $M_{i}$ be the set of matched leaves for this read, and $T_{i}$ the subtree of $T$ rooted at the LCA (see above for the definition of LCA) of the nodes in $M_{i}$. Let $L_{i}$ be the set of leaves of $T_{i}$, and $N_{i}$ be such as $L_{i} = M_{i} \sqcup N_{i}$ ($M_{i}$ and $N_{i}$ are disjoint, see figure $5.1$).
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{illustrations/timili.png}
-\caption{Let T be this tree. Then for the set of red nodes, the subtree associated is rooted at the violet node, and the total set of leaves for this subtree is the set of yellow and red nodes.}
+\caption{Let T be the whole taxonomic tree. Then for the set of red nodes, the subtree associated is rooted at the violet node, and the total set of leaves for this subtree is the set of yellow and red nodes.}
 \end{figure}
 
 \subsection{Distances}
@@ -701,7 +709,7 @@ $d_{consensus}(R_{i},R_{j}) = |L_{i}| + |L_{j}| - q*(|N_{i}\cap M_{j}| + |N_{j} 
 It is also easy to check here that $d_{consensus}$ is a distance. This distance corresponds to search a consensus taxonomic tree between the trees induced by the set of nodes matched by the reads \cite{Consensus}.\\
 
 When $q = 0$, we consider a \emph{strict} consensus tree, only keeping leaves matched in both reads.\\
-When $q = 1$, we consider a tree having leaves that are matched in at least one of the two reads.
+When $q = 1$, we consider a tree having leaves that are matched in at least one of the two reads (see figure $5.2$).
 
 \begin{figure}[H]
 \centering
@@ -719,13 +727,13 @@ Same goes for $d_{matched}$.
 
 \section{Description of the method}
 
-\textsc{TaxoCluster} tries to answer problem (\textsc{A}). It compares trees induced by samples before assignment of reads, and avoids providing \emph{a priori} hypotheses on the probabilities of being in a certain class of metadata values, or of having a certain node. The number $k$ of clusters used in the \textsc{K-Means} algorithm is thus the number of vectors of metadata that can be obtained.\\
+\textsc{TaxoCluster} tries to solve problem \textsc{CL.Comp}. It compares trees induced by samples before the assignment of reads, and avoids providing \emph{a priori} hypotheses on the probabilities of being in a certain class of metadata values, or of having a certain node. The number $k$ of clusters used in the \textsc{K-Means} algorithm is thus the number of vectors of metadata that can be obtained.\\
 
 We use the very same definition of classes of metadata as in the second method.
 
 \begin{itemize}
 \item First the set of samples is clustered into $k$ clusters using $d_{matched}$ distance. 
-\item For every cluster, the most remote elements are deleted from the cluster, in order to keep only relevant elements. In our implementation, the points which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances) are the ones discarded.
+\item For every cluster, the most remote elements are deleted from the cluster, in order to keep only relevant elements. In our implementation, we discard the points for which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances).
 \item Then the union of the remaining elements in all clusters is clustered again into $k$ clusters using $d_{consensus}$ distance.
 \end{itemize}
 
@@ -733,23 +741,25 @@ The clusters resulting from the second clustering are then compared to the clust
 
 \section{Implementation}
 
-The whole pipeline has been implemented in \textsc{Python 2.9.7}, and allows to draw and see the clusters in a \textsc{DOT} file.\\
+The whole pipeline has been implemented in \textsc{Python 2.9.7}, and allows to draw and see the clusters in a DOT file.\\
 
 The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times n_{paths} \times n_{taxo-nodes} + n_{taxo-nodes}^{2}) \times n_{samples}^{2}$) (see annex for details).\\
 
-(Still in progress) code can be seen at: \\\emph{https://github.com/kuredatan/taxocluster}.
+(Still in progress) code can be seen at: \\\emph{github.com/kuredatan/taxocluster}.
 
 \section{Results}
 
 \subsection{Tests}
 
-The current implementation of \textsc{TaxoCluster} can only cluster the samples according to the values of a single metadatum. With the use of \textsc{MDL} (see \textsc{Appendix D}), it would be able to handle different metadata. Since there are still some issues with the output of \textsc{TaxoCluster}, we could not execute tests.\\
+The current implementation of \textsc{TaxoCluster} can only cluster the samples according to the values of a single metadatum. With the use of MDL or Multi-Dimensional Lists (see \textsc{Appendix D}), it would be able to handle different metadata. As for the previous method, tests were not yet completed.\\
+
+The tests that could be executed on our test database show that the computation of the distance $d_{consensus}$ does not depend on the value of $q$: indeed, the LCA is too high in the taxonomic tree (has rank $R$ or $K$), due to the large number of nodes matched by each patient. A solution would be to count the number of matches for every node, and to only keep those which have been matched the most.\\ 
 
 \subsection{Overview and discussion}
 
 \subsubsection{About the method}
 
-However, the main issue with this method is that, unlike the first \emph{Machine Learning} approach, it does not give the nodes that really discriminate the samples. We can only get access to the list of common bacteria for samples in a same cluster. One solution would be to post-process the clusters with a \textsc{PCA} (\emph{Principal Component Analysis}) method \cite{PCA}, or to test this pipeline with another clustering algorithm (different from \emph{K-Means}).
+However, the main issue with this method is that, unlike the first \emph{Machine Learning} approach, it does not give the nodes that really discriminate the samples. We can only get access to the list of common bacteria for samples in a same cluster. One solution would be to post-process the clusters with a PCA (\emph{Principal Component Analysis}) method \cite{PCA}, or to test this pipeline with another clustering algorithm (different from \emph{K-Means}).
 
 %\subsubsection{About the numerical results}
 
@@ -757,7 +767,9 @@ However, the main issue with this method is that, unlike the first \emph{Machine
 
 \chapter{Comparison of the three approaches}
 
-\textsc{TaxoCluster} is thought to be theoretically best, as it would fix the issues in the first two methods \textsc{TaxoTree} and \textsc{TaxoClassifier}. Indeed, it does not need a special measure on microbial populations, that would induce \emph{a priori} hypotheses on the way these populations should be, in regards to the values of metadata. This fact is of paramount importance as most of the biological phenomena still remain partially unknown. It does not need either strong mathematical hypotheses such as the \emph{Naive Bayes Classifier}, that on the bright side allows flexibility, but may be irrelevant if the problem to solve is specific enough. However, \textsc{TaxoCluster} can only answer to the \textsc{Problem of Clustering Compatibility}, and not the \textsc{Problem of Best Clustering} unlike \textsc{TaxoClassifier}. Furthermore, in terms of worst case time complexity, knowing the actual values for each variable in our test database, it is unfortunately the worst algorithm:\\
+Theoretically, \textsc{TaxoCluster} is the best method, as it aims at fixing the issues in the first two methods \textsc{TaxoTree} and \textsc{TaxoClassifier}. Indeed, it does not require a special measure on microbial populations, that would induce \emph{a priori} hypotheses on the way these populations should be, with respect to the values of metadata. This fact is of paramount importance as most of the biological phenomena still remain partially unknown. Moreover, it does not require strong mathematical hypotheses as it is the case for the \emph{Naive Bayes Classifier}. However, the latter allows more flexibility, whereas it might be irrelevant if the problem is specific enough.\\
+
+Notice that \textsc{TaxoCluster} can only solve the \textsc{Problem of Clustering Compatibility (CL.Comp)}, and not the \textsc{Problem of Best Clustering (CL.BClust)} unlike \textsc{TaxoClassifier}. Furthermore, in terms of worst case time complexity, knowing the actual values for each variable in our test database, it is unfortunately the slowest algorithm:\\
 
     \begin{table}
       \caption{Complexity for each method: for our test database, $n_{taxo-nodes} = 9,065$, $n_{values} \le 10$, $n_{samples} = 47$ and $n_{paths} = 5,565$}
@@ -774,25 +786,25 @@ However, the main issue with this method is that, unlike the first \emph{Machine
       \end{tabular}
     \end{table}
 
-It is worth noticing that the three methods can be completely executed on the test computer, despite the latter being a regular computer (see \textsc{Appendix A}). Nevertheless, to fully validate the results from the algorithms, we should get access to several other databases, and compare them to current biological knowledge and to the output of statistical methods. We unfortunately could not use any other database to perform these necessary tests. Moreover, the consistency of results greatly depends on the previous operations applied to input data (have the numeric results been normalized prior to the algorithm? Have all raw material for samples been collected the same way, following a same standard procedure? Has each assignment of read to nodes been performed under the same parameters? and so on). And, last but not least, the final interpretation of the results cannot still be taken into account without the practitionner or a practised biologist's approval.
+It is worth noticing that nevertheless the three methods can be completely executed on the test computer, even it is just a regular computer (see \textsc{Appendix A}). Nevertheless, to fully validate the results from the algorithms, we should get access to several other databases, and compare them to current biological knowledge and to the output of statistical methods. Due to time limitations, we unfortunately could not use any other database to perform these necessary tests. Moreover, the consistency of results greatly depends on the previous operations applied to input data (have the numeric results been normalized prior to the algorithm? Have all raw material for samples been collected the same way, following a same standard procedure? Has each assignment of read to nodes been performed under the same parameters? and so on). And, last but not least, the final interpretation of the results cannot still be taken into account without the practitionner or a practised biologist's validation.
 
 \chapter{Outlook}
 
 \section{Personal work}
 
-During this internship, we suggested and implemented three methods to analyse data from sequencing according to the metadata provided: \textsc{TaxoTree}, \textsc{TaxoClassifier} and \textsc{TaxoCluster}, each of them using a different general paradigm of computer science. We tried to design each method as an improvement of the previous one. These methods answer various clustering-like problems that often occur in biology and medicine. Although their time complexity can probably be improved, the numerical tests done so far appear to be consistent with the medical observations.\\
+During this internship, we suggested and implemented three methods to analyse data from sequencing according to the metadata provided: \textsc{TaxoTree}, \textsc{TaxoClassifier} and \textsc{TaxoCluster}, each of them using a different general paradigm of computer science. We tried to design each method as an improvement of the previous one. These methods solve various clustering-like problems that often occur in biology and medicine. Although their time complexity can probably be improved, the numerical tests done so far appear to be consistent with the medical observations.\\
 
-We also have implemented a class of multi-dimensional lists, and an rather efficient -in regards to the size of our data...- algorithm to reconstruct taxonomic trees from the list of paths from root to every leaf.\\
+We also have implemented a class of multi-dimensional lists, and a rather efficient -in regards to the size of our data...- algorithm to reconstruct taxonomic trees from the list of paths from root to every leaf.\\
 
 \section{Comments}
 
-Indeed, the use of algorithms from \emph{Machine Learning} in metagenomics is not so new \cite{Nikolski}, but is used here to draw parallels between metadata -that are processed most of the time today by purely statistical analyses- and trees, that represent one of the most important fields of algorithmics.\\
+Use of algorithms from \emph{Machine Learning} in metagenomics is not so new \cite{Nikolski}. However, the last two approaches use a hitherto unseen mix between the common algorithms of \emph{supervised} and \emph{non-supervised learning}, statistics and tree algorithms.\\
 
 On the one hand, a quite large number of comparison problems over labeled unordered trees -taxonomic trees being a special case of this sort of trees- are \textsc{NP-complete}, for instance the problem of tree inclusion \cite{TreeInclusion}. What makes possible efficient algorithms is that the relevant comparison over trees here mainly focuses on the set of leaves for each tree. However, the time complexity of the last two methods, that is \textsc{TaxoClassifier} and \textsc{TaxoCluster}, should still be improved.\\
 
 On the other hand, it would be interesting to test these algorithms on other databases than the one of cystic fibrosis-afflicted patients, so as to see if the resulting correspondances given by the softwares are relevant.\\
 
-The code for every method is available on \textsc{GitHub}.\\
+The code for all three methods is available on \textsc{GitHub}.\\
 
 \newpage
 
@@ -882,7 +894,8 @@ Let $n_{samples}$ be the total number of available samples (in our test database
 \begin{itemize}
 \item \textsc{Training:} See functions in \emph{training} module.\\
 
-\uline{computeClasses}: See \emph{misc/partitionSampleByMetadatumValue}: O($n_{samples}log(n_{samples}) + n_{metadata}$).\\
+\uline{computeClasses}: See \emph{misc/partitionSampleByMetadatumValue}:\\
+O($n_{samples}log(n_{samples}) + n_{metadata}$).\\
 
 \uline{selectTrainingSample}: O($n_{samples}$) (Reservoir Sampling R algorithm).\\
 
@@ -895,7 +908,8 @@ The overall complexity is hence O($n_{samples}^{2} \times n_{taxo-nodes}^{2} + n
 
 \item \textsc{Classification:} See functions in \emph{classifier} module.\\
 
-\uline{probabilityKnowingClass}: O($n_{taxo-nodes} \times n_{samples} \times n_{taxo-nodes}$) = O($n_{taxo-nodes}^{2} \times n_{samples}$).\\
+\uline{probabilityKnowingClass}: O($n_{taxo-nodes} \times n_{samples} \times n_{taxo-nodes}$)\\
+= O($n_{taxo-nodes}^{2} \times n_{samples}$).\\
 
 \uline{bayesCalculus}: The most costly part is the call to \uline{probabilityKnowingClass}: O($n_{taxo-nodes}^{2} \times n_{samples}$). \\
 
@@ -925,9 +939,9 @@ Same notations as in previous chapter are used here. The most costly part in the
 
 Thus the computation of the whole distance matrix has got a worst case time complexity of O($n_{taxo-nodes}^{2} \times n_{samples}^{2}$).
 
-\item \textsc{Distance 2:} The computation of the \textsc{LCA} of a list of nodes of length $m$ ($m$ is bounded by $n_{samples}$) is in O($m \times n_{paths} \times l_{path}$) (see \emph{misc/taxoLCA}). The search of subtrees is in O($n_{taxo-nodes}$) (see above), as well as the call to \emph{TaxoTree.leaves} that counts leaves of the tree. The final loop is in O($n_{taxo-nodes}$).\\
+\item \textsc{Distance 2:} The computation of the LCA of a list of nodes of length $m$ ($m$ is bounded by $n_{samples}$) is in O($m \times n_{paths} \times l_{path}$) (see \emph{misc/taxoLCA}). The search of subtrees is in O($n_{taxo-nodes}$) (see above), as well as the call to \emph{TaxoTree.leaves} that counts leaves of the tree. The final loop is in O($n_{taxo-nodes}$).\\
 
-Thus the computation of the whole distance matrix has got a worst case time complexity of O($n_{samples}^{2} (n_{samples} \times n_{paths} \times l_{path} + n_{taxo-nodes})$).
+Thus the computation of the whole distance matrix has got a worst case time complexity of O($n_{samples}^{2} \times (n_{samples} \times n_{paths} \times l_{path}$ \-$+ n_{taxo-nodes})$).
 
 \end{itemize}
 
@@ -1210,5 +1224,38 @@ Map a function (***) & O($n_{dim}^{3}$)\\
 \hline
 \end{tabular}
 \end{table}
+
+\chapter{Synthesis (in French)}
+
+\begin{itemize}
+\item \textsc{Le contexte général}\\
+
+Les arbres taxonomiques (ou \emph{phylogénétiques}) représentent les liens de parenté entre les espèces en fonction de leur histoire évolutive. Ils sont précieux notamment dans un domaine particulier de la bioinformatique qui est la \emph{métagénomique}. La \emph{métagénomique} est l'étude du contenu génétique d'échantillons d'organismes généralement prélevés dans un milieu naturel. En général, ces organismes ne peuvent être cultivés en laboratoire, car les conditions requises à leur survie ne sont pas aujourd'hui réalisables artificiellement, par exemple certaines bactéries dans l'intestin ou vivant dans des écosystèmes marins fragiles. Après obtention des échantillons, le but le plus souvent est de chercher quels organismes s'y trouvent, en traitant par exemple l'\textsc{ADN} ou l'\textsc{ARN} retrouvé dans les échantillons, et en le comparant à des données de référence, et en s'aidant d'un arbre taxonomique. La \emph{métagénomique} permet donc d'étudier des espèces ou des écosystèmes inconnus, et a de nombreuses applications en médecine et en biologie, puisqu'elle peut aider à comprendre le fonctionnement de l'intestin humain par exemple, ou l'équilibre d'un milieu marin fragile.
+
+\item \textsc{Le problème étudié}\\
+
+Il existe d'ores et déjà des algorithmes qui permettent de préciser l'assignation d'une partie de l'information génétique dans un échantillon à un organisme particulier, des algorithmes de construction d'arbres taxonomiques à partir de données génétiques (algorithme de \textsc{Neighbor Joining}, ...), ou des mesures sur les arbres qui permettent de quantifier leur pertinence phylogénétique (où l'algorithme de \textsc{Zhang-Shasha} peut être utilisé, ...). Cependant, il manque des outils pour analyser les données métagénomiques, et trouver des correspondances entre les espèces retrouvées dans les échantillons, et les informations non-taxonomiques (par exemple la température d'un milieu en biologie, ou l'âge d'un patient en médecine).\\
+
+Le but de ce stage est d'améliorer l'analyse des données métagénomiques dans le domaine médical, en essayant de clusteriser les patients en fonction à la fois de leurs populations bactériennes, et des données cliniques. Ainsi, le stage s'aide d'une base de données construite par l'étude des \textsc{ADN} bactériens issus d'intestins de patients atteints de mucovisidose. Il peut être intéressant de savoir par exemple quelle est l'influence d'un traitement sur la qualité de vie du patient, et quelles bactéries dominent selon si le traitement est administré oralement ou en intraveineuse. Ces questions sont traitées pour le moment par recoupement d'analyses statistiques, en utilisant le test de \textsc{Wilcoxon} ou de \textsc{McNemar}. \emph{In fine}, l'objectif est de pouvoir clusteriser les patients de manière semi-automatique pour pouvoir par exemple améliorer le traitement ou donner un diagnostic.
+
+\item \textsc{La contribution proposée}
+
+Trois approches ont été proposées, toutes répondant à des problèmes légèrement différents.\\
+
+\begin{enumerate}
+\item Une première méthode, qui utilise une approche statistique avec différentes mesures sur des populations bactériennes, détermine une distance entre les échantillons pour renvoyer les paires de groupes d'échantillons (formés avec les valeurs d'une donnée clinique) les moins proches, ce qui permet de savoir si la donnée clinique choisie est discriminante sur les populations bactériennes des patients. Cependant, pour être pertinente, cette méthode nécessite l'utilisation de mesures robustes sur les populations.
+\item La deuxième approche tente de comparer les arbres taxonomiques des patients avant assignation des noeuds. Elle utilise un algorithme d'\emph{apprentissage supervisé}, qui essaie de trouver quels sont les espèces de bactéries qui discriminent le mieux les échantillons en fonction des données cliniques. Mais de fortes hypothèses mathématiques sont nécessaires pour le fonctionnement de cette méthode.
+\item La troisième approche, utilisant de l'\emph{apprentissage non supervisé}, clusterise les échantillons dans des classes de données cliniques, avec deux distances qui ne dépendent que des populations bactériennes des échantillons. Ces clusters sont ensuite évalués en fonction des valeurs réelles des données cliniques de chaque patient. Cette méthode évite d'avoir à fournir \emph{a priori} des hypothèses sur la présence d'une espèce dans une population, ou sur les données cliniques.
+\end{enumerate}
+ 
+\item \textsc{Les arguments en faveur de sa validité}\\
+
+Les tests sur la base de données précédente avec la première méthode ont donné des résultats similaires à l'analyse statistique. Les premiers tests avec les deux méthodes suivantes semblent être aussi cohérents. Malheureusement, la pauvreté des études sur cette base de données ne permet pas de conclure. Pour pouvoir valider véritablement les résultats biologiques obtenus, il faudrait pouvoir avoir accès à plusieurs dizaines d'ensembles d'échantillons et itérer les calculs précédents pour pouvoir les confirmer.\\
+
+Les résultats numériques peuvent dépendre aussi du traitement préalable des informations : normalisation des données numériques, centrées réduites, existence ou non d'une procédure standardisée pour la récupération des données...). De plus, l'interprétation des données obtenus ne peut pas se passer de l'avis du praticien.
+
+\item \textsc{Le bilan et les perspectives}\\
+  
+L'utilisation d'algorithmes de \textsc{Machine Learning} en \emph{métagénomique} n'est pas nouvelle, mais est ici exploitée pour faire le lien entre des données cliniques, dont le traitement relève en général plus de la statistique, et les arbres, qui relèvent de l'algorithmique. D'une part, pour les arbres étiquetés et non ordonnés (dont les arbres taxonomiques sont une sous-catégorie), beaucoup de problèmes de comparaison sont \textsc{NP-complets}. Ce qui permet d'échapper à ce problème de complexité dans notre problème est que la comparaison pertinente ici soit essentiellement celle des ensembles de feuilles. D'autre part, il serait intéressant dans le futur de pouvoir tester ces algorithmes sur d'autres bases de données.
 
 \end{document}

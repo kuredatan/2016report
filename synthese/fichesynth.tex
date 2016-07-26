@@ -20,7 +20,7 @@
 
 \title{Analyse comparée d'arbres taxonomiques}
 
-\author{Clémence REDA, encadrée par Macha NIKOLSKI\\
+\author{Clémence REDA\\ encadrée par Macha NIKOLSKI et Mathieu RAFFINOT\\
 Equipe CBIB du CGFB, Bordeaux}
 
 \date{21 août 2016}
@@ -29,19 +29,17 @@ Equipe CBIB du CGFB, Bordeaux}
 
 \pagestyle{empty} %
 \thispagestyle{empty}%
-
-
 \begin{point}{Le contexte général}
 
-La métagénomique est l'étude du contenu génétique d'échantillons d'organismes prélevés dans un milieu naturel. En général, ces organismes ne peuvent pas être cultivés en laboratoire, par exemple certaines bactéries dans l'intestin ou dans des écosystèmes marins fragiles. L'ADN présent dans ces échantillons est séquencé : on obtient des reads, c'est-à-dire des morceaux annotés de séquences d'ADN. Le but par la suite est d'assigner ces reads à une espèce de bactérie, c'est-à-dire d'identifier à quels organismes appartiennent ces séquences d'ADN. Il est rare de pouvoir identifier précisément à quelle espèce le read appartient, aussi on se contente généralement d'assigner le read à un noeud de l'arbre phylogénétique (ou arbre taxonomique), permettant d'identifier un read à un rang : une espèce, un genre, une famille, un ordre, une classe, un phylum, un domaine ou un règne, dans l'ordre décroissant de précision sur l'organisme. Tout le travail de la métagénomique consiste alors à extraire le maximum d'informations pertinentes de cet ensemble de données pour répondre à un problème de biologie, de médecine, etc.
+Les arbres taxonomiques (ou \emph{phylogénétiques}) représentent les liens de parenté entre les espèces en fonction de leur histoire évolutive. Ils sont précieux notamment dans un domaine particulier de la bioinformatique qui est la \emph{métagénomique}. La \emph{métagénomique} est l'étude du contenu génétique d'échantillons d'organismes généralement prélevés dans un milieu naturel. En général, ces organismes ne peuvent être cultivés en laboratoire, car les conditions requises à leur survie ne sont pas aujourd'hui réalisables artificiellement, par exemple certaines bactéries dans l'intestin ou vivant dans des écosystèmes marins fragiles. Après obtention des échantillons, le but le plus souvent est de chercher quels organismes s'y trouvent, en traitant par exemple l'\textsc{ADN} ou l'\textsc{ARN} retrouvé dans les échantillons, et en le comparant à des données de référence, et en s'aidant d'un arbre taxonomique. La \emph{métagénomique} permet donc d'étudier des espèces ou des écosystèmes inconnus, et a de nombreuses applications en médecine et en biologie, puisqu'elle peut aider à comprendre le fonctionnement de l'intestin humain par exemple, ou l'équilibre d'un milieu marin fragile.\\
 
 \end{point}
 
 \begin{point}{Le problème étudié}
 
-Il existe d'ores et déjà des programmes qui permettent de préciser l'assignement d'un read à un rang, ou des mesures sur les arbres phylogénétiques qui permettent de quantifier leur pertinence vis-à-vis d'une matrice de distance donnée entre les reads, ou vis-à-vis d'un autre arbre de référence (algorithmes de Neighbor Joining, de Unweigthed Pairs, sur les Tree distance,...), mais il manque des outils pour comparer les arbres obtenus pour les différents échantillons, quantifier leurs similitudes mais aussi leurs différences, et surtout tirer des conclusions sur la présence ou l'absence de certains organismes en fonction des données cliniques (ou métadonnées). Par exemple, pour un groupe de patients sains ou atteints de mucovisidose sur lesquels on a prélevé des échantillons de l'intestin, il peut être intéressant de savoir comment l'âge du patient ou son traitement actuel peuvent influer sur la présence de E.Coli dans son intestin.\\
+Il existe d'ores et déjà des algorithmes qui permettent de préciser l'assignation d'une partie de l'information génétique dans un échantillon à un organisme particulier, des algorithmes de construction d'arbres taxonomiques à partir de données génétiques (algorithme de \textsc{Neighbor Joining}, ...), ou des mesures sur les arbres qui permettent de quantifier leur pertinence phylogénétique (où l'algorithme de \textsc{Zhang-Shasha} peut être utilisé, ...). Cependant, il manque des outils pour analyser les données métagénomiques, et trouver des correspondances entre les espèces retrouvées dans les échantillons, et les informations non-taxonomiques (par exemple la température d'un milieu en biologie, ou l'âge d'un patient en médecine).\\
 
-Ces questions sont traitées pour le moment par recoupement d'analyses statistiques, en utilisant le test de Wilcoxon ou de Mc Nemar. In fine, l'objectif est de pouvoir clusteriser les patients de manière semi-automatique pour pouvoir par exemple améliorer le traitement ou donner un diagnostic.\\
+Le but de ce stage est d'améliorer l'analyse des données métagénomiques dans le domaine médical, en essayant de clusteriser les patients en fonction à la fois de leurs populations bactériennes, et des données cliniques. Ainsi, le stage s'aide d'une base de données construite par l'étude des \textsc{ADN} bactériens issus d'intestins de patients atteints de mucovisidose. Il peut être intéressant de savoir par exemple quelle est l'influence d'un traitement sur la qualité de vie du patient, et quelles bactéries dominent selon si le traitement est administré oralement ou en intraveineuse. Ces questions sont traitées pour le moment par recoupement d'analyses statistiques, en utilisant le test de \textsc{Wilcoxon} ou de \textsc{McNemar}. \emph{In fine}, l'objectif est de pouvoir clusteriser les patients de manière semi-automatique pour pouvoir par exemple améliorer le traitement ou donner un diagnostic.\\
 
 \end{point}
 
@@ -50,27 +48,26 @@ Ces questions sont traitées pour le moment par recoupement d'analyses statistiqu
 Trois approches ont été proposées, toutes répondant à des problèmes légèrement différents.\\
 
 \begin{enumerate}
-\item Pour faire l'analyse des données issues de l'assignation des noeuds par le logiciel TANGO, on calcule divers scores sur l'arbre de départ (qui quantifient le nombre de noeuds/bactéries en commun entre deux échantillons, la proximité phylogénétique des bactéries présentes dans les échantillons, ...) et sur les valeurs des données cliniques. Puis le programme propose de partitionner les patients en fonction de la valeur d'une certaine donnée clinique, on calcule la distance entre deux classes de patients pour toutes les paires de classes possibles, et on renvoie les paires de classes de patients les plus éloignées. Cela permet de savoir si la donnée clinique choisie est un facteur discriminant pour les populations bactériennes des patients.
-\item La deuxième approche tente de comparer les arbres taxonomiques des patients avant assignation des noeuds. Elle utilise un classificateur naïf bayésien, qui tente de classer les patients dans divers groupes de valeurs de données cliniques en fonction de leurs populations bactériennes. La classification obtenue est évaluée par un coefficient de Youden. Si le coefficient a une valeur satisfaisante, la classification selon la population bactérienne est cohérente vis-à-vis de la donnée clinique, ce qui souligne une corrélation entre cette donnée clinique et les bactéries considérées.
-\item La troisième approche compare les arbres avant assignation des noeuds, mais évite d'avoir à fournir a priori des hypothèses sur les probabilités d'assignation aux noeuds, ou d'avoir une certaine valeur de donnée clinique. Le programme clusterise les patients par un algorithme des K-moyennes, en utilisant des distances sur les arbres taxonomiques qui correspondent à chaque patient. Ces clusters sont comparés aux clusters des patients selon la valeur des données cliniques. Si ces deux groupes de clusters sont proches (ceci étant quantifié par une distance), cela peut signifier que les données cliniques considérées et les populations bactériennes sont liées. L'algorithme renvoie également les bactéries en commun entre les patients d'un même cluster.
+\item Une première méthode, qui utilise une approche statistique avec différentes mesures sur des populations bactériennes, détermine une distance entre les échantillons pour renvoyer les paires de groupes d'échantillons (formés avec les valeurs d'une donnée clinique) les moins proches, ce qui permet de savoir si la donnée clinique choisie est discriminante sur les populations bactériennes des patients. Cependant, pour être pertinente, cette méthode nécessite l'utilisation de mesures robustes sur les populations.
+\item La deuxième approche tente de comparer les arbres taxonomiques des patients avant assignation des noeuds. Elle utilise un algorithme d'\emph{apprentissage supervisé}, qui essaie de trouver quels sont les espèces de bactéries qui discriminent le mieux les échantillons en fonction des données cliniques. Mais de fortes hypothèses mathématiques sont nécessaires pour le fonctionnement de cette méthode.
+\item La troisième approche, utilisant de l'\emph{apprentissage non supervisé}, clusterise les échantillons dans des classes de données cliniques, avec deux distances qui ne dépendent que des populations bactériennes des échantillons. Ces clusters sont ensuite évalués en fonction des valeurs réelles des données cliniques de chaque patient. Cette méthode évite d'avoir à fournir \emph{a priori} des hypothèses sur la présence d'une espèce dans une population, ou sur les données cliniques.
 \end{enumerate}
  
 \end{point}
 
 \begin{point}{Les arguments en faveur de sa validité}
 
-Ces algorithmes ont été testés sur une base de données existante, issues d'une étude de l'hôpital Pellegrin de Bordeaux. Les résultats obtenus par les algorithmes ont été comparés à ceux résultant de l'analyse statistique, et semblent similaires.
+Les tests sur la base de données précédente avec la première méthode ont donné des résultats similaires à l'analyse statistique. Les premiers tests avec les deux méthodes suivantes semblent être aussi cohérents. Malheureusement, la pauvreté des études sur cette base de données ne permet pas de conclure. Pour pouvoir valider véritablement les résultats biologiques obtenus, il faudrait pouvoir avoir accès à plusieurs dizaines d'ensembles d'échantillons et itérer les calculs précédents pour pouvoir les confirmer.\\
 
-Toutefois, pour pouvoir valider véritablement les résultats biologiques obtenus, il faudrait pouvoir avoir accès à plusieurs dizaines d'ensembles d'échantillons et itérer les calculs précédents pour pouvoir les confirmer. Cela sort malheureusement du cadre du stage. Ainsi, les hypothèses utilisées, notamment sur les probabilités d'assignation à un noeud donné de l'arbre taxonomique, ou la probabilité d'avoir une certaine valeur de métadonnée, ne sont pas a priori plus valables que d'autres. D'autre part, selon le traitement des résultats donnés en entrée (normalisation des données numériques, existence d'une procédure standardisée pour la récupération des données...), les résultats numériques obtenus peuvent être incohérents. De plus, l'interprétation des données obtenus ne peut pas se passer de l'avis du praticien.
+Les résultats numériques peuvent dépendre aussi du traitement préalable des informations : normalisation des données numériques, centrées réduites, existence ou non d'une procédure standardisée pour la récupération des données...). De plus, l'interprétation des données obtenus ne peut pas se passer de l'avis du praticien.
 
 \end{point}
 
 \begin{point}{Le bilan et les perspectives}
   
-L'utilisation d'algorithmes de Machine Learning en métagénomique n'est pas nouvelle, mais est ici exploitée pour faire le lien entre des données cliniques, dont le traitement relève en général plus de la statistique, et les arbres. D'une part, pour les arbres étiquetés et ordonnés, beaucoup de problèmes de comparaison sont NP-complets (l'inclusion, ...). Ce qui permet d'échapper à ce problème de complexité dans notre problème est que la comparaison pertinente ici soit essentiellement celle des ensembles de feuilles. Mais la complexité temporelle des deux dernières méthodes reste à améliorer. D'autre part, il serait intéressant dans le futur de pouvoir tester ces algorithmes sur d'autres bases de données.
+L'utilisation d'algorithmes de \textsc{Machine Learning} en \emph{métagénomique} n'est pas nouvelle, mais est ici exploitée pour faire le lien entre des données cliniques, dont le traitement relève en général plus de la statistique, et les arbres, qui relèvent de l'algorithmique. D'une part, pour les arbres étiquetés et non ordonnés (dont les arbres taxonomiques sont une sous-catégorie), beaucoup de problèmes de comparaison sont \textsc{NP-complets}. Ce qui permet d'échapper à ce problème de complexité dans notre problème est que la comparaison pertinente ici soit essentiellement celle des ensembles de feuilles. D'autre part, il serait intéressant dans le futur de pouvoir tester ces algorithmes sur d'autres bases de données.
 
 \end{point}
-
 
 \end{document}
 
