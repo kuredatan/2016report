@@ -30,7 +30,7 @@
 
 \chapter*{Abstract}
 \nocite{*}
-Taxonomic trees -also called phylogenetic trees- are trees that represent the classification of species into groups according to their evolutionnary past. In metagenomics, that is the study of genetic material from samples taken from a natural environment (opposite to labs), taxonomic trees allow to identify the species matching the samples, and thus to determine the composition of the microbial population endemic to the environment.\\
+Taxonomic trees are trees that represent the classification of species into groups according to their evolutionnary past. In metagenomics, that is the study of genetic material from samples taken from a natural environment (opposite to labs), taxonomic trees allow to identify the species matching the samples, and thus to determine the composition of the microbial population endemic to the environment.\\
 
 Interest in metagenomics has recently plummeted in bioinformatics, as a consequence of the decreasing price of DNA sequencing, and also for studying environmental samples has unveiled the existence of many bacterias which could not be cultivated in labs. Metagenomics has many applications in biology and medicine. The subject of this internship is to improve the analysis of metagenomic data in medical applications.\\
 
@@ -93,9 +93,9 @@ The main objective of metagenomics is to determine to which species belong the s
 
 \section{Assignment/identification of reads to a certain species of bacteria}
 
-There exists no unique common phylogeny. A handful of phylogenetic trees are used in bioinformatics, coming from different databases such as, for instance, NCBI, \textsc{GreenGenes} or RDP.\\
+There exists no unique common phylogeny. A handful of taxonomic trees are used in bioinformatics, coming from different databases such as, for instance, NCBI, \textsc{GreenGenes} or RDP.\\
 
-A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary according to the database. In \textsc{GreenGenes}'s phylogenetic tree, that is the one used for our tests, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $1.2$):
+A taxonomic tree (see figure $1.2$) is of bounded height, which value can vary according to the database. In \textsc{GreenGenes}'s taxonomic tree, that is the one used for our tests, there are eight ranks, that is, eight levels/generations in the tree in growing precision (see figure $1.2$):
 \begin{itemize}
 \item 'D' (\textsc{Domain}) or 'R' (\textsc{Reign}): this rank is basically divided into three nodes: '\emph{Bacteria}', '\emph{Archae}' and '\emph{Eucarya}'.
 \item 'P' (\textsc{Phylum}): '\emph{Animalia}', '\emph{Plantae}', '\emph{Fungi}', ...
@@ -254,7 +254,7 @@ This approach tries to solve \textsc{MDPairs}, and computes a certain number of 
 \subsection{Total Ratio}
 
 \begin{itemize}
-\item \textsc{Total Ratio:} provided two groups $G_{1}$ and $G_{2}$ of samples, if $n$ is the number of assignments to common nodes in both groups (i.e. the sum of assignments in common nodes in each group), and $n_{1}$ et $n_{2}$, the number of assignments in these two groups in non-common nodes respectively, then Total Ratio is $TR(1,2) = \frac{n}{n_{1} + n_{2} + n}$ (see figure $3.2$). If $n_{1} = n_{2} = n = 0$, it means that no read from the samples of $G_{1}$ and $G_{2}$ has matched a node in \textsc{T}. We choose to have in this case $TR = +\infty$.
+\item \textsc{Total Ratio:} provided two groups $G_{1}$ and $G_{2}$ of samples, if $n$ is the number of assignments to common nodes in both groups (i.e. the sum of assignments in common nodes in each group), and $n_{1}$ et $n_{2}$, the number of assignments in these two groups in non-common nodes respectively, then Total Ratio is $TR(G_{1},G_{2}) = \frac{n}{n_{1} + n_{2} + n}$ (see figure $3.2$). If $n_{1} = n_{2} = n = 0$, it means that no read from the samples of $G_{1}$ and $G_{2}$ has matched a node in \textsc{T}. We choose to have in this case $TR = +\infty$.
 
 \begin{figure}[H]
 \centering
@@ -270,7 +270,7 @@ This approach tries to solve \textsc{MDPairs}, and computes a certain number of 
 \subsection{Pattern Ratio}
 
 \begin{itemize} 
-\item \textsc{Pattern Ratio:} if $n$ is the number of assignments in common patterns of length > 1 in the trees induced by the groups $G_{1}$ and $G_{2}$ of samples selected, and $N$ the number of assignments in specific patterns, then Pattern Ratio is the quantity: $PR(1,2) = \frac{n}{M}$ (see figure $3.3$). If $M = 0$, it means that the two trees induced by $G_{1}$ and $G_{2}$ are the same, so having $PR = +\infty$ is consistent.
+\item \textsc{Pattern Ratio:} if $n_{common}$ is the number of assignments in common patterns of length > 1 in the trees induced by the groups $G_{1}$ and $G_{2}$ of samples selected, and $n_{specific}$ the number of assignments in specific patterns, then Pattern Ratio is the quantity: $PR(G_{1},G_{2}) = \frac{n_{common}}{n_{specific}}$ (see figure $3.3$). If $n_{specific} = 0$, it means that the two trees induced by $G_{1}$ and $G_{2}$ are the same, so having $PR = +\infty$ is consistent.
 
 \begin{figure}[H]
 \centering
@@ -297,7 +297,7 @@ This approach tries to solve \textsc{MDPairs}, and computes a certain number of 
 
 \bigskip
 
-\textsc{Biological interpretation:} The diversity of bacteria for instance in guts is of paramount importance, because the equilibrium of the ecosystem is compulsory to ensure the good development of the gut. Therefore two samples having the same sorts of bacteria in different proportions must be considered different. This coefficient may be quite superfluous in the light of the previous scores, but it seems justified by biology.
+\textsc{Biological interpretation:} The diversity of bacteria for instance in guts is of paramount importance, because the equilibrium of the ecosystem is compulsory to ensure the good development of the gut. Therefore two samples having the same proeminent sorts of bacteria, but one having less diversity compared to the other, must be considered different. This coefficient may be quite superfluous in the light of the previous scores, but it seems justified by biology.
 
 \end{itemize}
 
@@ -307,10 +307,10 @@ The final similarity coefficient $s$ between two groups of samples $G_{1}$ and $
 
 \begin{center}
 if $MD(G_{1}) - MD(G_{2}) = 0$:\\
-$s(G_{1},G_{2}) = TR(1,2) + PR(1,2)$\\
+$s(G_{1},G_{2}) = TR(G_{1},G_{2}) + PR(G_{1},G_{2})$\\
 
 else:\\
-$s(G_{1},G_{2}) = TR(1,2) + PR(1,2) - | MD(G_{1}) - MD(G_{2}) |$\\
+$s(G_{1},G_{2}) = TR(G_{1},G_{2}) + PR(G_{1},G_{2}) - | MD(G_{1}) - MD(G_{2}) |$\\
 \end{center}
 
 Then this similarity coefficient is normalized:\\
@@ -586,7 +586,7 @@ It uses respectively the \emph{recall}/\emph{sensitivity}\cite{F-measure} (the p
 
 \item Then a random strict subset $R$ of the initial set of samples is chosen to be the \emph{training set}. The size of this subset is chosen by the user. From this training set, the algorithm computes an estimated probability of having a certain node for each node in $N$ (corresponding to the $p_{i}$ described in the previous chapter), and also for each sample $s$ and for each node $n$, if $n$ appears in $s$ (this information is stored as a boolean value 0 or 1: with the previous notations, if $F_{i}$ is associated with node $n$, whether $F_{i} = 1 = x_{i}$ in sample $s$).
 
-\item Hence for every sample in $R$, under the hypothesis of equiprobability of being in a certain class, the algorithm computes the probability of being in class $C$ knowing the actual presence of the nodes in $N$ for this sample, for each class $C$. 
+\item Hence for every sample not in $R$ (since samples in $R$ are already assigned), under the hypothesis of equiprobability of being in a certain class, the algorithm computes the probability of being in class $C$ knowing the actual presence of the nodes in $N$ for this sample, for each class $C$. 
 
 \item The algorithm eventually assigns the sample to the class which maximizes this probability.
 
@@ -609,7 +609,7 @@ This method has also been implemented in \textsc{Python 2.9.7}. The program allo
 \item The user chooses two integers $s$ and $n$, the set $M$. Then the program randomly picks $s$ times $n$ distinct nodes in the taxonomic tree, and returns the set $N$ of nodes of size $n$ which ensures the best classification (among the $s$ tries) for M. It may give a hint of a possible correspondance between $M$ and the resulting set $N$.
 \end{itemize}
 
-The two main difficulties with the \textsc{K-Means} algorithm is choosing $k$ and initializing of the clusters. Fortunately, our method solves these problems since $k$ is the number of metadata classes associated with the user-selected metadata, and each cluster is initialized with a sample having the correct values of metadata associated with this cluster.\\
+The two main difficulties with the \textsc{K-Means} algorithm is choosing $k$ and the initialization of the clusters. Fortunately, our method solves these problems since $k$ is the number of metadata classes associated with the user-selected metadata, and each cluster is initialized with a sample having the correct values of metadata associated with this cluster.\\
 
 To deal with multiple metadata classes (see the example above), multi-dimensional lists have been implemented (see annex).\\
 
@@ -965,9 +965,9 @@ O($(n_{samples} - n_{values}) \times n_{values} \times n_{iterations} + n_{sampl
 
 \section{State-of-the-art and input}
 
-There are of course many algorithms to construct a taxonomic tree, often starting from a distance matrix between the \emph{taxa} (plural of \emph{taxon}, that is, nodes of the phylogenetic tree); for instance, \textsc{Neighbor \-Joining} \cite{NeighborJoining}, or \\ \textsc{Unweighted/Weighted\- Pair \-Group\- Method\- with \-Arithmetic\- Mean\-} \cite{UMPGA}. However, here we have already got the whole taxonomic tree and the phylogenetic relation between the \emph{taxa}.\\
+There are of course many algorithms to construct a taxonomic tree, often starting from a distance matrix between the \emph{taxa} (plural of \emph{taxon}, that is, nodes of the taxonomic tree); for instance, \textsc{Neighbor \-Joining} \cite{NeighborJoining}, or \\ \textsc{Unweighted/Weighted\- Pair \-Group\- Method\- with \-Arithmetic\- Mean\-} \cite{UMPGA}. However, here we have already got the whole taxonomic tree and the phylogenetic relation between the \emph{taxa}.\\
 
-Provided a list of paths \emph{paths} from the root to every leaf of the phylogenetic tree, we thus need an efficient algorithm to construct the tree, which must grant easy (i.e. as cheap as possible) access to the list of assignments to node, to the children and also to the phylogeny of the node (the so-called "lineage"). It should also provide labelling of the nodes by an integer identifier. Since we could not find an article having dealt with this subject (trace analysis do use trees, but since we are interested in a very special sort of tree (taxonomic trees), it would be a bit off topic here), we had to design a customized algorithm.\\
+Provided a list of paths \emph{paths} from the root to every leaf of the taxonomic tree, we thus need an efficient algorithm to construct the tree, which must grant easy (i.e. as cheap as possible) access to the list of assignments to node, to the children and also to the phylogeny of the node (the so-called "lineage"). It should also provide labelling of the nodes by an integer identifier. Since we could not find an article having dealt with this subject (trace analysis do use trees, but since we are interested in a very special sort of tree (taxonomic trees), it would be a bit off topic here), we had to design a customized algorithm.\\
 
 Let $n_{taxo-nodes}$ be the number of the nodes in the taxonomic tree (in our test database, $n_{taxo-nodes} = 9,000$), $n_{samples}$ the number of samples ($n_{samples} = 47$), and $n_{paths}$ the number of paths from the root to every leaf (as it is a tree, this number is as well the number of leaves in the tree, that is $n_{paths} \simeq 8,000$). Let also $l_{path}$ be the maximum length between the root and a leaf (that is the number of ranks: in our test database, $l_{paths} = 8$), and $n_{metadata}$ the number of metadata ($n_{metadata} = 21$).\\
 
@@ -1026,7 +1026,7 @@ The method is to consider one by one every path from \emph{paths} and to create 
 
 The previous method can be used for any type of tree. However, taxonomic trees are special indeed. Their height is bounded by the number of ranks in the phylogeny, and there are much more leaves than internal nodes. The following algorithm tries to take advantage of these two characteristics (Algorithm 2): it considers the nodes in decreasing rank (in terms of taxonomic accuracy), then look for each of them their children, create the tree associated with the nodes, and iterates this process until all the nodes had been turned into trees. It eventually returns the tree rooted at \emph{root}.\\
 
-\textsc{INPUT:} \emph{paths} the list of paths from the root to every leaf of the tree, \emph{root} the root of the empty taxonomic tree, \emph{ranks} the array of ranks in the phylogeny in order of decreasing taxonomic precision (S, then G, then F, O, C, P, ...), and \emph{nodesList} the list of nodes in the phylogenetic tree.\\
+\textsc{INPUT:} \emph{paths} the list of paths from the root to every leaf of the tree, \emph{root} the root of the empty taxonomic tree, \emph{ranks} the array of ranks in the phylogeny in order of decreasing taxonomic precision (S, then G, then F, O, C, P, ...), and \emph{nodesList} the list of nodes in the taxonomic tree.\\
 
 \textsc{OUTPUT:} The corresponding taxonomic tree rooted at \emph{root}.\\
 
