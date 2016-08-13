@@ -1,9 +1,9 @@
 graph g {
+node [style=filled color=orange]
+A -- C;
 node [style=filled color=green]
 A -- B;
 B -- F;
-node [style=filled color=orange]
-A -- C;
 node [style=filled color=red]
 C -- G;
 node [style=filled color=violet]

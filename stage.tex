@@ -6,8 +6,6 @@
 \usepackage{graphicx}
 \usetheme{Antibes}
 
-\definecolor{gray}{rgb}{173,173,173}
-
 \title{Analyse comparée d'arbres taxonomiques}
 \author{C. \textsc{Réda}\\supervisée par M \textsc{Nikolski} \& M. \textsc{Raffinot}}
 \institute{CGFB, équipe CBIB, Bordeaux}
@@ -148,11 +146,12 @@ Donne des morceaux de séquences (\alert{reads}) d'une longueur de 32 à 1 000 p
 %Ces gènes contiennent des régions très conservées d'une bactérie à l'autre, et d'autres très variables. Ces dernières permettent d'identifier une bactérie.
 %\pause
 \bigskip
-\item Les limites des \alert{régions hyper variables} sont difficiles à évaluer;
+\item Limites des \alert{régions hyper variables} difficiles à évaluer;
 %Ce qui est source d'erreurs dans le séquençage.
 %\pause
 \bigskip
 \item \alert{Alignement} des reads obtenus sur ces régions à des séquences de référence.
+%après séquençage
 %En cas d'alignement optimal (avec une fonction de score maximisée ou minimisée), le read "matche" l'espèce correspondant à la séquence de référence.
 %\pause
 
@@ -187,9 +186,9 @@ Donne des morceaux de séquences (\alert{reads}) d'une longueur de 32 à 1 000 p
 \begin{block}{Caractéristiques}
 \begin{itemize}
 \item Plus un noeud est proche de la racine, \\moins son degré est grand;
-\item Il y a nettement plus de feuilles que de noeuds internes;
+\item Nettement plus de feuilles que de noeuds internes;
 %Pour l'arbre de GreenGenes réduit donné par TANGO, il y a 9 065 noeuds, dont 5 565 feuilles.
-\item L'assignation d'un \alert{read} est plus complexe qu'il n'y paraît.
+\item Assignation d'un \alert{read} plus complexe qu'il n'y paraît.
 %Un read peut matcher plusieurs séquences de référence, donc plusieurs espèces. Cependant, il ne peut être assigné qu'à une seule espèce. En général, le read est alors assigné au LCA des espèces matchées, qui peut avoir un rang supérieur à S. Mais il existe des algorithmes améliorant cette assignation.
 %De plus, il peut exister des erreurs dans le séquençage et donc dans le matching.
 \end{itemize}
@@ -214,12 +213,12 @@ Le LCA de A et B est le dernier noeud de la partie commune des chemins de la rac
 \begin{frame}
 \frametitle{Problématiques de la métagénomique}
 
-Il existe déjà des algorithmes :
+Existence d'algorithmes :
 %\pause
 \begin{itemize}
-\item qui améliorent l'alignement des reads aux séquences (Smith et Waterson, 1981);
+\item améliorant l'alignement des reads aux séquences (Smith et Waterson, 1981);
 %\pause
-\item qui améliorent l'assignation dans l'arbre des reads matchés (Clemente et al., 2011 : l'outil\textsc{ \bf Tango});
+\item améliorant l'assignation dans l'arbre des reads matchés (Clemente et al., 2011 : l'outil\textsc{ \bf Tango});
 %\pause
 \item implémentant des mesures quantifiant la pertinence d'un arbre taxonomique (Robinson et Foulds, 1981)
 \item ...
@@ -254,23 +253,29 @@ Mais...
 
 \end{frame}
 
+%Deux problèmes qui déterminent l'existence d'une correspondance entre métadonnées et populations bactériennes
+
 \begin{frame}
 \frametitle{Problème de compatibilité de la classification}
 
-\uline{Entrée :} \begin{itemize} \item Un sous-ensemble de noeuds/bactéries; \item Un tableau contenant les noeuds matchés dans chaque échantillon; \item Un sous-ensemble de métadonnées. \end{itemize}
+\uline{Entrée :} \begin{itemize} \item Un sous-ensemble N de noeuds/bactéries; \item Un tableau contenant les noeuds matchés dans chaque échantillon; \item Un sous-ensemble M de métadonnées. \end{itemize}
 
 \bigskip
-\uline{Sortie :} La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?
+\uline{Sortie :} Existe-t-il une correspondance entre N et M ?
+
+%La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?
 
 \end{frame}
 
 \begin{frame}
 \frametitle{Problème de meilleure classification}
 
-\uline{Entrée :} \begin{itemize} \item Un tableau contenant les noeuds matchés dans chaque échantillon; \item Un sous-ensemble de métadonnées. \end{itemize}
+\uline{Entrée :} \begin{itemize} \item Un tableau contenant les noeuds matchés dans chaque échantillon; \item Un sous-ensemble de métadonnées M. \end{itemize}
 
 \bigskip
-\uline{Sortie :} Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.
+\uline{Sortie :} Un sous-ensemble N de noeuds tel que N ait une correspondance avec M.
+
+%Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.
 
 \end{frame}
 
@@ -280,7 +285,6 @@ Mais...
 %\tableofcontents[currentsection]
 %\end{frame}
 
-%A supprimer ?
 \subsection{Méthode pseudo-statistique}
 
 %\begin{frame}
@@ -292,67 +296,69 @@ Mais...
 
 \begin{itemize}
 \item \begin{flushcenter} \bf Problème des paires les plus dissemblables\end{flushcenter}\\ \uline{Sortie :} L'ensemble des paires d'échantillons les plus dissemblables.
-\item \uncover<->{ \begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?}
-\item \uncover<->{ \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.}
+\item \uncover<->{ \begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} Existe-t-il une correspondance entre N et M ?}
+\item \uncover<->{ \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un sous-ensemble N de noeuds tel que N ait une correspondance avec M.}
 \end{itemize}
 
 %Une méthode qui utilise des mesures sur les populations bactériennes (donc sur les arbres taxonomiques induits par les échantillons), indépendante des métadonnées, pour donner une distance entre les échantillons pour résoudre le problème des paires les plus dissemblables. Cette méthode utilise directement la sortie de TANGO, et donc l'assignation des noeuds dans les échantillons. L'outil associé TAXOTREE peut être considéré comme un outil d'interprétation de TANGO.
 
+%Par manque, on ne parlera que de manière succincte de cette partie, moins intéressante que les deux autres.
+
 \end{frame}
 
-\begin{frame}
-\frametitle{Méthode pseudo-statistique : définitions}
+%\begin{frame}
+%\frametitle{Méthode pseudo-statistique : définitions}
 
-\begin{block}{Arbre taxonomique induit par un échantillon}
-Forêt de sous-arbres de l'arbre taxonomique de référence constitués des seuls noeuds assignés dans l'échantillon.
-\end{block}
+%\begin{block}{Arbre taxonomique induit par un échantillon}
+%Forêt de sous-arbres de l'arbre taxonomique de référence constitués des seuls noeuds assignés dans l'échantillon.
+%\end{block}
 %\pause
 %*dessin*
 
-\begin{block}{Motif de l'arbre taxonomique (induit)}
-Sous-graphe connexe de l'arbre taxonomique (induit).
-\end{block}
+%\begin{block}{Motif de l'arbre taxonomique (induit)}
+%Sous-graphe connexe de l'arbre taxonomique (induit).
+%\end{block}
 
 %*dessin*
 
-\begin{block}{Classes d'échantillons induites par une métadonnée}
-Ensemble de groupes d'échantillons disjoints, non vides, selon la valeur numérique -connue- de la métadonnée.
-\end{block}
+%\begin{block}{Classes d'échantillons induites par une métadonnée}
+%Ensemble de groupes d'échantillons disjoints, non vides, selon la valeur numérique -connue- de la métadonnée.
+%\end{block}
 
 %*exemple*
 
-\end{frame}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (1)}
+%\begin{frame}
+%\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (1)}
 
-\begin{block}{Total Ratio}
-\begin{center}
-$TR(G_{1},G_{2}) = \frac{n}{n_{1} + n_{2} + n}$
-\end{center}
-\end{block}
+%\begin{block}{Total Ratio}
+%\begin{center}
+%$TR(G_{1},G_{2}) = \frac{n}{n_{1} + n_{2} + n}$
+%\end{center}
+%\end{block}
 
 %G1, G2 sont deux sous-ensembles d'échantillons
 %n est le nombre d'assignations aux noeuds communs aux échantillons de G1 et G2 (noeuds qui sont assignés au moins dans un échantillon de G1 et au moins dans un échantillon de G2)
 %ni est le nombre d'assignations aux noeuds assignés seulement dans un échantillon de Gi
 %S'intéresse aux populations de noeuds
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{Images/totalratio.png}
-\caption{$TR$ = $\frac{10 + 3 + 34}{(1 + 34 + 5) + (10 + 3 + 34) + (24 + 16)} \simeq 0.37$}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.3]{Images/totalratio.png}
+%\caption{$TR$ = $\frac{10 + 3 + 34}{(1 + 34 + 5) + (10 + 3 + 34) + (24 + 16)} \simeq 0.37$}
+%\end{figure}
 
-\end{frame}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (2)}
+%\begin{frame}
+%\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (2)}
 
-\begin{block}{Pattern Ratio}
-\begin{center}
-$PR(G_{1},G_{2}) = \frac{n_{common}}{n_{specific}}$
-\end{center}
-\end{block}
+%\begin{block}{Pattern Ratio}
+%\begin{center}
+%$PR(G_{1},G_{2}) = \frac{n_{common}}{n_{specific}}$
+%\end{center}
+%\end{block}
 
 %Un motif commun à deux groupes d'échantillons est un sous-graphe connexe commun aux arbres taxonomiques induits par G1 et G2.
 
@@ -360,38 +366,38 @@ $PR(G_{1},G_{2}) = \frac{n_{common}}{n_{specific}}$
 %n est le nombre d'assignations aux noeuds d'un motif commun (de taille > 1) dans les arbres induits par G1 et G2.
 %N est le nombre d'assignations dans les motifs spécifiques à G1 et dans les motifs spécifiques à G2.
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{Images/patternratio.png}
-\caption{$PR$ = $\frac{10 + 34 + 3 + 24}{(1 + 34 + 12) + (23 + 45 + 16 + 5)} \simeq 0.52$}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.3]{Images/patternratio.png}
+%\caption{$PR$ = $\frac{10 + 34 + 3 + 24}{(1 + 34 + 12) + (23 + 45 + 16 + 5)} \simeq 0.52$}
+%\end{figure}
 
 %Se concentre sur la proximité phylogénétique des noeuds des groupes d'échantillons. Cela correspond au "noyau fonctionnel" des bactéries de l'intestin, c'est-à-dire l'ensemble de bactéries nécessaire et suffisant pour faire fonctionner le système digestif.
 
-\end{frame}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (3)}
+%\begin{frame}
+%\frametitle{Mesures utilisées dans \textsc{\bf TaxoTree} (3)}
 
-\begin{block}{Microbial Diversity}
-\begin{center}
-$MD(G) = \frac{n_{nodes}}{n_{tree}}$
-\end{center}
-\end{block}
+%\begin{block}{Microbial Diversity}
+%\begin{center}
+%$MD(G) = \frac{n_{nodes}}{n_{tree}}$
+%\end{center}
+%\end{block}
 
 %G est un sous-ensemble d'échantillons
 %nnodes est le nombre de noeuds dans l'arbre induit par G
 %ntree est le nombre de noeuds dans l'arbre taxonomique complet
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{Images/diversity.png}
-\caption{$PR$ = $\frac{10 + 34 + 3 + 24}{(1 + 34 + 12) + (23 + 45 + 16 + 5)} \simeq 0.52$}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.3]{Images/diversity.png}
+%\caption{}
+%\end{figure}
 
 %La diversité bactérienne dans l'intestin est le facteur de l'équilibre de cet écosystème fragile.
 
-\end{frame}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Distance calculée}
@@ -437,8 +443,8 @@ $\overline{s}(G_{1},G_{2}) = \frac{s(G_{1},G_{2}) - E(s)}{\sigma(s)}$
 
 \begin{itemize}
 \item \uncover<->{\begin{flushcenter} \bf Problème des paires les plus dissemblables\end{flushcenter}\\ \uline{Sortie :} L'ensemble des paires d'échantillons les plus dissemblables.}
-\item \begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?
-\item \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.
+\item \begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} Existe-t-il une correspondance entre N et M ?
+\item \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un sous-ensemble N de noeuds tel que N ait une correspondance avec M.
 \end{itemize}
 
 %Une deuxième approche essaie d'identifier les noeuds de l'arbre taxonomique qui permettent de séparer les échantillons en groupes similaires à ceux obtenus en discriminant les échantillons selon les valeurs numériques de certaines métadonnées, ce qui sous-entend que la présence de ces noeuds est liée à ces métadonnées. Cette approche résout le problème de compatibilité de classification et de meilleure classification. Cette méthode, comme la suivante, néglige l'assignation par TANGO et se concentre sur la sortie de l'alignement des reads avec les séquences de référence, où un read peut être matché à plusieurs séquences de référence. On suppose que l'espèce associée au read est dans l'ensemble des espèces matchées...
@@ -461,7 +467,7 @@ Paradigme qui automatise la reconnaissance de certains motifs
 %\pause
 
 \begin{block}{Apprentissage supervisé}
-Un algorithme d'\alert{apprentissage supervisé} essaie de classer les données dans des catégories \alert{fixées}, en s'aidant d'une connaissance\textsc{ \it a priori } acquise sur un \alert{ensemble d'entraînement}.
+Un algorithme d'\alert{apprentissage supervisé} essaie de classer les données dans des catégories \alert{fixées}, en s'aidant d'une connaissance\textsc{ \it a priori} acquise sur un \alert{ensemble d'entraînement}.
 \end{block}
 
 %l'exemple des mails. L'un des types de classificateurs les plus utilisés est le classificateur naïf bayésien.
@@ -512,7 +518,7 @@ $J(C) = \frac{TP(C)}{TP(C) + FN(C)} + \frac{TN(C)}{TN(C) + FP(C)} - 1$.
 
 \begin{block}{Coefficient \alert{modifié} pour $k$ classes $(C_{i})_{1 \le i \le k}$}
 \begin{center}
-La quantité $k - \sum{_{i = 1}^{k}}{J(C_{i})}$ est minimale et positive.
+Classification "optimale" quand $k - \sum{_{i = 1}^{k}}{J(C_{i})}$ est minimal et positif.
 \end{center}
 \end{block}
 
@@ -577,89 +583,141 @@ Etant donnés un ensemble de métadonnées M (et donc des classes induites par M
 
 \begin{itemize}
 \item \uncover<->{ \begin{flushcenter} \bf Problème des paires les plus dissemblables\end{flushcenter}\\ \uline{Sortie :} L'ensemble des paires d'échantillons les plus dissemblables.}
-\item \uncover<->{\begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?}
-\item \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.
+\item \uncover<->{\begin{flushcenter} \bf Problème de compatibilité de la classification\end{flushcenter}\\ \uline{Sortie :} Existe-t-il une correspondance entre N et M ?}
+\item \begin{flushcenter} \bf Problème de meilleure classification\end{flushcenter}\\ \uline{Sortie :} Un sous-ensemble N de noeuds tel que N ait une correspondance avec M.
 
 %La troisième méthode, associé à l'outil TaxoCluster, utilise l'apprentissage non supervisé, qui est un autre pan du Machine Learning. Elle consiste à diviser l'ensemble des échantillons en groupes d'échantillons les plus proches, en utilisant une distance ne dépendant que des populations bactériennes matchées, et à comparer les groupes obtenus (des clusters) avec les groupes obtenus en ne considérant que les valeurs numériques des métadonnées. 
 \end{itemize}
 
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ù
-
 \begin{frame}
-\frametitle{Clustering}
+\frametitle{Notion de clustering}
 
-This section explains what \emph{non-supervised learning} is in \emph{Machine Learning}, and present one of the most common tool in this category, which is the \emph{K-Means algorithm}.
+%Une deuxième grande catégorie de Machine Learning est l'apprentissage non supervisé.
 
-Another broad category in \emph{Machine Learning} is \emph{non-supervised learning}: unlike \emph{supervised learning}, the different classes to which belong the data are not known at first. Provided the set of elements, the algorithm has to distinguish by itself several different classes according to the similarity between the pieces of data from the initial set. This is why one of the most common approach for \emph{non-supervised learning} is \emph{clustering}.
+\begin{block}{Apprentissage non supervisé}
+Etant donné un ensemble de données, un algorithme d'\alert{apprentissage non supervisé} essaie de distinguer les différentes classes présentes dans cet ensemble en étudiant la similarité entre les données.
+\end{block}
 
-Given a certain distance, \emph{clustering} is the task of gathering objects into disjoint clusters, such that the resulting sets maximize the proximity (in terms of the chosen distance) between elements of a same cluster, and maximize the distance between objects of different clusters.
+%\pause
 
-Although the problem of partitionning $n$ elements into $k$ clusters \cite{PartitionIsNPhard} is \textsc{NP-complete}\cite{NPhard} (see the note in bibliography for a block of \textsc{NP-hardness} and \textsc{NP-completeness}), the \emph{K-Means algorithm} \cite{KMeans} is a rather efficient clustering algorithm. After choosing an integer $k$ that is the estimated number of clusters, the user initializes each cluster with one of the elements of the set. Then, for each non-clustered object, the algorithm computes the distance from this object to the mean of every cluster (in our implementation, it is the sample that minimizes the sum of all distances to the other samples in the same cluster), and assigns the object to the closest cluster. Then it updates the mean of this cluster, and iterates the last two steps until convergence of the solution. For more detailed explanation, see \cite{KMeans}.
+%Un des algorithmes les plus connus de cette catégorie est l'algorithme des K-moyennes, qui est un algorithme de clustering.
 
-Before starting to describe our \textsc{TaxoCluster} method, here are some helpful notations (adapted from \cite{Tango1}):\\
-
-Knowing that $T$ is the whole taxonomic tree, for a certain read $i$, let $M_{i}$ be the set of matched leaves for this read, and $T_{i}$ the subtree of $T$ rooted at the LCA (see above for the block of LCA) of the nodes in $M_{i}$. Let $L_{i}$ be the set of leaves of $T_{i}$, and $N_{i}$ be such as $L_{i} = M_{i} \sqcup N_{i}$ ($M_{i}$ and $N_{i}$ are disjoint, see figure $5.1$).
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.3]{illustrations/timili.png}
-\caption{Let T be the whole taxonomic tree. Then for the set of red nodes, the subtree associated is rooted at the violet node, and the total set of leaves for this subtree is the set of yellow and red nodes.}
-\end{figure}
-
-Let us define two distances $d_{matched}$ and $d_{consensus}$ over pairs of reads ($R_{i},R_{j}$) for the clustering:
-       \begin{itemize} 
-       \item \begin{center} $d_{matched}(R_{i},R_{j}) = |M_{i}| + |M_{j}| - 2*|M_{i} \cap M_{j}|$. \end{center}\\ 
-
-It is quite easy to check that $d_{matched}$ is indeed a distance: $d_{matched}$ is symmetric, satisfies the triangle inequality, is non-negative, and $d_{matched}(i,j)$ equals to zero iff $R_{i} = R_{j}$ (The unique relevant equality relation between reads here is the equality between the respective sets of matched nodes, because nobody can know to which node the read should truly be assigned).
-       \item Having a fixed parameter $q \in [0,1]$,\\
-\begin{center}
-$d_{consensus}(R_{i},R_{j}) = |L_{i}| + |L_{j}| - q*(|N_{i}\cap M_{j}| + |N_{j} \cap M_{i}|) - |M_{i} \cap M_{j}|$.\\
-\end{center}
-
-It is also easy to check here that $d_{consensus}$ is a distance. This distance corresponds to search a consensus taxonomic tree between the trees induced by the set of nodes matched by the reads \cite{Consensus}.\\
-
-When $q = 0$, we consider a \emph{strict} consensus tree, only keeping leaves matched in both reads.\\
-When $q = 1$, we consider a tree having leaves that are matched in at least one of the two reads (see figure $5.2$).
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.45]{illustrations/distance2.png}
-\caption{Let us consider the cyan/blue and orange/red trees (blue and red nodes being the ones matched, the yellow one being matched by the orange tree and not by the blue tree, the two violet nodes are matched in both trees). When $q = 0$, $d_{consensus}(t_{1},t_{2})$ applied to these trees $t_{1}$ and $t_{2}$ is equal to $(2 + 4) - 0 \times (1 + 0) - 2 = 4$. When $q = 1$, $d_{consensus}(t_{1},t_{2})$ is equal to $(2 + 4) - 1 \times (1 + 0) - 2 = 3$}
-\end{figure}
-
-       \end{itemize}
-\item These distances can easily be extended to samples: if $Reads_{k}$ is the set of reads for sample $S_{k}$,\\
-\begin{center}
-$d_{consensus}(S_{k},S_{l}) = \sum{r_{k} \in Reads_{k}}{\sum{r_{l} \in Reads_{l}}{d_{consensus}(r_{k},r_{l})}}$.
-\end{center} 
-
-Same goes for $d_{matched}$.
-
-\textsc{TaxoCluster} tries to solve problem \textsc{CL.Comp}. It compares trees induced by samples before the assignment of reads, and avoids providing \emph{a priori} hypotheses on the probabilities of being in a certain class of métadonnées values, or of having a certain node. The number $k$ of clusters used in the \textsc{K-Means} algorithm is thus the number of vectors of métadonnées that can be obtained.\\
-
-We use the very same block of classes of métadonnées as in the second method.
-
-\begin{itemize}
-\item First the set of samples is clustered into $k$ clusters using $d_{matched}$ distance. 
-\item For every cluster, the most remote elements are deleted from the cluster, in order to keep only relevant elements. In our implementation, we discard the points for which sum of all distances to other samples of the same cluster is above the value of the third quartile (of the list of such distances).
-\item Then the union of the remaining elements in all clusters is clustered again into $k$ clusters using $d_{consensus}$ distance.
-\end{itemize}
-
-The clusters resulting from the second clustering are then compared to the clusters obtained by directly looking at the values of métadonnées in samples. If the two groups of clusters are alike (this is quantified by a special distance), this could mean that there exists a correspondance between the selected métadonnées and the microbial populations. The distance to compare two clusters \textsc{$C_{1}$} and \textsc{$C_{2}$} is d($1$,$2$) $= \frac{|C_{1} \cap C_{2}|}{|C_{1}| + |C_{2}| - |C_{1} \cap C_{2}|} $ (if both clusters are empty, it returns \textsc{None}). The overall distance is (if one of the clusters is empty, then it returns \textsc{None}) $d_{clusters} = \frac{\sum{_{1 \le i < j \le k}}{d(i,j)}}{k}$, where $k$ is the total number of clusters. The program also returns (on demand) the bacteria in common for samples in a same cluster.\\
-
-The whole pipeline has been implemented in \textsc{Python 2.9.7}, and allows to draw and see the clusters in a DOT file.\\
-
-The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times n_{paths} \times n_{taxo-nodes} + n_{taxo-nodes}^{2}) \times n_{samples}^{2}$) (see annex for details).\\
-
-(Still in progress) code can be seen at: \\\begin{center}\emph{github.com/kuredatan/taxocluster}.\end{center}
+\begin{block}{Clustering}
+Etant donné une certaine distance, le \alert{\it clustering} consiste à partitionner un ensemble de données, tel que les parties obtenues \alert{minimisent} la distance entre les objets d'un même groupe, et la \alert{maximisent} entre les objets de deux groupes différents.
+\end{block}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Application au problème de clustering}
+\frametitle{Problème de clustering}
+
+\begin{alertblock}{Complexité du problème de partition en k \textsc{\it clusters} de $n$ éléments}
+Le problème de $k$-partition de $n$ éléments est NP-complet.
+\end{alertblock}
+
+%\pause
+
+\begin{block}{Etapes de l'algorithme des K-moyennes}
+\begin{enumerate}
+\item Initialisation des $k$ clusters
+\item Tant que les clusters sont modifiés pendant la boucle
+       \begin{itemize}
+       \item Pour tout élément e de l'ensemble de départ
+             \begin{itemize}   
+             \item Déterminer le cluster C qui minimise la distance entre e et sa moyenne
+             \item Affecter e à C
+             \item Recalculer la moyenne de C
+             \end{itemize}
+       \end{itemize}
+\end{enumerate}
+\end{block}
+
+%L'algorithme des K-moyennes ne garantit pas l'optimalité, ni la terminaison en temps raisonnable. Cependant, en pratique, il est rapide et permet de répondre à ce problème.
+
+%Après choix de k et l'initialisation des k clusters avec un élément de l'ensemble de départ, l'algorithme calcule pour chaque élément e restant, et pour tout cluster C, la distance entre e et la moyenne du cluster C, c'est-à-dire l'élément "au centre" du cluster (en utilisant la distance donnée). e est alors attribué au cluster qui minimise cette distance, et la moyenne de ce cluster est alors recalculée avant d'itérer la boucle, jusqu'à convergence de la solution (les clusters restent les mêmes dune itération à l'autre).
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Notations utilisées dans \textsc{\bf TaxoCluster}}
+
+Soit $T$ l'arbre taxonomique complet. Pour un certain read $i$ :
+\begin{itemize}
+\item $M_{i}$, ensemble de feuilles matchées par $i$;
+%\pause
+\item $T_{i}$, sous-arbre de $T$ enraciné au LCA des feuilles de $M_{i}$;
+%\pause
+\item $L_{i}$, ensemble des feuilles de $T_{i}$;
+%\pause
+\item $N_{i}$, tel que $L_{i} = M_{i} \sqcup N_{i}$.
+%\pause
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.3]{Images/timili.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Distances utilisées dans \textsc{\bf TaxoCluster}}
+
+\begin{block}{"Distance des ensembles de matches"}
+Pour deux reads $i$ et $j$,\\
+\begin{center} $d_{matched}(i,j) = |M_{i}| + |M_{j}| - 2*|M_{i} \cap M_{j}|$. \end{center}
+\end{block}
+
+%Il est facile de vérifier que dmatched satisfait l'inégalité triangulaire, est symétrique et positive.
+%La seule relation d'égalité valable entre les reads est celle des ensembles de match ici, car le noeud réellement associé à un read donné ne peut pas être connu, et on ne distingue pas les reads provenant d'une même espèce.
+%\pause
+
+\begin{block}{"Distance de l'arbre de consensus"}
+Pour deux reads $i$ et $j$, et un paramètre $q \in [0;1]$,
+\begin{center}$d_{consensus}(i,j) = |L_{i}| + |L_{j}| - q*(|N_{i}\cap M_{j}| + |N_{j} \cap M_{i}|) - |M_{i} \cap M_{j}|$.\end{center}
+\end{block}
+
+%Il est facile de vérifier que c'est bien une distance. Le choix de q correspond au choix d'un arbre de consensus entre les deux arbres taxonomiques Ti et Tj : si q = 0, on considère un arbre de consensus strict, en ne gardant que les feuilles matchées dans les deux reads. Si q = 1, on conserve toutes les feuilles qui sont matchées dans l'un au moins des deux reads.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Distance de l'arbre de consensus}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.43]{Images/distance2.png}
+\caption{Quand $q = 0$, $d_{consensus}(1,2) = (2 + 4) - 0 \times (1 + 0) - 2 = 4$.\\
+Quand $q = 1$, $d_{consensus}(1,2) = (2 + 4) - 1 \times (1 + 0) - 2 = 3$}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Le programme \textsc{\bf TaxoCluster}}
+
+%Le principe essentiel de TaxoCluster est proche de celui de la précédente méthode : comparer le clustering réalisé sur les populations microbiennes et celui réalisé en ne considérant que les valeurs numériques des métadonnées pour faire ressortir une correspondance entre la flore intestinale et les métadonnées.
+
+%Ceci explique que le k qui sera utilisé dans l'algorithme des K-moyennes sera en fait le nombre de classes induites par l'ensemble de métadonnées choisi. On initialise les clusters avec un échantillon appartenant à la classe (en regardant les valeurs de ses métadonnées), ce qui permet de régler deux problèmes de l'application de l'algorithme des K-moyennes.
+
+\begin{itemize}
+\item Application de l'algorithme des K-moyennes avec $d_{matched}$
+\bigskip
+%\pause
+\item Suppression des éléments les moins pertinents 
+%les plus éloignés des autres dans chaque cluster : on supprime les éléments dont la somme des distances aux autres points est supérieure au troisième quartile de la liste des distances
+\bigskip
+%\pause
+\item Application de l'algorithme des K-moyennes avec $d_{consensus}$
+\bigskip
+%\pause
+\item Comparaison des \alert{clusters} obtenus avec ceux induits par les métadonnées
+%Obtention d'un coefficient entre 0 et 1, 1 étant l'adéquation parfaite entre les clusters
+%Cela impliquerait peut-être une correspondance entre les populations et les métadonnées
+%Le programme retourne aussi la liste des bactéries en commun dans chaque cluster (Note : assez grande en pratique : compter le nombre de matches ?)
+\end{itemize}
+
 \end{frame}
 
 \section{Evaluation des méthodes}
@@ -676,6 +734,17 @@ The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times 
 
 \begin{frame}
 \frametitle{Implémentation}
+
+\begin{itemize}
+\item Implémentés en Python 2.9.7
+\bigskip
+%\pause
+\item Disponibles sur GitHub
+\bigskip
+%\pause
+\item \textsc{\bf TaxoCluster} et \textsc{\bf TaxoClassifier} encore en développement.
+\end{itemize}
+
 \end{frame}
 
 \subsection{Evaluation}
@@ -686,37 +755,28 @@ The worst case time complexity is O($n_{samples}^{2} \times (n_{samples} \times 
 
 \begin{frame}
 \frametitle{Evaluation}
-\end{frame}
 
-\subsection{Complexité}
-
-%\begin{frame}
-%\tableofcontents[currentsubsection]
-\end{frame}
-
-\begin{frame}
-\frametitle{Complexité}
-
-Theoretically, \textsc{TaxoCluster} is the best method, as it aims at fixing the issues in the first two methods \textsc{TaxoTree} and \textsc{TaxoClassifier}. Indeed, it does not require a special measure on microbial populations, that would induce \emph{a priori} hypotheses on the way these populations should be, with respect to the values of métadonnées. This fact is of paramount importance as most of the biological phenomena still remain partially unknown. Moreover, it does not require strong mathematical hypotheses as it is the case for the \emph{Naive Bayes Classifier}. However, the latter allows more flexibility, whereas it might be irrelevant if the problem is specific enough.\\
-
-Notice that \textsc{TaxoCluster} can only solve the \textsc{Problem of Clustering Compatibility (CL.Comp)}, and not the \textsc{Problem of Best Clustering (CL.BClust)} unlike \textsc{TaxoClassifier}. Furthermore, in terms of worst case time complexity, knowing the actual values for each variable in our test database, it is unfortunately the slowest algorithm:\\
-
-    \begin{table}
-      \caption{Complexity for each method: for our test database, $n_{taxo-nodes} = 9,065$, $n_{values} \le 10$, $n_{samples} = 47$ and $n_{paths} = 5,565$}
-      \begin{tabular}{|l|c|r|}
-        \hline
-        \textsc{Method} & \textsc{Theoretical complexity} \\
-        \hline
-        Statistics & O($n_{taxo-nodes}^{2} \times n_{samples}^{3}$)\\
-        \hline
-        Supervised learning & O($n_{samples}^{2} \times n_{taxo-nodes}^{2} \times n_{values}$)\\
-        \hline
-        Non-supervised learning & O($n_{samples}^{2} \times n_{taxo-nodes}\times (n_{samples} \times n_{paths})$)\\
-        \hline
-      \end{tabular}
-    \end{table}
-
-It is worth noticing that nevertheless the three methods can be completely executed on the test computer, even it is just a regular computer (see \textsc{Appendix A}). Nevertheless, to fully validate the results from the algorithms, we should get access to several other databases, and compare them to current biological knowledge and to the output of statistical methods. Due to time limitations, we unfortunately could not use any other database to perform these necessary tests. Moreover, the consistency of results greatly depends on the previous operations applied to input data (have the numeric results been normalized prior to the algorithm? Have all raw material for samples been collected the same way, following a same standard procedure? Has each assignment of read to nodes been performed under the same parameters? and so on). And, last but not least, the final interpretation of the results cannot still be taken into account without the practitionner or a practised biologist's validation.
+\begin{itemize}
+\item Evaluation en comparant les résultats obtenus par les différents logiciels et les résultats statistiques de l'étude de l'hôpital Pellegrin;
+%décrire le contexte
+\bigskip
+%\pause
+\item Résultats donnés par \textsc{\bf TaxoTree} (première méthode) confirmant les résultats statistiques;
+\bigskip
+%\pause
+\item Manque de temps pour les tests de \textsc{\bf TaxoClassifier} et \textsc{\bf TaxoCluster}.
+%expliquer le problème du parsing
+\bigskip
+%\pause
+\item En théorie, la méthode de \textsc{TaxoCluster} est meilleure que les autres;
+%Pas d'hypothèses a priori, mais ne répond qu'à un seul des problèmes, contrairement à TaxoClassifier
+\bigskip
+%\pause
+\item En théorie, \textsc{TaxoCluster} a la pire complexité temporelle (pire cas);
+\bigskip
+%\pause
+\item En pratique, les trois programmes tournent entièrement en temps raisonnable sur un ordinateur de puissance moyenne.
+\end{itemize}
 
 \end{frame}
 
@@ -729,17 +789,16 @@ It is worth noticing that nevertheless the three methods can be completely execu
 \begin{frame}
 \frametitle{Bilan et perspectives}
 
-During this internship, we suggested and implemented three methods to analyse data from sequencing according to the métadonnées provided: \textsc{TaxoTree}, \textsc{TaxoClassifier} and \textsc{TaxoCluster}, each of them using a different general paradigm of computer science. We tried to design each method as an improvement of the previous one. These methods solve various clustering-like problems that often occur in biology and medicine. Although their time complexity can probably be improved, the numerical tests done so far appear to be consistent with the medical observations.\\
-
-We also have implemented a class of multi-dimensional lists, and a rather efficient -in regards to the size of our data...- algorithm to reconstruct taxonomic trees from the list of paths from root to every leaf.\\
-
-Use of algorithms from \emph{Machine Learning} in metagenomics is not so new \cite{Nikolski}. However, the last two approaches use a hitherto unseen mix between the common algorithms of \emph{supervised} and \emph{non-supervised learning}, statistics and tree algorithms.\\
-
-On the one hand, a quite large number of comparison problems over labeled unordered trees -taxonomic trees being a special case of this sort of trees- are \textsc{NP-complete}, for instance the problem of tree inclusion \cite{TreeInclusion}. What makes possible efficient algorithms is that the relevant comparison over trees here mainly focuses on the set of leaves for each tree. However, the time complexity of the last two methods, that is \textsc{TaxoClassifier} and \textsc{TaxoCluster}, should still be improved.\\
-
-On the other hand, it would be interesting to test these algorithms on other databases than the one of cystic fibrosis-afflicted patients, so as to see if the resulting correspondances given by the softwares are relevant.\\
-
-The code for all three methods is available on \textsc{GitHub}.\\
+\begin{enumerate}
+\item Propositions de trois méthodes pour répondre au problème;
+\bigskip
+%\pause
+\item Utilisables sur un ordinateur de puissance moyenne;
+\bigskip
+%\pause
+\item Nécessité d'autres tests;
+%Etude plus approfondie de l'interprétation biologique (cohérence). Résultats dépendent des traitements préalables sur les valeurs numériques (normalisation, standardisation du protocole, ...)
+\end{enumerate}
 
 \end{frame}
 
@@ -748,13 +807,10 @@ The code for all three methods is available on \textsc{GitHub}.\\
 \frametitle{Sources}
 
 \begin{itemize}
-\item \begin{flushleft} \bf Flexible taxonomic assignment of ambiguous sequencing\end{flushcenter}, J. Clemente, J. Jansson et G. Valiente, \begin{flushleft} \it BMC Bioinformatics\end{flushleft}, 2011.
-\item \begin{flushleft} \bf Impact de l'antibiothérapie sur le microbiote intestinal chez l'enfant atteint de mucovisidose\end{flushcenter}, R. Enaud, \begin{flushleft} \it Université de Bordeaux, CHU Pellegrin\end{flushleft}, 2016.
-\item \begin{flushleft} \bf Understanding Machine Learning: From Theory to Algorithms\end{flushcenter}, S. Shalev-Shwartz et S. Ben-David, \begin{flushleft} \it Cambridge University Press\end{flushleft}, 2014.
-\item \begin{flushleft} \bf Comparison of phylogenetic trees\end{flushcenter}, D. Robinson et L. Foulds, \begin{flushleft} \it Mathematical Biosciences\end{flushleft}, 1981.
-\item \begin{flushleft} \bf Some Methods for classification and Analysis of Multivariate Observations\end{flushcenter}, J. MacQueen, \begin{flushleft} \it Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability\end{flushleft}, 1967.
-\item \begin{flushleft} \bf Machine learning for metagenomics: methods and tools\end{flushcenter}, H. Soueidan et M. Nikolski, \begin{flushleft} \it Metagenomics\end{flushleft}, 2016.
-\item \begin{flushleft} \bf Further steps in TANGO: Improved Taxonomic Assignment in Metagenomics\end{flushcenter}, D. Alonso-Alemany et al., \begin{flushleft} \it Bioinformatics Advance Access\end{flushleft}, 2013.
+\item \textsc{ \bf Flexible taxonomic assignment of ambiguous sequencing}, J. Clemente, J. Jansson et G. Valiente, \textsc{ \it BMC Bioinformatics}, 2011.
+\item \textsc{\bf Impact de l'antibiothérapie sur le microbiote intestinal chez l'enfant atteint de mucovisidose}, R. Enaud, \textsc{\it Université de Bordeaux, CHU Pellegrin}, 2016.
+\item \textsc{\bf Understanding Machine Learning: From Theory to Algorithms}, S. Shalev-Shwartz et S. Ben-David, \textsc{\it Cambridge University Press}, 2014.
+\item ...
 \end{itemize}
 
 \end{frame}
