@@ -7,7 +7,7 @@
 \usetheme{Antibes}
 
 \title{Analyse comparée d'arbres taxonomiques}
-\author{C. \textsc{Réda}\\supervisée par M \textsc{Nikolski} \& M. \textsc{Raffinot}}
+\author{C. \textsc{Réda}\\sous la direction de M. \textsc{Nikolski} \& M. \textsc{Raffinot}}
 \institute{CGFB, équipe CBIB, Bordeaux}
 \date{du 1er juin au 27 juillet 2016}
 
@@ -285,7 +285,7 @@ Mais...
 \tableofcontents[currentsection]
 \end{frame}
 
-\subsection{Méthode pseudo-statistique (Résumé)}
+\subsection{Méthode pseudo-statistique (résumé)}
 
 \begin{frame}
 \tableofcontents[currentsubsection]
@@ -312,7 +312,7 @@ Mais...
 %\begin{block}{Arbre taxonomique induit par un échantillon}
 %Forêt de sous-arbres de l'arbre taxonomique de référence constitués des seuls noeuds assignés dans l'échantillon.
 %\end{block}
-\pause
+%\pause
 %*dessin*
 
 %\begin{block}{Motif de l'arbre taxonomique (induit)}
@@ -415,6 +415,8 @@ $ s(G_{1},G_{2}) = TR(G_{1},G_{2}) + PR(G_{1},G_{2}) - | MD(G_{1}) - MD(G_{2}) |
 \end{itemize}
 \end{block}
 
+\pause
+
 \begin{block}{Coefficient de similarité \overline{s}}
 \begin{center}
 $\overline{s}(G_{1},G_{2}) = \frac{s(G_{1},G_{2}) - E(s)}{\sigma(s)}$
@@ -485,8 +487,6 @@ $= \max_{h \in \{ 1, ..., k \}}P(C_{h} | F_{1} = x_{1}, ... F_{m} = x_{m})$.\\
 \end{center}
 \end{block}
 
-\pause
-
 %Ce classificateur utilise de nombreuses hypothèses a priori pour calculer ces probabilités, comme l'indépendance entre les valeurs numériques des métadonnées.
 
 \end{frame}
@@ -515,6 +515,8 @@ $J(C) = \frac{TP(C)}{TP(C) + FN(C)} + \frac{TN(C)}{TN(C) + FP(C)} - 1$.
 %Quand $J(C) = -1$, la classification est totalement fausse. pas de TN et de TP
 
 %D'après ce qui précède, la meilleure classification est telle que pour chaque classe, le coefficient J de Youden est le plus proche de 1.
+
+\pause
 
 \begin{block}{Coefficient \alert{modifié} pour $k$ classes $(C_{i})_{1 \le i \le k}$}
 \begin{center}
@@ -546,8 +548,8 @@ Etant donnés un ensemble de métadonnées M (et donc des classes induites par M
 \begin{block}{Classificateur naïf bayésien}
 \uncover<->{Etant données $k$ classes disjointes de données $(C_{i})_{1 \le i \le k}$, un ensemble de critères $(F_{i})_{1 \le i \le m}$, et une donnée $d$ à classer dans ces classes, ayant $(F_{i} = x_{i})_{1 \le i \le m}$,\\ La classe de $d$ est la classe $C_{j}$ telle que:\\}
 \begin{center}
-$P(C_{j} | F_{1} = x_{1}, ..., F_{m} = x_{m})$\\
-$= \max_{h \in \{ 1, ..., k \}}P(C_{h} | F_{1} = x_{1}, ... F_{m} = x_{m})$.\\
+\alert{$P(C_{j} | F_{1} = x_{1}, ..., F_{m} = x_{m})$\\
+$= \max_{h \in \{ 1, ..., k \}}P(C_{h} | F_{1} = x_{1}, ... F_{m} = x_{m})$}.\\
 \end{center}
 \end{block}
 \end{frame}

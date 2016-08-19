@@ -1,0 +1,192 @@
+DIAPO Déroulement du stage/Lieu et modalités du stage
+
+%Une petite équipe d'une dizaine de personnes, informaticiens et biologistes, dans une plateforme de biologie qui propose des prestations et des projets recherche et développement
+%lien avec MaBioVis au LaBRI et avec l'hôpital des enfants Pellegrin (à côté) de Bordeaux
+
+DIAPO Déroulement du stage/Organisation
+
+%TANGO dont le développement est à l'origine du stage
+
+%Concours international organisé par le National Cancer Institute (NCI), IBM Research, Sage Bionetworks et la International Society for Computational Biology (ISCB) qui vise à améliorer les logiciels d'analyse des tumeurs.
+
+%Système de fouille et de gestion de données bioinformatique
+
+DIAPO Sujet du stage
+
+
+%Le stage portait sur les arbres taxonomiques, qui sont des arbres représentant la classification des espèces dans des groupes selon leur histoire évolutive. En métagénomique, qui est l'étude du matériel génétique récupéré dans des environnements naturels, les arbres taxonomiques permettent d'identifier les espèces qui sont présentes dans l'échantillon recueilli, et d'alors déterminer la composition de la population présente dans l'environnement d'où provient l'échantillon.
+
+%La métagénomique est un secteur très actif de nos jours en bioinformatique, grâce à la diminution des prix du traitement de l'ADN (via le séquençage) et au fait qu'elle permet l'étude d'espèces, en particulier de bactéries, non cultivables en laboratoire. Cette discipline a de nombreuses applications en biologie et en médecine.
+
+%Le but de ce stage est d'améliorer l'analyse des données métagénomiques dans un cadre médical. Ici, nous nous concentrons sur l'analyse de l'ADN de bactéries présentes dans l'intestin humain.
+
+DIAPO Sujet du stage/Contexte scientifique
+
+%récupéré dans l'environnement naturel
+
+%L'ordre des ensembles de paires de bases construits avec la cytosine, l'adénine, la guanine et la thymine
+
+-- séquençage
+
+%Ces gènes contiennent des régions très conservées d'une bactérie à l'autre, et d'autres très variables. Ces dernières permettent d'identifier une bactérie.
+
+%Ce qui est source d'erreurs dans le séquençage.
+
+%après séquençage
+%En cas d'alignement optimal (avec une fonction de score maximisée ou minimisée), le read "matche" l'espèce correspondant à la séquence de référence.
+
+-- arbre taxonomique
+
+%Un arbre taxonomique est un arbre enraciné (= graphe connexe acyclique non orienté) de hauteur bornée. Dans la classification du projet GreenGenes, il existe 8 niveaux/générations appelés rangs taxonomiques. Le "premier" niveau correspond au monde vivant, le dernier niveau ne correspond qu'à une seule espèce vivante.
+
+%Il n'existe pas d'arbre taxonomique unique dans la communauté scientifique. Les classifications les plus utilisées sont celles de NCBI, GreenGenes et RDP. La hauteur de ces arbres, ainsi que les rangs taxonomiques, varient d'une base à l'autre.
+
+--
+
+%Pour l'arbre de GreenGenes réduit donné par TANGO, il y a 9 065 noeuds, dont 5 565 feuilles.
+
+%Un read peut matcher plusieurs séquences de référence, donc plusieurs espèces. Cependant, il ne peut être assigné qu'à une seule espèce. En général, le read est alors assigné au LCA des espèces matchées, qui peut avoir un rang supérieur à S. Mais il existe des algorithmes améliorant cette assignation.
+%De plus, il peut exister des erreurs dans le séquençage et donc dans le matching.
+
+-- Problématiques de la métagénomique
+
+%Il manque des outils pour comparer les données métagénomiques en fonction d'informations non taxonomiques (ou métadonnées), ou trouver les critères non taxonomiques qui discriminent les échantillons dans un certain ensemble de départ.
+
+%Par exemple, pour des patients atteints de mucovisidose, étant donné des échantillons de leurs flores intestinales, on souhaite savoir si les flores de patients traités par antibiotique sont différentes (et si oui, en quoi) des flores des patients sans traitement.
+
+%Ces questions sont traitées pour le moment par analyse statistique, mais il manque un outil de traitement semi-automatique d'interprétation des données métagénomiques.
+
+DIAPO Sujet du stage/Problèmes
+
+%Les fichiers d'entrée communs à tous les problèmes étaient l'arbre taxonomique de GreenGenes, une numérotation fixée des échantillons de patients, des bactéries et des métadonnées, et une matrice donnant les valeurs numériques de chaque métadonnée pour chaque échantillon.
+
+--
+
+%Deux problèmes qui déterminent l'existence d'une correspondance entre métadonnées et populations bactériennes
+
+--
+
+%La classification des échantillons selon la valeur des métadonnées du sous-ensemble correspond-elle à la classification des échantillons selon leurs populations bactériennes restreintes au sous-ensemble de noeuds choisis ?
+
+--
+
+%Un ensemble de noeuds qui donne la meilleure discrimination entre les échantillons par rapport à la classification par rapport aux métadonnées du sous-ensemble.
+
+DIAPO Travail de recherche/Méthode pseudo-statistique
+
+%Une méthode qui utilise des mesures sur les populations bactériennes (donc sur les arbres taxonomiques induits par les échantillons), indépendante des métadonnées, pour donner une distance entre les échantillons pour résoudre le problème des paires les plus dissemblables. Cette méthode utilise directement la sortie de TANGO, et donc l'assignation des noeuds dans les échantillons. L'outil associé TAXOTREE peut être considéré comme un outil d'interprétation de TANGO.
+
+%Par manque, on ne parlera que de manière succincte de cette partie, moins intéressante que les deux autres.
+
+--
+
+%G1 et G2 sont des sous-ensembles d'échantillons
+
+%Si n est le nombre de classes induites par une métadonnée, on calcule alors s pour chaque paire de classes et on retourne la liste des paires de classes telle que le coefficient de similarité soit inférieur à la valeur du premier quartile.
+%On compare alors cette valeur au coefficient de similarité portant sur les valeurs numériques des métadonnées (sommes des coefficients de similarité entre toutes les paires d'échantillons dans des groupes différents, qui sont les sommes des différences en valeur absolue des valeurs de certaines métadonnées -choisies par l'utilisateur)
+
+%Caractériser les populations microbiennes sur quelques traits reste grossier, et les phénomènes biologiques mis en jeu ne sont pas connus complètement. Des hypothèses a priori sur ceux-ci sont donc nécessaires, ce qui peut biaiser le résultat final.
+
+DIAPO Travail de recherche/TaxoClassifier
+
+%Une deuxième approche essaie d'identifier les noeuds de l'arbre taxonomique qui permettent de séparer les échantillons en groupes similaires à ceux obtenus en discriminant les échantillons selon les valeurs numériques de certaines métadonnées, ce qui sous-entend que la présence de ces noeuds est liée à ces métadonnées. Cette approche résout le problème de compatibilité de classification et de meilleure classification. Cette méthode, comme la suivante, néglige l'assignation par TANGO et se concentre sur la sortie de l'alignement des reads avec les séquences de référence, où un read peut être matché à plusieurs séquences de référence. On suppose que l'espèce associée au read est dans l'ensemble des espèces matchées...
+
+-- Machine Learning
+
+%C'est-à-dire que l'ordinateur est capable de trier les données selon leur contenu, sans que le tri soit explicitement programmé. Il permet de traiter de grosses masses de données.
+
+%Utilisé notamment dans la repérage de spams dans les boîtes mail : le programme identifie des mots souvent utilisés dans les emails malveillants ("amour", "bonheur", "fortune") dans les mails de la boîte de réception. Il calcule alors la probabilité que le mail considéré soit non-malveillant sachant qu'il a un telle proportion de ces mots-clés. Si celle-ci est inférieure à celle qu'il soit un spam sachant qu'il a cette proportion de mots-clés, le mail est alors considéré comme un spam. Pour calculer ces probabilités, un ensemble de départ de mails identifiés comme spams et sains est donné au programme pour "l'entraînement". A l'inverse, un programme sans Machine Learning aurait besoin par exemple d'un seuil de fréquences d'apparition des mots-clés (à choisir...) pour pouvoir identifier les spams.
+
+%L'une des plus grandes catégories d'algorithmes de Machine Learning est l'apprentissage supervisé.
+
+-- Apprentissage supervisé
+
+%l'exemple des mails. L'un des types de classificateurs les plus utilisés est le classificateur naïf bayésien.
+
+-- Classificateur naïf bayésien
+
+%Ce classificateur utilise de nombreuses hypothèses a priori pour calculer ces probabilités, comme l'indépendance entre les valeurs numériques des métadonnées.
+
+-- Youden
+
+%Ce coefficient calcule la pertinence de la classification pour résoudre le problème de la meilleure classification.
+
+%True Positive TP : données qui appartiennent à C et qui ont été assignées à C par le classificateur
+%True Negative TN : données qui n'appartiennent pas à C et qui n'ont pas été assignées à C
+%False Negative FN : données qui appartiennent à C et qui n'ont pas été assignées à C
+%False Positive FP : données qui n'appartiennt pas à C et qui ont été assignées à C
+
+%Quand $J(C) = 1$, la classification est parfaite; pas de FN et de FP
+%Quand $J(C) = 0$, la classification ne fait pas mieux qu'un classificateur aléatoire;
+%Quand $J(C) = -1$, la classification est totalement fausse. pas de TN et de TP
+
+%D'après ce qui précède, la meilleure classification est telle que pour chaque classe, le coefficient J de Youden est le plus proche de 1.
+
+-- Algorithme
+
+- Entraînement
+
+%Choix aléatoire d'un sous-ensemble strict R de l'ensemble des échantillons pour l'entraînement
+%Calcul de la probabilité d'avoir un certain noeud de N pour un échantillon
+%Comptage et identification des noeuds matchés, appartenant à N, dans chaque échantillon
+
+- probabilités postérieures
+
+%Les probabilités présentées précédemment
+
+DIAPO Travail de recherche/TaxoCluster
+
+%La troisième méthode, associé à l'outil TaxoCluster, utilise l'apprentissage non supervisé, qui est un autre pan du Machine Learning. Elle consiste à diviser l'ensemble des échantillons en groupes d'échantillons les plus proches, en utilisant une distance ne dépendant que des populations bactériennes matchées, et à comparer les groupes obtenus (des clusters) avec les groupes obtenus en ne considérant que les valeurs numériques des métadonnées.
+
+-- clustering
+
+%Une deuxième grande catégorie de Machine Learning est l'apprentissage non supervisé.
+
+%Un des algorithmes les plus connus de cette catégorie est l'algorithme des K-moyennes, qui est un algorithme de clustering.
+
+-- K-moyennes
+
+%L'algorithme des K-moyennes ne garantit pas l'optimalité, ni la terminaison en temps raisonnable. Cependant, en pratique, il est rapide et permet de répondre à ce problème.
+
+%Après choix de k et l'initialisation des k clusters avec un élément de l'ensemble de départ, l'algorithme calcule pour chaque élément e restant, et pour tout cluster C, la distance entre e et la moyenne du cluster C, c'est-à-dire l'élément "au centre" du cluster (en utilisant la distance donnée). e est alors attribué au cluster qui minimise cette distance, et la moyenne de ce cluster est alors recalculée avant d'itérer la boucle, jusqu'à convergence de la solution (les clusters restent les mêmes dune itération à l'autre).
+
+-- distances
+
+%Il est facile de vérifier que dmatched satisfait l'inégalité triangulaire, est symétrique et positive.
+%La seule relation d'égalité valable entre les reads est celle des ensembles de match ici, car le noeud réellement associé à un read donné ne peut pas être connu, et on ne distingue pas les reads provenant d'une même espèce.
+
+%Il est facile de vérifier que c'est bien une distance. Le choix de q correspond au choix d'un arbre de consensus entre les deux arbres taxonomiques Ti et Tj : si q = 0, on considère un arbre de consensus strict, en ne gardant que les feuilles matchées dans les deux reads. Si q = 1, on conserve toutes les feuilles qui sont matchées dans l'un au moins des deux reads.
+
+-- Image
+
+%Soient les arbres T1 et T2 enracinés en A avec M1 = {F, G, H, J} and M2 = {H, I, J}
+
+-- TaxoCluster
+
+%Le principe essentiel de TaxoCluster est proche de celui de la précédente méthode : comparer le clustering réalisé sur les populations microbiennes et celui réalisé en ne considérant que les valeurs numériques des métadonnées pour faire ressortir une correspondance entre la flore intestinale et les métadonnées.
+
+%Ceci explique que le k qui sera utilisé dans l'algorithme des K-moyennes sera en fait le nombre de classes induites par l'ensemble de métadonnées choisi. On initialise les clusters avec un échantillon appartenant à la classe (en regardant les valeurs de ses métadonnées), ce qui permet de régler deux problèmes de l'application de l'algorithme des K-moyennes.
+
+-- Suppression des éléments les moins pertinents
+
+%les plus éloignés des autres dans chaque cluster : on supprime les éléments dont la somme des distances aux autres points est supérieure au troisième quartile de la liste des distances
+
+-- Comparaison des clusters
+
+%Obtention d'un coefficient entre 0 et 1, 1 étant l'adéquation parfaite entre les clusters
+%Cela impliquerait peut-être une correspondance entre les populations et les métadonnées
+%Le programme retourne aussi la liste des bactéries en commun dans chaque cluster (Note : assez grande en pratique : compter le nombre de matches ?)
+
+DIAPO Evaluation
+
+1) %décrire le contexte
+
+3) %expliquer le problème du parsing
+
+4) %Pas d'hypothèses a priori, mais ne répond qu'à un seul des problèmes, contrairement à TaxoClassifier
+
+5) %En pratique, les trois programmes tournent entièrement en temps raisonnable sur un ordinateur de puissance moyenne.
+
+DIAPO Conclusion
+
+%Etude plus approfondie de l'interprétation biologique (cohérence). Résultats dépendent des traitements préalables sur les valeurs numériques (normalisation, standardisation du protocole, ...)
