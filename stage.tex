@@ -148,12 +148,15 @@ Donne des morceaux de séquences (\alert{reads}) d'une longueur de 32 à 1 000 p
 \bigskip
 \item Limites des \alert{régions hyper variables} difficiles à évaluer;
 %Ce qui est source d'erreurs dans le séquençage.
+
+\begin{center}
+\includegraphics[scale=0.35]{Images/hypervariable.png}
+\end{center}
+
 \pause
-\bigskip
 \item \alert{Alignement} des reads obtenus sur ces régions à des séquences de référence.
 %après séquençage
 %En cas d'alignement optimal (avec une fonction de score maximisée ou minimisée), le read "matche" l'espèce correspondant à la séquence de référence.
-\pause
 
 \begin{center}
 \includegraphics[scale=0.5]{Images/Sequence_gaps.JPG}
@@ -198,8 +201,8 @@ Donne des morceaux de séquences (\alert{reads}) d'une longueur de 32 à 1 000 p
 
 \begin{frame}
 
-\begin{alertblock}{Least Common Ancestor (LCA)}
-Le LCA de A et B est le dernier noeud de la partie commune des chemins de la racine jusqu'à A et B.
+\begin{alertblock}{Least Common Ancestor (LCA) de A et B}
+Dernier noeud de la partie commune des chemins de la racine jusqu'à A et B.
 \end{alertblock}
 
 \bigskip
@@ -216,7 +219,7 @@ Le LCA de A et B est le dernier noeud de la partie commune des chemins de la rac
 Existence d'algorithmes :
 \pause
 \begin{itemize}
-\item améliorant l'alignement des reads aux séquences (Smith et Waterson, 1981);
+\item améliorant l'alignement des reads aux séquences (Smith et Waterman, 1981);
 \pause
 \item améliorant l'assignation dans l'arbre des reads matchés (Clemente et al., 2011 : l'outil\textsc{ \bf Tango});
 \pause
@@ -457,7 +460,7 @@ $\overline{s}(G_{1},G_{2}) = \frac{s(G_{1},G_{2}) - E(s)}{\sigma(s)}$
 \frametitle{Quelques notions de\textsc{ \it Machine Learning }}
 
 \begin{block}{\begin{flushcenter} \it Machine Learning \end{flushcenter}}
-Paradigme qui automatise la reconnaissance de certains motifs
+Paradigme qui automatise la reconnaissance de certains motifs.
 \end{block}
 
 %C'est-à-dire que l'ordinateur est capable de trier les données selon leur contenu, sans que le tri soit explicitement programmé. Il permet de traiter de grosses masses de données.
@@ -469,7 +472,7 @@ Paradigme qui automatise la reconnaissance de certains motifs
 \pause
 
 \begin{block}{Apprentissage supervisé}
-Un algorithme d'\alert{apprentissage supervisé} essaie de classer les données dans des catégories \alert{fixées}, en s'aidant d'une connaissance\textsc{ \it a priori} acquise sur un \alert{ensemble d'entraînement}.
+Classification des données dans des catégories \alert{fixées}, avec une connaissance\textsc{ \it a priori} acquise sur un \alert{ensemble d'entraînement}.
 \end{block}
 
 %l'exemple des mails. L'un des types de classificateurs les plus utilisés est le classificateur naïf bayésien.
@@ -480,7 +483,7 @@ Un algorithme d'\alert{apprentissage supervisé} essaie de classer les données 
 \frametitle{Le classificateur naïf bayésien}
 
 \begin{block}{Classificateur naïf bayésien}
-Etant données $k$ classes disjointes de données $(C_{i})_{1 \le i \le k}$, un ensemble de critères $(F_{i})_{1 \le i \le m}$, et une donnée $d$ à classer dans ces classes, ayant $(F_{i} = x_{i})_{1 \le i \le m}$,\\ La classe de $d$ est la classe $C_{j}$ telle que:\\
+Pour $k$ classes disjointes de données $(C_{i})_{1 \le i \le k}$, des critères $(F_{i})_{1 \le i \le m}$, et une donnée $d$ à classer, ayant $(F_{i} = x_{i})_{1 \le i \le m}$,\\ La classe de $d$ est la classe $C_{j}$ telle que:\\
 \begin{center}
 $P(C_{j} | F_{1} = x_{1}, ..., F_{m} = x_{m})$\\
 $= \max_{h \in \{ 1, ..., k \}}P(C_{h} | F_{1} = x_{1}, ... F_{m} = x_{m})$.\\
@@ -546,7 +549,7 @@ Etant donnés un ensemble de métadonnées M (et donc des classes induites par M
 \begin{frame}
 \frametitle{Le classificateur naïf bayésien}
 \begin{block}{Classificateur naïf bayésien}
-\uncover<->{Etant données $k$ classes disjointes de données $(C_{i})_{1 \le i \le k}$, un ensemble de critères $(F_{i})_{1 \le i \le m}$, et une donnée $d$ à classer dans ces classes, ayant $(F_{i} = x_{i})_{1 \le i \le m}$,\\ La classe de $d$ est la classe $C_{j}$ telle que:\\}
+\uncover<->{Pour $k$ classes disjointes de données $(C_{i})_{1 \le i \le k}$, des critères $(F_{i})_{1 \le i \le m}$, et une donnée $d$ à classer, ayant $(F_{i} = x_{i})_{1 \le i \le m}$,\\ La classe de $d$ est la classe $C_{j}$ telle que:\\}
 \begin{center}
 \alert{$P(C_{j} | F_{1} = x_{1}, ..., F_{m} = x_{m})$\\
 $= \max_{h \in \{ 1, ..., k \}}P(C_{h} | F_{1} = x_{1}, ... F_{m} = x_{m})$}.\\
@@ -599,7 +602,7 @@ Etant donnés un ensemble de métadonnées M (et donc des classes induites par M
 %Une deuxième grande catégorie de Machine Learning est l'apprentissage non supervisé.
 
 \begin{block}{Apprentissage non supervisé}
-Etant donné un ensemble de données, un algorithme d'\alert{apprentissage non supervisé} essaie de distinguer les différentes classes présentes dans cet ensemble en étudiant la similarité entre les données.
+Identification des différentes classes de données, en étudiant la similarité entre les données.
 \end{block}
 
 \pause
@@ -607,7 +610,11 @@ Etant donné un ensemble de données, un algorithme d'\alert{apprentissage non s
 %Un des algorithmes les plus connus de cette catégorie est l'algorithme des K-moyennes, qui est un algorithme de clustering.
 
 \begin{block}{Clustering}
-Etant donné une certaine distance, le \alert{\it clustering} consiste à partitionner un ensemble de données, tel que les parties obtenues \alert{minimisent} la distance entre les objets d'un même groupe, et la \alert{maximisent} entre les objets de deux groupes différents.
+Partition d'un ensemble de données, telle que :
+\begin{itemize} 
+\item les parties obtenues \alert{minimisent} la distance entre les objets d'un même groupe;
+\item la \alert{maximisent} entre les objets de deux groupes différents.
+\end{itemize}
 \end{block}
 
 \end{frame}
@@ -689,9 +696,10 @@ Pour deux reads $i$ et $j$, et un paramètre $q \in [0;1]$,
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.43]{Images/distance2.png}
-%Soient les arbres T1 et T2 enracinés en A avec M1 = {F, G, H, J} and M2 = {H, I, J}
-\caption{Quand $q = 0$, $d_{consensus}(T_{1},T_{2}) = 8$.\\Quand $q = 1$, $d_{consensus}(T_{1},T_{2}) = 5$}
+\subfigure\includegraphics[scale=0.35]{Images/distance2-1.png}
+\subfigure\includegraphics[scale=0.35]{Images/distance2-2.png}
+%$M_{1}$ = \{D, E, F, H\} and $M_{2}$ = \{F, G, H\}
+\caption{Quand $q = 0$, $d_{consensus}(T_{1},T_{2}) = 5 + 5 - 0 - 2 = 8$.\\Quand $q = 1$, $d_{consensus}(T_{1},T_{2}) = 5 + 5 - 1 \times (1 + 2) - 2 = 5$}
 \end{figure}
 
 \end{frame}
@@ -790,7 +798,7 @@ Pour deux reads $i$ et $j$, et un paramètre $q \in [0;1]$,
 \frametitle{Bilan et perspectives}
 
 \begin{enumerate}
-\item Propositions de trois méthodes pour répondre au problème;
+\item Propositions de trois méthodes pour répondre au(x) problème(s);
 \bigskip
 \pause
 \item Utilisables sur un ordinateur de puissance moyenne;

@@ -1,17 +1,13 @@
-graph g {
-node [style=filled color=orange]
-B -- C;
+graph g1 {
 node [style=filled color=brown]
 A -- B;
+A -- C;
 node [style=filled color=green]
-A -- D;
-D -- F;
-D -- G;
-node [style=filled color=violet]
-D -- H;
+B -- D;
+B -- E;
+B -- F;
 node [style=filled color=red]
-A -- E;
-E -- I;
-node [style=filled color=violet]
-E -- J;
+C -- G;
+node [style=filled color=green]
+C -- H;
 }
